@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ln -s .dotfiles/.config ~/.config
+ln -s .dotfiles/.config/awesome ~/.config/awesome
 ln -s .dotfiles/.vim ~/.vim
 ln -s .dotfiles/bin ~/bin
 
