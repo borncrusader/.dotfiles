@@ -1,1 +1,12 @@
 A collection of all my dotfiles and my common scripts
+
+bash v zsh file sourcing
+login-shell
+bash: /etc/profile, ~/.bash_profile
+zsh: /etc/zsh/zprofile (sources /etc/profile internally), ~/.zprofile, /etc/zsh/zlogin, ~/.zlogin
+
+interactive-shell
+bash: ~/.bashrc
+zsh: /etc/zsh/zshrc, ~/.zshrc
+
+additionally zsh sources /etc/zsh/zlogout and ~/.zlogout at logout, and /etc/zsh/zshenv, ~/.zshenv at first
