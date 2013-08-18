@@ -1,0 +1,21 @@
+# set the default shell to a login-shell
+shell -${SHELL}
+
+# use j and k for moving down and up
+bind j focus down
+bind k focus up
+
+# default scrollback lines for all windows
+defscrollback 10000
+
+# disable the annoying visual bell
+vbell off
+
+# enable status bar
+hardstatus alwayslastline
+
+# status string
+hardstatus string '%-Lw%{= rw}%50>%n%f* %t%{-}%+Lw%< %=[%d/%m %c:%s]'
+
+# paste buffer
+bufferfile ${HOME}/.screen-exchange
