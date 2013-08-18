@@ -1,6 +1,9 @@
 #!/bin/sh
 
-ln -s .dotfiles/.config/awesome ~/.config/awesome
+if [[ `uname` == 'Linux' ]]; then
+	ln -s .dotfiles/.config/awesome ~/.config/awesome
+fi
+
 ln -s .dotfiles/.vim ~/.vim
 ln -s .dotfiles/bin ~/bin
 
