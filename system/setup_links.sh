@@ -1,11 +1,11 @@
 #!/bin/sh
 
 if [[ `uname` == 'Linux' ]]; then
-	ln -s .dotfiles/.config/awesome ~/.config/awesome
+	ln -s .dotfiles/.config/awesome/ ~/.config/awesome
 fi
 
-ln -s .dotfiles/.vim ~/.vim
-ln -s .dotfiles/bin ~/bin
+ln -s .dotfiles/.vim/ ~/.vim
+ln -s .dotfiles/bin/ ~/bin
 
 ln -s .dotfiles/.bash_profile ~/.bash_profile
 ln -s .dotfiles/.bashrc ~/.bashrc
