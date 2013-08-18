@@ -1,3 +1,5 @@
+#echo 'myshrc begin'
+
 # os specific settings
 if [[ `uname` == 'Darwin' ]]; then
 	alias ls='ls -GFh'
@@ -25,4 +27,5 @@ alias goarch="ssh -Y sananthakrishnan@arch-sananth"
 alias goeos="ssh -Y sananth5@remote.eos.ncsu.edu"
 alias goarch="ssh -Y sananth5@arc.csc.ncsu.edu"
 
+#echo 'myshrc end'
 echo 'Howdy Srinath'

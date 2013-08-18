@@ -1,3 +1,5 @@
+#echo 'bash_profile begin'
+
 # all *profile work done here
 [[ -f ~/.profile ]] && source ~/.profile
 
@@ -5,3 +7,5 @@
 [[ -f ~/.bashrc ]] && source ~/.bashrc
 
 export PS1='\w\$ '
+
+#echo 'bash_profile end'

@@ -1,3 +1,5 @@
+#echo 'profile begin'
+
 # os specific settings
 if [[ `uname` == 'Darwin' ]]; then
 	# proper colors on Mac
@@ -12,3 +14,5 @@ export HISTCONTROL=erasedups
 export HISTIGNORE="&:ls:[bf]g:exit"
 export MONK="~/Dropbox/monk"
 export TERM='xterm'
+
+#echo 'profile end'

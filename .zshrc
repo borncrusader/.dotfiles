@@ -1,3 +1,4 @@
+#echo 'zshrc begin'
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -30,3 +31,5 @@ prompt="%{$fg[green]%}%m:%3~%# %{$reset_color%}"
 
 # finally source the common shell rc
 [[ -f ~/.myshrc ]] && source ~/.myshrc
+
+#echo 'zshrc end'
