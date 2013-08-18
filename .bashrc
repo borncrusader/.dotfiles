@@ -8,5 +8,3 @@ s()
 
 # finally source the common shell rc
 [[ -f ~/.myshrc ]] && source ~/.myshrc
-
-echo '~/.bashrc sourced'

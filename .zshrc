@@ -30,5 +30,3 @@ prompt="%{$fg[green]%}%m:%3~%# %{$reset_color%}"
 
 # finally source the common shell rc
 [[ -f ~/.myshrc ]] && source ~/.myshrc
-
-echo '~/.zshrc sourced'
