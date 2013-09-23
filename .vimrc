@@ -63,3 +63,6 @@ filetype plugin indent on
 " autostart with NERDTree, but move to the other window
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd w
+
+" specific filetype vim settings
+	autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 spell

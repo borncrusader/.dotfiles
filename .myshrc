@@ -17,15 +17,17 @@ alias rdesk='rdesktop -g 1366x730'
 alias leaky='valgrind --leak-check=full --track-origins=yes'
 alias chkconn='ping 8.8.8.8'
 
-alias cdnc='cd ~/Dropbox/turn'
-alias cdad='cd ~/Dropbox/turn/admin'
-alias cdt='cd ~/Dropbox/turn/thesis'
-alias cdl='cd ~/Dropbox/monk/lua'
+alias cds='cd ~/Dropbox/sysdump'
+alias cdk='cd ~/Dropbox/sysdump/knowledge'
+alias cdm='cd ~/Dropbox/monk/'
 
-alias gochief="ssh -Y sananthakrishnan@chief-sh101"
-alias goarch="ssh -Y sananthakrishnan@arch-sananth"
-alias goeos="ssh -Y sananth5@remote.eos.ncsu.edu"
-alias goarch="ssh -Y sananth5@arc.csc.ncsu.edu"
+alias ssc="ssh -Y sananthakrishnan@chief-sh101"
+alias sst="ssh -Y sananthakrishnan@tuff"
+alias ssa="ssh -Y sananthakrishnan@arch-sananth"
+alias sse="ssh -Y sananth5@remote.eos.ncsu.edu"
+alias ssar="ssh -Y sananth5@arc.csc.ncsu.edu"
+
+alias cmount="sudo mount -t nfs chief-sh101:/work/sananthakrishnan ~/work"
 
 #echo 'myshrc end'
 echo 'Howdy Srinath'
