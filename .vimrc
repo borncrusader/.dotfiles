@@ -1,6 +1,13 @@
 " get all the vim goodness
 set nocp
 
+" get os
+if has("win32")
+	let os = "win"
+elseif has("unix")
+	let os = system("uname")
+endif
+
 " load pathogen and let it load the other plugins
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
@@ -65,4 +72,12 @@ autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd w
 
 " specific filetype vim settings
-	autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 spell
+autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 spell
+autocmd FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4
+
+" set ctags related variables for function display in status bar
+if os =~ "Darwin"
+	let g:ctags_path="/opt/local/bin/ctags"
+endif
+let g:ctags_statusline=1
+let generate_tags=1
