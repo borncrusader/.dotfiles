@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO: cmd line arg based sym-linking
+
 if [[ `uname` == 'Linux' ]]; then
 	ln -s .dotfiles/.config/awesome/ ~/.config/awesome
 fi
@@ -12,7 +14,6 @@ ln -s .dotfiles/.bashrc ~/.bashrc
 
 if [[ `uname` == 'Linux' ]]; then
 	ln -s .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
-	ln -s .dotfiles/.gtkrc.mine ~/.gtkrc.mine
 fi
 
 ln -s .dotfiles/.myshrc ~/.myshrc
