@@ -1,10 +1,15 @@
 [push]
 	default = simple
+[merge]
+	tool = vimdiff
 [diff]
 	tool = vimdiff
 [difftool]
 	prompt = false
+[color]
+	ui = auto
 [alias]
-	d = difftool
+	ablog = log --abbrev-commit
 	co = checkout
+	d = difftool
 	drev = diff --no-prefix --full-index
