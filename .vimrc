@@ -73,7 +73,7 @@ autocmd VimEnter * wincmd w
 
 " specific filetype vim settings
 autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 spell
-autocmd FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4
+autocmd FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 
 " set ctags related variables for function display in status bar
 if os =~ "Darwin"
@@ -81,3 +81,6 @@ if os =~ "Darwin"
 endif
 let g:ctags_statusline=1
 let generate_tags=1
+
+" other stuff to do
+" setup functions for automatic filling of markdown headers
