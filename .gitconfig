@@ -1,0 +1,10 @@
+[push]
+	default = simple
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[alias]
+	d = difftool
+	co = checkout
+	drev = diff --no-prefix --full-index
