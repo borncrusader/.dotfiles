@@ -10,6 +10,8 @@
 	ui = auto
 [alias]
 	ablog = log --abbrev-commit
+	br = branch
 	co = checkout
 	d = difftool
 	drev = diff --no-prefix --full-index
+	st = status
