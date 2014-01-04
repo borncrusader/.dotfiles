@@ -1,0 +1,26 @@
+# displays the date
+snippet ;d
+`date +%m`/`date +%d`/`date +%Y`
+endsnippet
+
+# displays the time
+snippet ;t
+`date +%H`:`date +%M`:`date +%S`
+endsnippet
+
+# displays the date and time
+snippet ;dt
+`date +%m`/`date +%d`/`date +%Y` `date +%H`:`date +%M`:`date +%S`
+endsnippet
+
+# displays the date as a markdown header
+snippet ssecd
+## ${1}`date +%m`/`date +%d`/`date +%Y` ##
+${2}
+endsnippet
+
+# displays the date and time as a markdown header
+snippet ssecdt
+## ${1}`date +%m`/`date +%d`/`date +%Y` `date +%H`:`date +%M`:`date +%S` ##
+${2}
+endsnippet
