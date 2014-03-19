@@ -19,3 +19,6 @@
 [submodule ".vim/bundle/UltiSnips"]
 	path = .vim/bundle/UltiSnips
 	url = https://github.com/vim-scripts/UltiSnips.git
+[submodule ".vim/bundle/vim-colors-solarized"]
+	path = .vim/bundle/vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized
