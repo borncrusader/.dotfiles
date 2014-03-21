@@ -13,9 +13,6 @@
 [submodule ".vim/bundle/ctags.vim"]
 	path = .vim/bundle/ctags.vim
 	url = https://github.com/vim-scripts/ctags.vim--Johnson.git
-[submodule ".vim/bundle/vim-golang"]
-	path = .vim/bundle/vim-golang
-	url = https://github.com/jnwhiteh/vim-golang.git
 [submodule ".vim/bundle/UltiSnips"]
 	path = .vim/bundle/UltiSnips
 	url = https://github.com/vim-scripts/UltiSnips.git
