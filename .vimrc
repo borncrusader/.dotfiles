@@ -1,11 +1,10 @@
-" get all the vim goodness
-set nocp
+set nocp                " get all the vim goodness
 
 " get os
 if has("win32")
-	let os = "win"
+    let os = "win"
 elseif has("unix")
-	let os = system("uname")
+    let os = system("uname")
 endif
 
 " load pathogen and let it load the other plugins
@@ -13,67 +12,46 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 call pathogen#helptags()
 
-" sets the background to a more darker theme, thus making the text more anti-aliased
-set bg=dark
+" solarized stuff
+let t_Co=16
+let g:solarized_termcolors=16
+set background=dark      " sets bg to a darker theme, making text more anti-aliased
+colorscheme solarized
 
-" a tab is worth 8 columns
-set tabstop=8
+syntax on
+syntax enable           " syntax coloring for files
+filetype plugin indent on " detect, load plugin and indent the filetype
 
-" a tab is worth 8 columns (while editing with <TAB> or <BS>)
-set softtabstop=8
+set keywordprg=:help    " use 'K' for vim-help
+"set term=xterm-256color " for knowing the terminal control characters
+set nowrap              " don't wrap lines
 
-" shifting with >> and << is also 8 columns
-set shiftwidth=8
+set tabstop=4           " a tab's worth
+set softtabstop=4       " a tab's worth while editing with <TAB> or <BS>
+set shiftwidth=4        " shifting with >> and <<
+set expandtab           " expand tab to spaces
+set autoindent          " autoindent the code
+set smartindent         " smartindent for more c-style indents
 
-" a tab is always a tab! don't expand it to spaces
-set noexpandtab
+set incsearch           " search incrementally as you key
+set hlsearch            " highlight search words
+set ignorecase          " ignore case for searches
+set smartcase           " case-sensitive when uppercase chars given
 
-" autoindent the code
-set autoindent
-
-" smartindent for more c-style indents
-set smartindent
-
-" use 'K' for vim-help
-set keywordprg=:help
-
-" don't wrap lines
-set nowrap
-
-" for knowing the terminal control characters
-set term=builtin_xterm
-
-" enable syntax coloring for files
-syntax enable
-
-" search incrementally as you key characters
-set incsearch
-
-" highlight search words
-set hlsearch
-
-" show the status line always
-set laststatus=2
-
-" sidescroll this much number of characters
-set sidescroll=1
-
-" show row,column in the bottom right corner
-set ruler
-
-" for word boundaries
-set iskeyword+=_,$,@,%,#,'
-
-" detect, load plugin and indent the filetype
-filetype plugin indent on
+set sidescroll=1        " sidescroll this much number of chars
+set ruler               " show row,column in the bottom right corner
+set laststatus=2        " show the status line always
+set iskeyword+=_,$,@,%,#,' " for word boundaries
 
 " autostart with NERDTree, but move to the other window
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd w
 
 " specific filetype vim settings
-autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 spell
-autocmd FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd FileType c setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 noexpandtab
+autocmd FileType markdown setlocal textwidth=80 spell
+autocmd FileType python setlocal textwidth=79
+autocmd FileType scala setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
 
 " set ctags related variables for function display in status bar
 if os =~ "Darwin"
@@ -82,5 +60,6 @@ endif
 let g:ctags_statusline=1
 let generate_tags=1
 
-" other stuff to do
-" setup functions for automatic filling of markdown headers
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
+
+set colorcolumn=80
