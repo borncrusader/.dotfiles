@@ -1,18 +1,20 @@
-#echo 'profile begin'
-
 # os specific settings
 if [[ `uname` == 'Darwin' ]]; then
 	# proper colors on Mac
 	export CLICOLOR=1
-	export LSCOLORS=ExFxBxDxCxegedabagacad
+    export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+
+    export PATH="~/bin/mac":$PATH
+elif [[ `uname` == 'Linux' ]]; then
 fi
 
 # exports
-export PATH=$PATH:/opt/local/bin:/opt/local/sbin:$HOME/bin
+export CODE=/Volumes/code
 export EDITOR='vim'
-export HISTCONTROL=erasedups
-export HISTIGNORE="&:ls:[bf]g:exit"
+export HACKER="/Volumes/code/hacker"
+export GOPATH=$HACKER/sandbox/go
 export MONK="~/Dropbox/monk"
-export TERM='xterm'
-
-#echo 'profile end'
+# TODO: path is special! if it already has the information, don't re-add it
+export PATH=/opt/local/bin:/opt/local/sbin:$HOME/bin:$PATH
+export SYSDUMP="~/Dropbox/sysdump"
+export TERM='xterm-256color'

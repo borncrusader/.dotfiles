@@ -1,5 +1,3 @@
-#echo 'bash_profile begin'
-
 # all *profile work done here
 [[ -f ~/.profile ]] && source ~/.profile
 
@@ -8,5 +6,3 @@
 
 #export PS1='\w\$ '
 export PS1='\[\e[0;32m\][\u@\h \W]\$\[\e[0m\] '
-
-#echo 'bash_profile end'

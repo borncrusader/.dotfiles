@@ -1,12 +1,17 @@
-#echo 'zshrc begin'
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt appendhistory autocd extendedglob
+export HISTFILE=~/.histfile
+export HISTSIZE=25000
+export SAVEHIST=10000
+export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd.."
+
+setopt histignoredups
+setopt histignorespace
+setopt appendhistory
+setopt autocd
+setopt extendedglob
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
@@ -22,7 +27,6 @@ s()
 	source ~/.zshrc
 }
 
-# set the prompt to {hostname}{directory}{prompt}
 autoload -U colors && colors
 prompt="%{$fg[green]%}%m:%3~%# %{$reset_color%}"
 
@@ -31,5 +35,3 @@ prompt="%{$fg[green]%}%m:%3~%# %{$reset_color%}"
 
 # finally source the common shell rc
 [[ -f ~/.myshrc ]] && source ~/.myshrc
-
-#echo 'zshrc end'

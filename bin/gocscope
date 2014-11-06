@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ `uname` == "Darwin" ]; then
+    find -E . -type f -regex '.*/.*\.(go)' > cscope.files
+else
+	find . -regextype posix-extended -type f -regex '.*/.*\.(go)' > cscope.files
+fi
+
+cscope -bqi cscope.files
