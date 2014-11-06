@@ -19,6 +19,12 @@ snippet ssecd
 ${2}
 endsnippet
 
+# displays the time as a markdown header
+snippet ssect
+## ${1}`date +%H`:`date +%M`:`date +%S` ##
+${2}
+endsnippet
+
 # displays the date and time as a markdown header
 snippet ssecdt
 ## ${1}`date +%m`/`date +%d`/`date +%Y` `date +%H`:`date +%M`:`date +%S` ##
