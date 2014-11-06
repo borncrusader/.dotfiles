@@ -1,17 +1,19 @@
 [push]
-	default = simple
+    default = simple
 [merge]
-	tool = vimdiff
+    tool = vimdiff
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [difftool]
-	prompt = false
+    prompt = false
 [color]
-	ui = auto
+    ui = auto
 [alias]
-	ablog = log --abbrev-commit
-	br = branch
-	co = checkout
-	d = difftool
-	drev = diff --no-prefix --full-index
-	st = status
+    ablog = log --abbrev-commit
+    br = branch
+    co = checkout
+    d = difftool
+    drev = diff --no-prefix --full-index
+    st = status
+    sh = show
+    shrev = show --no-prefix --full-index
