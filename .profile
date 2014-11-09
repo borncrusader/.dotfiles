@@ -16,5 +16,5 @@ export GOPATH=$HACKER/sandbox/go
 export MONK="~/Dropbox/monk"
 # TODO: path is special! if it already has the information, don't re-add it
 export PATH=/opt/local/bin:/opt/local/sbin:$HOME/bin:$PATH
-export SYSDUMP="~/Dropbox/sysdump"
+export SYSDUMP="$HOME/Dropbox/sysdump"
 export TERM='xterm-256color'
