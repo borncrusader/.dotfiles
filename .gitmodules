@@ -31,3 +31,9 @@
 [submodule "zsh"]
 	path = zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git
+[submodule ".tmux_plugins/tpm"]
+	path = .tmux_plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
