@@ -12,10 +12,10 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 execute pathogen#helptags()
 
-" solarized stuff
-let t_Co=16
-let g:solarized_termcolors=16
+" theme stuff
 if os =~ "Darwin"
+    let t_Co=16
+    let g:solarized_termcolors=16
     colorscheme solarized
 endif
 
@@ -25,7 +25,7 @@ filetype plugin indent on " detect, load plugin and indent the filetype
 
 set bg=dark             " sets bg to a darker theme, making text more anti-aliased
 set keywordprg=:help    " use 'K' for vim-help
-set term=builtin_xterm  " for knowing the terminal control characters
+set term=xterm-256color " for knowing the terminal control characters
 set nowrap              " don't wrap lines
 set tabstop=4           " a tab's worth
 set softtabstop=4       " a tab's worth while editing with <TAB> or <BS>
@@ -47,8 +47,9 @@ set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to f
 set backspace=2         " allow backspace deleting of characters
 
 " autostart with NERDTree, but move to the other window
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd w
+command Nerd NERDTree | wincmd w
+"autocmd VimEnter * NERDTree
+"autocmd VimEnter * wincmd w
 
 " specific filetype vim settings
 autocmd FileType c setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 noexpandtab
