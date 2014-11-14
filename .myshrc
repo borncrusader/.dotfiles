@@ -64,4 +64,10 @@ mkcd()
 # source unshared rc
 [[ -f ~/.myshrc_unshared ]] && source ~/.myshrc_unshared
 
+# this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
+# restore it back here
+if [[ $OS == 'MAC' ]]; then
+    export LSCOLORS=exfxcxdxbxegedabagacad
+fi
+
 echo 'Howdy Srinath'
