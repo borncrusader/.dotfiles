@@ -2,6 +2,7 @@
 
 ## ALIASES ##
 # common
+alias cdt='cd $TMPDIR'
 alias chkconn='ping 8.8.8.8'
 alias dush=' du -sh'
 alias leaky='valgrind --leak-check=full --track-origins=yes'
@@ -32,6 +33,20 @@ if [[ $SESSION == 'HOME' ]]; then
     alias vid='cds; vi $(date +%0d).md'
     alias vidm='cdsm; vi log.md'
 else
+    alias aroma="aroma.py -vqa"
+    alias cdw='cd $WRK'
+    alias cds='cd $SECTP'
+    alias cdb="cd $WRK/builds"
+    alias exportpip="export PIP_INDEX_URL=http://glassjaw.lab.nbttech.com:8080/simple"
+    alias lj="source ~/.virtualenvs/lumberjack/bin/activate; exportpip"
+    alias lj6="source ~/.virtualenvs/lj0.6/bin/activate; exportpip"
+    alias lj7="source ~/.virtualenvs/lj0.7/bin/activate; exportpip"
+    alias lj1="source ~/.virtualenvs/lj1/bin/activate; exportpip"
+    alias lj12="source /work/aparanjpe/workspace/ljcode/ljenv1.2/bin/activate; exportpip"
+    alias lj13="source /work/aparanjpe/workspace/ljcode/ljenv1.3/bin/activate; exportpip"
+    alias lj136="source ~/.virtualenvs/lj1.3.6/bin/activate; exportpip"
+    alias svn-changed='svn status | grep "^M\|^D\|^A"'
+    alias svn-up='svn up --ignore-externals'
 fi
 
 # os specific
@@ -61,8 +76,26 @@ mkcd()
     cd $1
 }
 
+insgen()
+{
+    if [[ -z $1 ]]; then
+        echo $0 [box]
+        return
+    fi
+
+    rm -rf $WRK/ljtmp; mkdir -p $WRK/ljtmp; pip install --no-deps --target $WRK/ljtmp .; rsync -e ssh -vltrSzD $WRK/ljtmp/ root@$1:/usr/lib/python2.7/site-packages
+}
+
+xrpm()
+{
+    rpm2cpio $1 | cpio -idmv
+}
+
 # source unshared rc
 [[ -f ~/.myshrc_unshared ]] && source ~/.myshrc_unshared
+
+# source work rc
+[[ -f ~/.dotfiles/.myshrc_work ]] && source ~/.dotfiles/.myshrc_work
 
 # this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
 # restore it back here
