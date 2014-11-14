@@ -52,7 +52,7 @@ command Nerd NERDTree | wincmd w
 "autocmd VimEnter * wincmd w
 
 " specific filetype vim settings
-autocmd FileType c setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 noexpandtab
+autocmd FileType c setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 expandtab
 autocmd FileType markdown setlocal textwidth=80 spell
 autocmd FileType python setlocal textwidth=79
 autocmd FileType scala setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
