@@ -12,12 +12,12 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 execute pathogen#helptags()
 
-if os =~ "Darwin"
+"if os =~ "Darwin"
     let t_Co=16
     let g:solarized_termcolors=16
     colorscheme solarized
     set modelines=5     " modelines are not honoured by default in os x
-endif
+"endif
 
 syntax on
 syntax enable           " syntax coloring for files

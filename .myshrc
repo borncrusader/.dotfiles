@@ -95,7 +95,7 @@ xrpm()
 [[ -f ~/.myshrc_unshared ]] && source ~/.myshrc_unshared
 
 # source work rc
-[[ -f ~/.dotfiles/.myshrc_work ]] && source ~/.dotfiles/.myshrc_work
+[[ -f ~/.myshrc_work ]] && source ~/.myshrc_work
 
 # this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
 # restore it back here
