@@ -12,11 +12,11 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 execute pathogen#helptags()
 
-" theme stuff
 if os =~ "Darwin"
     let t_Co=16
     let g:solarized_termcolors=16
     colorscheme solarized
+    set modelines=5     " modelines are not honoured by default in os x
 endif
 
 syntax on
