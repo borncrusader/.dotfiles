@@ -1,33 +1,14 @@
 # vim: set ft=sh:
 
-# os specific settings
-if [[ `uname` == 'Darwin' ]]; then
-	alias ls=' ls -GFh'
-elif [[ `uname` == 'Linux' ]]; then
-	alias ls=' ls -F --color'
-fi
-
-# aliases go here
-alias amount="sudo hdiutil attach ~/code/android.dmg.sparseimage -mountpoint /Volumes/android"
-alias cd..=' cd ..'
-alias cdc='cd /Volumes/code'
-alias cdf='cd $SYSDUMP/fortnights'
-alias cdh='cd $HACKER'
-alias cdm='cd ~/Dropbox/monk/'
-alias cds='mkcd $SYSDUMP/$(date +%0y)/$(date +%0m)/'
-alias cdsk='cd $SYSDUMP/knowledge'
-alias cdsm='cd $SYSDUMP/music'
-alias cdsr='cd $SYSDUMP/riverbed'
+## ALIASES ##
+# common
 alias chkconn='ping 8.8.8.8'
-alias cmount="sudo hdiutil attach ~/code/code.dmg.sparseimage -mountpoint /Volumes/code"
 alias dush=' du -sh'
 alias leaky='valgrind --leak-check=full --track-origins=yes'
 alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias rdesk='rdesktop -g 1366x730'
-alias ssa="ssh -Y sananthakrishnan@arch-sananth"
-alias ssar="ssh -Y sananth5@arc.csc.ncsu.edu"
 alias ssc="ssh -Y sananthakrishnan@chief-sh101"
 alias ssd="ssh -Y sananthakrishnan@chief-cs162"
 alias sse="ssh -Y sananth5@remote.eos.ncsu.edu"
@@ -37,12 +18,40 @@ alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
 alias vi='vim -X'
-alias vid='cds; vi $(date +%0d).md'
-alias vidm='cdsm; vi log.md'
-alias wmount="sudo mount -t nfs chief-sh101:/work/sananthakrishnan ~/work"
-alias wumount="sudo umount -f ~/work"
 
-# functions go here
+# session specific
+if [[ $SESSION == 'HOME' ]]; then
+    alias cdf='cd $SYSDUMP/fortnights'
+    alias cdm='cd $MONK'
+    alias cds='mkcd $SYSDUMP/$(date +%0y)/$(date +%0m)/'
+    alias cdsk='cd $SYSDUMP/knowledge'
+    alias cdsm='cd $SYSDUMP/music'
+    alias cdsr='cd $SYSDUMP/riverbed'
+    alias ssa="ssh -Y sananthakrishnan@arch-sananth"
+    alias ssar="ssh -Y sananth5@arc.csc.ncsu.edu"
+    alias vid='cds; vi $(date +%0d).md'
+    alias vidm='cdsm; vi log.md'
+else
+fi
+
+# os specific
+if [[ $OS == 'MAC' ]]; then
+	alias ls=' ls -GFh'
+    alias amount="sudo hdiutil attach ~/code/android.dmg.sparseimage -mountpoint /Volumes/android"
+    alias cmount="sudo hdiutil attach ~/code/code.dmg.sparseimage -mountpoint /Volumes/code"
+    alias cdc='cd $CODE'
+    alias cdh='cd $HACKER'
+    alias cdg='cd $GOPATH'
+    alias wmount="sudo mount -t nfs chief-sh101:/work/sananthakrishnan ~/work"
+    alias wumount="sudo umount -f ~/work"
+else
+	alias ls=' ls -F --color'
+fi
+
+# session and os specific
+
+## FUNCTIONS ##
+# common
 mkcd()
 {
     if [[ ! -d $1 ]]; then

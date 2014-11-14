@@ -11,7 +11,7 @@ export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd.."
 
 setopt histignoredups
 setopt histignorespace
-setopt appendhistory
+#setopt appendhistory
 setopt autocd
 setopt extendedglob
 bindkey -e
