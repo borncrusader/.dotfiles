@@ -12,18 +12,14 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 execute pathogen#helptags()
 
-"if os =~ "Darwin"
-    let t_Co=16
-    let g:solarized_termcolors=16
-    colorscheme solarized
+if os =~ "Darwin"
     set modelines=5     " modelines are not honoured by default in os x
-"endif
+endif
 
 syntax on
 syntax enable           " syntax coloring for files
 filetype plugin indent on " detect, load plugin and indent the filetype
 
-set bg=dark             " sets bg to a darker theme, making text more anti-aliased
 set keywordprg=:help    " use 'K' for vim-help
 set term=xterm-256color " for knowing the terminal control characters
 set nowrap              " don't wrap lines
@@ -62,7 +58,7 @@ let g:ctags_statusline=1
 let generate_tags=1
 
 " Ultisnips directory for extra snippets
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
 " show extra whitespaces as red
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -83,3 +79,17 @@ let Tlist_Compact_Format = 1
 let Tlist_Exit_OnlyWindow = 1
 let Tlist_GainFocus_On_ToggleOpen = 1
 let Tlist_File_Fold_Auto_Close = 1
+
+" functions for changing the colorscheme between dark and light
+function SolarizeDark()
+    set bg=dark
+    colorscheme solarized
+endfunction
+
+function Solarize()
+    set bg=light
+    colorscheme solarized
+endfunction
+
+" default is the light theme
+call Solarize()
