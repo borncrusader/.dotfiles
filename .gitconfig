@@ -1,5 +1,3 @@
-[include]
-    path = .gitconfig_unshared
 [core]
     editor = vim
 [color]
