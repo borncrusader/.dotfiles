@@ -1,0 +1,53 @@
+# restart Slate
+bind r:cmd,ctrl relaunch
+
+alias secondary 0
+alias primary 1
+
+# binding applications to tags
+bind 1:cmd focus 'iTerm'
+bind 2:cmd focus 'Microsoft Outlook'
+bind 3:cmd focus 'Firefox'
+bind 4:cmd focus 'Finder'
+bind 5:cmd focus 'Google Chrome'
+bind 6:cmd focus 'nvALT'
+bind 7:cmd focus 'Postman - REST Client (Packaged app)'
+bind 8:cmd focus 'Spotify'
+#bind 8:cmd focus 'iTunes'
+
+# move command for maximizing window
+bind m:cmd move 0;0 screenSizeX;screenSizeY
+
+# send window to next/previous screen
+#bind o:cmd move 0,0 windowSizeX;windowSizeY previous
+bind right:cmd,ctrl throw right resize
+bind left:cmd,ctrl throw left resize
+bind down:cmd,ctrl throw down resize
+bind up:cmd,ctrl throw up resize
+
+# layouts
+layout home 'iTerm':REPEAT throw ${primary} resize
+
+layout home 'Firefox':REPEAT throw ${secondary} resize
+layout home 'Microsoft Outlook':REPEAT throw ${secondary} resize
+layout home 'Calendar':REPEAT throw ${secondary} resize
+layout home 'Google Chrome':REPEAT throw ${secondary} resize
+layout home 'Microsoft Lync':REPEAT throw ${secondary}
+layout home 'Spotify':REPEAT throw ${secondary} resize
+layout home 'Evernote':REPEAT throw ${secondary} resize
+layout home 'nvALT':REPEAT throw ${secondary} resize
+layout home 'Microsoft OneNote':REPEAT throw ${secondary} resize
+
+# bind to layouts
+bind h:cmd,ctrl layout home
+
+# default layouts
+#default home resolutions:1440x900;1920x1080
+#default work resolutions:1440x900;1680x1050
+default home count:2
+#default single count:1
+
+# some ideas
+# focus through a list of windows
+# switch support for a tag of windows
+# cycling of screens
