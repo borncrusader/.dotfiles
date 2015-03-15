@@ -2,30 +2,40 @@
 
 # TODO: cmd line arg based sym-linking
 
+create_link()
+{
+	# usage: create_link original link
+	if [[ -e $2 ]]; then
+		echo "backing up $2 as $2.back"
+		mv "$2" "$2.back"
+	fi
+
+	echo "creating link $2 -> $1"
+	ln -s "$1" "$2"
+}
+
+## common
+create_link .dotfiles/.vim/ ~/.vim
+create_link .dotfiles/bin/ ~/bin
+create_link .dotfiles/.zprofile ~/.zprofile
+create_link .dotfiles/.zshrc ~/.zshrc
+create_link .dotfiles/.bash_profile ~/.bash_profile
+create_link .dotfiles/.bashrc ~/.bashrc
+create_link .dotfiles/.myshrc ~/.myshrc
+create_link .dotfiles/.profile ~/.profile
+create_link .dotfiles/.screenrc ~/.screenrc
+create_link .dotfiles/.tmux.conf ~/.tmux.conf
+create_link .dotfiles/.vimrc ~/.vimrc
+
+## Linux specific
 if [[ `uname` == 'Linux' ]]; then
-	ln -s .dotfiles/.config/awesome/ ~/.config/awesome
+	create_link .dotfiles/.config/awesome/ ~/.config/awesome
+	create_link .dotfiles/.xinitrc ~/.xinitrc
+	create_link .dotfiles/.xmodmap ~/.xmodmap
+	create_link .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
 fi
 
-ln -s .dotfiles/.vim/ ~/.vim
-ln -s .dotfiles/bin/ ~/bin
-
-ln -s .dotfiles/.bash_profile ~/.bash_profile
-ln -s .dotfiles/.bashrc ~/.bashrc
-
-if [[ `uname` == 'Linux' ]]; then
-	ln -s .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
+## Mac specific
+if [[ `uname` == 'Darwin' ]]; then
+	create_link .dotfiles/.slate ~/.slate
 fi
-
-ln -s .dotfiles/.myshrc ~/.myshrc
-ln -s .dotfiles/.profile ~/.profile
-ln -s .dotfiles/.screenrc ~/.screenrc
-ln -s .dotfiles/.tmux.conf ~/.tmux.conf
-ln -s .dotfiles/.vimrc ~/.vimrc
-
-if [[ `uname` == 'Linux' ]]; then
-	ln -s .dotfiles/.xinitrc ~/.xinitrc
-	ln -s .dotfiles/.xmodmap ~/.xmodmap
-fi
-
-ln -s .dotfiles/.zprofile ~/.zprofile
-ln -s .dotfiles/.zshrc ~/.zshrc
