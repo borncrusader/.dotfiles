@@ -92,4 +92,5 @@ function Solarize()
 endfunction
 
 " default is the light theme
-call Solarize()
+"call Solarize()
+set bg=dark

@@ -12,7 +12,7 @@ fi
 # common
 export EDITOR='vim'
 # TODO: path is special! if it already has the information, don't re-add it
-export PATH=$HOME/bin:$PATH
+export PATH=$PATH:$HOME/bin
 export TERM='xterm-256color'
 
 # session specific
@@ -20,9 +20,11 @@ if [[ $SESSION == 'HOME' ]]; then
     export MONK="$HOME/Dropbox/monk"
     export SYSDUMP="$HOME/Dropbox/sysdump"
 else
-    export WRK=/work/sananthakrishnan
+    export WRK=/local/ska
     export SVN_EDITOR=/u/qa/tools/svn-editor
     export SECTP=$WRK/sectp
+    export BAFFIN=$WRK/releases/baffin
+    export ROUTING=$BAFFIN/routing
 fi
 
 # os specific
