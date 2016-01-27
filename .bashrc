@@ -4,9 +4,10 @@
 # history control
 export HISTCONTROL=erasedups
 # & is a special pattern that suppresses duplicate entries
-export HISTIGNORE=" *:&:ls:[bf]g:exit"
+export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd.."
+shopt -s histappend
 
-s()
+so()
 {
 	source ~/.bashrc
 }
