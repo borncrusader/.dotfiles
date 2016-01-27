@@ -20,7 +20,7 @@ export EDITOR='vim'
 export TERM='xterm-256color'
 
 # TODO: path is special! if it already has the information, don't re-add it
-export PATH=$PATH:$HOME/bin
+export PATH=$HOME/bin:$PATH
 
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
