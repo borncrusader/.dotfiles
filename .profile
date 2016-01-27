@@ -1,30 +1,35 @@
 # preliminary initiation
+# there are two types - sessions and OS
+# mac always is HOME
+# linux can either be HOME or WORK
 if [[ $(uname) == 'Darwin' ]]; then
     export SESSION='HOME'
     export OS='MAC'
-elif [[ $(uname) == 'Linux' ]]; then
+elif [[ $(uname) == 'Linux' && $(whoami) == 'ska' ]]; then
     export SESSION='WORK'
     export OS='LINUX'
+elif [[ $(uname) == 'Linux' ]]; then
+    export SESSION='HOME'
+    export OS='LINUX'
 else
-    echo "ALARM! New system found! $(uname)"
+    echo "ALARM! New system found! $(uname) and $(whoami)"
 fi
 
 # common
 export EDITOR='vim'
+export TERM='xterm-256color'
+
 # TODO: path is special! if it already has the information, don't re-add it
 export PATH=$PATH:$HOME/bin
-export TERM='xterm-256color'
 
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
-    export MONK="$HOME/Dropbox/monk"
-    export SYSDUMP="$HOME/Dropbox/sysdump"
+    if [[ -d $HOME/Dropbox ]]; then
+        export MONK="$HOME/Dropbox/monk"
+        export SYSDUMP="$HOME/Dropbox/sysdump"
+    fi
 else
     export WRK=/local/ska
-    export SVN_EDITOR=/u/qa/tools/svn-editor
-    export SECTP=$WRK/sectp
-    export BAFFIN=$WRK/releases/baffin
-    export ROUTING=$BAFFIN/routing
 fi
 
 # os specific
@@ -42,11 +47,6 @@ if [[ $OS == 'MAC' ]]; then
 fi
 
 # session and os specific
-
-# machine specific
-if [[ $(hostname) == "chief-sh101.lab.nbttech.com" ]]; then
-	export TMPDIR=/work/sananthakrishnan/tmp
-fi
 
 # http://robinwinslow.co.uk/2012/07/20/tmux-and-ssh-auto-login-with-ssh-agent-finally/
 if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
