@@ -68,6 +68,7 @@ if [[ $OS == 'MAC' ]]; then
     alias cdg='cd $GOPATH'
     alias wmount="sudo hdiutil attach ~/code/work.dmg.sparseimage -mountpoint /Volumes/work"
     alias wumount="sudo umount -f /Volumes/work"
+    alias vim="/usr/local/bin/vim"
 else
 	alias ls=' ls -F --color'
 fi
