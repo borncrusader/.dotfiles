@@ -11,10 +11,9 @@ alias makit='make 2>&1 | tee grep_op'
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias rdesk='rdesktop -g 1366x730'
 alias ssc="ssh -Y sananthakrishnan@chief-sh101"
-alias ssd="ssh -Y sananthakrishnan@chief-cs162"
-alias sse="ssh -Y sananth5@remote.eos.ncsu.edu"
-alias sst="ssh -Y sananthakrishnan@tuff"
-alias sstr="ssr tuff"
+#alias ssd="ssh -Y sananthakrishnan@chief-cs162"
+alias ssd="ssh -Y -o ServerAliveInterval=30 ska@rts39"
+alias ssv="ssh -Y srinath@192.168.56.4"
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
@@ -22,16 +21,26 @@ alias vi='vim -X'
 
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
+    alias ctags='/usr/local/bin/ctags'
     alias cdf='cd $SYSDUMP/fortnights'
     alias cdm='cd $MONK'
-    alias cds='mkcd $SYSDUMP/$(date +%0y)/$(date +%0m)/'
+    alias cds='cd $SYSDUMP'
+    alias cdst='mkcd $SYSDUMP/$(date +%0y)/$(date +%0m)/'
+    alias cdsw='mkcd $SYSDUMP/$(date -v1w +%0y)/$(date -v1w +%0m)/'
+    alias cdsr='mkcd $SYSDUMP/research/$(date -v1w +%0y)/$(date -v1w +%0m)/'
     alias cdsk='cd $SYSDUMP/knowledge'
     alias cdsm='cd $SYSDUMP/music'
-    alias cdsr='cd $SYSDUMP/riverbed'
+    alias cdsd='cd $SYSDUMP/datera'
     alias ssa="ssh -Y sananthakrishnan@arch-sananth"
     alias ssar="ssh -Y sananth5@arc.csc.ncsu.edu"
-    alias vid='cds; vi $(date +%0d).md'
-    alias vidm='cdsm; vi log.md'
+    alias vid='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; vi $(date +%0d).md'
+    alias vir='cdsr; vi $(date +%0d).md'
+    #alias vidw='cdsw; vi week-of-$(date -v1w +%0d).md'
+    #alias vidm='cdst; vi month.md'
+    alias vido='cds; vi doing.md'
+    alias vidb='cds; vi backlog.md'
+    alias vidd='cds; vi done.md'
+    alias vism='cdsm; vi log.md'
 else
     alias aroma="aroma.py -vqa"
     alias cdw='cd $WRK'
@@ -57,8 +66,8 @@ if [[ $OS == 'MAC' ]]; then
     alias cdc='cd $CODE'
     alias cdh='cd $HACKER'
     alias cdg='cd $GOPATH'
-    alias wmount="sudo mount -t nfs chief-sh101:/work/sananthakrishnan ~/work"
-    alias wumount="sudo umount -f ~/work"
+    alias wmount="sudo hdiutil attach ~/code/work.dmg.sparseimage -mountpoint /Volumes/work"
+    alias wumount="sudo umount -f /Volumes/work"
 else
 	alias ls=' ls -F --color'
 fi
@@ -102,5 +111,9 @@ xrpm()
 if [[ $OS == 'MAC' ]]; then
     export LSCOLORS=exfxcxdxbxegedabagacad
 fi
+unsetopt sharehistory
+
+export NVM_DIR=~/.nvm
+#source $(brew --prefix nvm)/nvm.sh
 
 echo 'Howdy Srinath'

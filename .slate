@@ -5,13 +5,14 @@ alias secondary 0
 alias primary 1
 
 # binding applications to tags
-bind 1:cmd focus 'iTerm'
-bind 2:cmd focus 'Microsoft Outlook'
+bind 1:cmd focus 'iTerm2'
+bind 2:cmd focus 'Mail'
 bind 3:cmd focus 'Firefox'
 bind 4:cmd focus 'Finder'
 bind 5:cmd focus 'Google Chrome'
 bind 6:cmd focus 'nvALT'
-bind 7:cmd focus 'Postman - REST Client (Packaged app)'
+#bind 7:cmd focus 'Postman - REST Client (Packaged app)'
+bind 7:cmd focus 'Safari'
 bind 8:cmd focus 'Spotify'
 #bind 8:cmd focus 'iTunes'
 
@@ -25,8 +26,12 @@ bind left:cmd,ctrl throw left resize
 bind down:cmd,ctrl throw down resize
 bind up:cmd,ctrl throw up resize
 
+bind 0:cmd,ctrl throw 0 resize
+bind 1:cmd,ctrl throw 1 resize
+bind 2:cmd,ctrl throw 2 resize
+
 # layouts
-layout home 'iTerm':REPEAT throw ${primary} resize
+layout home 'iTerm2':REPEAT throw ${primary} resize
 
 layout home 'Firefox':REPEAT throw ${secondary} resize
 layout home 'Microsoft Outlook':REPEAT throw ${secondary} resize

@@ -52,6 +52,7 @@ autocmd FileType c setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 ex
 autocmd FileType markdown setlocal textwidth=80 spell
 autocmd FileType python setlocal textwidth=79
 autocmd FileType scala setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
+autocmd FileType html setlocal textwidth=0 shiftwidth=2 softtabstop=2 tabstop=2
 
 " set ctags related variables for function display in status bar
 let g:ctags_statusline=1
@@ -91,5 +92,9 @@ function Solarize()
     colorscheme solarized
 endfunction
 
-" default is the light theme
-call Solarize()
+function UnSolarize()
+    colorscheme default
+    set bg=dark
+endfunction
+
+call UnSolarize()
