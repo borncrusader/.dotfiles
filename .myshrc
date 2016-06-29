@@ -71,6 +71,7 @@ if [[ $OS == 'MAC' ]]; then
     alias vim="/usr/local/bin/vim"
 else
 	alias ls=' ls -F --color'
+    alias vi="vim"
 fi
 
 # session and os specific
