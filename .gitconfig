@@ -19,6 +19,9 @@
     sta = status
     ci = commit
     df = diff
+    dfs = diff --staged
+    dfh = diff HEAD
+    dfhp = diff 'HEAD^'
     bl = blame
     l = log --date=local
     lg = log -p
@@ -41,3 +44,4 @@
     lg = !"git lg1"
     com = commit
     coma = commit --amend
+    comad = !"git commit --amend --date=\"$(date -R)\""
