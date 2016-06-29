@@ -44,6 +44,8 @@ if [[ $OS == 'MAC' ]]; then
     export CODE=/Volumes/code
     export HACKER="/Volumes/code/hacker"
     export GOPATH=$HACKER/sandbox/go
+    # XQuartz on Mavericks sometimes needs this!
+    export DISPLAY=":0"
 fi
 
 # session and os specific
