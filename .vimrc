@@ -48,7 +48,8 @@ command Nerd NERDTree | wincmd w
 "autocmd VimEnter * wincmd w
 
 " specific filetype vim settings
-autocmd FileType c setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=80 expandtab
+autocmd FileType c setlocal shiftwidth=8 softtabstop=8 tabstop=8 textwidth=80 noexpandtab
+autocmd BufNewFile,BufRead *.h setlocal filetype=c
 autocmd FileType markdown setlocal textwidth=80 spell
 autocmd FileType python setlocal textwidth=79
 autocmd FileType scala setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
@@ -94,3 +95,18 @@ endfunction
 " default is the light theme
 "call Solarize()
 set bg=dark
+
+" show tabs as T>>>>
+let g:TabDisplayVal = 0
+highlight SpecialKey ctermfg=1
+set listchars=tab:T>
+
+function TabDisplay()
+    if g:TabDisplayVal
+        set nolist
+        let g:TabDisplayVal=0
+    else
+        set list
+        let g:TabDisplayVal=1
+    endif
+endfunction

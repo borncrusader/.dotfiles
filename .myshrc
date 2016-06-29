@@ -91,6 +91,10 @@ xrpm()
     rpm2cpio $1 | cpio -idmv
 }
 
+function = () {
+    /home/ska/share/vim/vim74/macros/less.sh "$*"
+}
+
 # source unshared rc
 [[ -f ~/.myshrc_unshared ]] && source ~/.myshrc_unshared
 

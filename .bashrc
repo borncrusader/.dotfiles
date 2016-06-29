@@ -13,4 +13,4 @@ so()
 }
 
 # finally source the common shell rc
-[[ -f ~/.myshrc ]] && source ~/.myshrc
+[[ -f ~/.dotfiles/.myshrc ]] && source ~/.dotfiles/.myshrc

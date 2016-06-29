@@ -59,6 +59,7 @@ if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
 
     # if socket is available create the new auth session
     if [[ ! -S $SSH_AUTH_SOCK ]]; then
+        echo "starting ssh-agent"
         `ssh-agent -a $SSH_AUTH_SOCK` > /dev/null 2>&1
 
         # Add all default keys to ssh auth
