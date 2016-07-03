@@ -34,6 +34,7 @@ if [[ `uname` == 'Linux' ]]; then
 	create_link .dotfiles/.xinitrc ~/.xinitrc
 	create_link .dotfiles/.xmodmap ~/.xmodmap
 	create_link .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
+    create_link .dotfiles/.i3status.conf ~/.i3status.conf
 fi
 
 ## Mac specific
