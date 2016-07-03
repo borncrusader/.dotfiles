@@ -155,4 +155,22 @@ bar {
         status_command i3status
 }
 
-exec_always feh --bg-fill /home/ska/Downloads/wallpaper-3.jpg
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec /home/ska/bin/brightnessctl +50
+bindsym XF86MonBrightnessDown exec /home/ska/bin/brightnessctl -50
+
+# Media player controls (for Thinkpad X230)
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# Volume controls
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute
+bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
+bindsym XF86AudioMute exec amixer -q set Master toggle
+
+# Lock screen
+bindsym XF86ScreenSaver exec i3lock
+
+# Set wallpaper
+exec_always feh --bg-fill /home/ska/Pictures/wallpaper-1.jpg
