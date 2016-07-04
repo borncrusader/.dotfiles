@@ -31,6 +31,7 @@ create_link .dotfiles/.vimrc ~/.vimrc
 if [[ `uname` == 'Linux' ]]; then
 	#create_link .dotfiles/.config/awesome/ ~/.config/awesome
 	create_link .dotfiles/.config/i3 ~/.config/i3
+	create_link .dotfiles/.config/lilyterm ~/.config/lilyterm
 	create_link .dotfiles/.xinitrc ~/.xinitrc
 	create_link .dotfiles/.xmodmap ~/.xmodmap
 	create_link .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
