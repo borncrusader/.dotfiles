@@ -210,5 +210,8 @@ bindsym Print exec scrot '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Scre
 exec dropbox
 exec parcellite
 
+# set keyboard map
+exec setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
+
 # Set wallpaper
 exec_always feh --bg-fill /home/ska/Pictures/wallpaper-1.jpg
