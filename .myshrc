@@ -26,14 +26,15 @@ if [[ $SESSION == 'HOME' ]]; then
     alias cdm='cd $MONK'
     alias cds='cd $SYSDUMP'
     alias cdst='mkcd $SYSDUMP/$(date +%0y)/$(date +%0m)/'
-    alias cdsw='mkcd $SYSDUMP/$(date -v1w +%0y)/$(date -v1w +%0m)/'
-    alias cdsr='mkcd $SYSDUMP/research/$(date -v1w +%0y)/$(date -v1w +%0m)/'
+    #alias cdsw='mkcd $SYSDUMP/$(date -v1w +%0y)/$(date -v1w +%0m)/'
+    #alias cdsr='mkcd $SYSDUMP/research/$(date -v1w +%0y)/$(date -v1w +%0m)/'
     alias cdsk='cd $SYSDUMP/knowledge'
     alias cdsm='cd $SYSDUMP/music'
-    alias cdsd='cd $SYSDUMP/datera'
+    alias cdsw='mkcd $SYSDUMP/work/salesforce/$(date +%0y)/$(date +%0m)/'
     alias ssa="ssh -Y sananthakrishnan@arch-sananth"
     alias ssar="ssh -Y sananth5@arc.csc.ncsu.edu"
     alias vid='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; vi $(date +%0d).md'
+    alias viw='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work.md $(date +%0d).md; vi $(date +%0d).md'
     alias vir='cdsr; vi $(date +%0d).md'
     #alias vidw='cdsw; vi week-of-$(date -v1w +%0d).md'
     #alias vidm='cdst; vi month.md'
@@ -68,8 +69,10 @@ if [[ $OS == 'MAC' ]]; then
     alias cdg='cd $GOPATH'
     alias wmount="sudo hdiutil attach ~/code/work.dmg.sparseimage -mountpoint /Volumes/work"
     alias wumount="sudo umount -f /Volumes/work"
+    alias vim="/usr/local/bin/vim"
 else
 	alias ls=' ls -F --color'
+    alias vi="vim"
 fi
 
 # session and os specific
