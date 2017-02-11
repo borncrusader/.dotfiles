@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+
+import sys
+import os
+import stat
+
+
+MIN_BRIGHTNESS = 200
+
+
+def usage():
+    print("{} [mode]".format(sys.argv[0]))
+    print("   if no mode is given, print the current brightness")
+    print("   for setting, mode can be [+|-]n -> change by n percent")
+    print("                            n -> set absolute value")
+    sys.exit(1)
+
+
+def get_brightness(fname):
+    try:
+        with open(fname) as f:
+            return int(f.readlines()[0])
+    except IOError as e:
+        print('cannot read {0}'.format(fname))
+        sys.exit(1)
+
+
+mode_percent = False
+mode_absolute = False
+
+if len(sys.argv) > 1:
+    if sys.argv[1][0] == '+' or sys.argv[1][0] == '-':
+        mode_percent = True
+        percent = sys.argv[1][1:]
+    else:
+        mode_absolute = True
+        absolute = sys.argv[1][0:]
+
+if mode_percent:
+    if not percent.isnumeric():
+        usage()
+    percent = int(percent)
+elif mode_absolute:
+    if not absolute.isnumeric():
+        usage()
+    absolute = int(absolute)
+
+max_brightness = get_brightness(
+        '/sys/class/backlight/intel_backlight/max_brightness')
+curr_brightness = get_brightness(
+        '/sys/class/backlight/intel_backlight/brightness')
+
+# get mode
+if len(sys.argv) == 1:
+    print('{0}'.format(curr_brightness))
+    sys.exit(0)
+
+if mode_percent:
+    delta = min([percent, 100]) * curr_brightness // 100
+    
+    if sys.argv[1][0] == '+':
+        new_brightness = curr_brightness + delta
+    else:
+        new_brightness = curr_brightness - delta
+elif mode_absolute:
+    new_brightness = absolute
+
+new_brightness = max([MIN_BRIGHTNESS, new_brightness])
+new_brightness = min([max_brightness, new_brightness])
+
+if curr_brightness != new_brightness:
+    print('{0} -> {1}; max: {2}'.format(curr_brightness, new_brightness,
+                                        max_brightness))
+
+    try:
+        with open('/sys/class/backlight/intel_backlight/brightness', 'w') as f:
+            f.write('{0}'.format(new_brightness))
+    except IOError as e:
+        print('cannot write to brightness file')
+        sys.exit(3)
+else:
+    print('new brightness same as old brightness')
