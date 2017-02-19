@@ -46,15 +46,18 @@ if [[ $OS == 'MAC' ]]; then
     export GOPATH=$HACKER/sandbox/go
     # XQuartz on Mavericks sometimes needs this!
     export DISPLAY=":0"
+else
+    export CODE=$HOME/code
 fi
 
 # session and os specific
+function start_ssh_agent()
+{
+    if [[ `ps -ef | grep ssh-agent | wc -l` -gt 1 ]]; then
+        echo "ssh-agent already running"
+        return
+    fi
 
-# http://robinwinslow.co.uk/2012/07/20/tmux-and-ssh-auto-login-with-ssh-agent-finally/
-if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
-    # we're not in a tmux session and logged in via SSH
-
-    # if ssh auth variable is missing
     if [[ -z $SSH_AUTH_SOCK ]]; then
         export SSH_AUTH_SOCK=~/.ssh/.auth_socket
     fi
@@ -67,4 +70,16 @@ if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
         # Add all default keys to ssh auth
         ssh-add 2> /dev/null
     fi
+}
+
+# http://robinwinslow.co.uk/2012/07/20/tmux-and-ssh-auto-login-with-ssh-agent-finally/
+if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
+    # we're not in a tmux session and logged in via SSH
+
+    start_ssh_agent
+fi
+
+# do this for all shells
+if [[ -z $SSH_AUTH_SOCK ]]; then
+    export SSH_AUTH_SOCK=~/.ssh/.auth_socket
 fi

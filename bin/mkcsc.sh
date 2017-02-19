@@ -14,9 +14,9 @@ fi
 
 echo "generating list of files to $f"
 if [ `uname` == "Darwin" ]; then
-	find -E . -type f -regex '.*/.*\.([ch](pp|xx)?|cc|C)' > $f
+	find -E . -type f -regex '.*/.*\.([ch](pp|xx)?|cc|C|java)' > $f
 elif [ `uname` == "Linux" ]; then
-	find . -regextype posix-extended -type f -regex '.*/.*\.([ch](pp|xx)?|cc|C)' > $f
+	find . -regextype posix-extended -type f -regex '.*/.*\.([ch](pp|xx)?|cc|C|java)' > $f
 fi
 
 echo "generating cscope database"
