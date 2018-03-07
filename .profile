@@ -68,3 +68,6 @@ if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
         ssh-add 2> /dev/null
     fi
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/usr/local/opt/node@8/bin:$PATH"
