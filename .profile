@@ -77,3 +77,5 @@ if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
 else
     eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
 fi
+
+export PATH="/usr/local/opt/node@8/bin:$PATH"
