@@ -20,7 +20,7 @@ export EDITOR='vim'
 export TERM='xterm-256color'
 
 # TODO: path is special! if it already has the information, don't re-add it
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:$PATH:$GOPATH/bin
 
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
@@ -67,4 +67,13 @@ if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
         # Add all default keys to ssh auth
         ssh-add 2> /dev/null
     fi
+fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
+    source ~/.gnupg/.gpg-agent-info
+    export GPG_AGENT_INFO
+else
+    eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
 fi
