@@ -20,7 +20,7 @@ export EDITOR='vim'
 export TERM='xterm-256color'
 
 # TODO: path is special! if it already has the information, don't re-add it
-export PATH=$HOME/bin:$PATH:$GOPATH/bin
+export PATH=$HOME/bin:$PATH:$GOPATH/bin:$HOME/.cargo/bin:/usr/local/opt/node@8/bin
 
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
@@ -46,6 +46,10 @@ if [[ $OS == 'MAC' ]]; then
     export GOPATH=$HACKER/sandbox/go
     # XQuartz on Mavericks sometimes needs this!
     export DISPLAY=":0"
+
+    # For GPG signing, else throws an inappropriate ioctl error
+    GPG_TTY=$(tty)
+    export GPG_TTY
 fi
 
 # session and os specific
@@ -69,13 +73,6 @@ if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
     fi
 fi
 
-export PATH="$HOME/.cargo/bin:$PATH"
-
-if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
-    source ~/.gnupg/.gpg-agent-info
-    export GPG_AGENT_INFO
-else
-    eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
+if [ ! -n "$(pgrep gpg-agent)" ]; then
+    eval $(gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry)
 fi
-
-export PATH="/usr/local/opt/node@8/bin:$PATH"
