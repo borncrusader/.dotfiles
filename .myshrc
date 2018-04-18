@@ -10,7 +10,7 @@ alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias rdesk='rdesktop -g 1366x730'
-alias ssc="ssh -Y sananthakrishnan@chief-sh101"
+alias ssc="ssh -Y ska@srinathkrishna.in"
 #alias ssd="ssh -Y sananthakrishnan@chief-cs162"
 alias ssd="ssh -Y -o ServerAliveInterval=30 ska@rts39"
 alias ssv="ssh -Y srinath@192.168.56.4"
