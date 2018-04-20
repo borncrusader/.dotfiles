@@ -105,6 +105,19 @@ xrpm()
     rpm2cpio $1 | cpio -idmv
 }
 
+grayscale()
+{
+    gs \
+ -sOutputFile=$2 \
+ -sDEVICE=pdfwrite \
+ -sColorConversionStrategy=Gray \
+ -dProcessColorModel=/DeviceGray \
+ -dCompatibilityLevel=1.4 \
+ -dNOPAUSE \
+ -dBATCH \
+ $1
+}
+
 function = () {
     /home/ska/share/vim/vim74/macros/less.sh "$*"
 }
