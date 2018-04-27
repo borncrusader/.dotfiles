@@ -11,8 +11,7 @@ alias makit='make 2>&1 | tee grep_op'
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias rdesk='rdesktop -g 1366x730'
 alias ssc="ssh -Y ska@srinathkrishna.in"
-#alias ssd="ssh -Y sananthakrishnan@chief-cs162"
-alias ssd="ssh -Y -o ServerAliveInterval=30 ska@rts39"
+alias ssd="ssh -p 3022 ska@sababthakri-wsm.internal.salesforce.com"
 alias ssv="ssh -Y srinath@192.168.56.4"
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
@@ -44,6 +43,7 @@ if [[ $SESSION == 'HOME' ]]; then
     alias vidb='cds; vi backlog.md'
     alias vidd='cds; vi done.md'
     alias vism='cdsm; vi log.md'
+    alias visesame='vi $HOME/Dropbox/docs/sesame.yaml'
 else
     alias aroma="aroma.py -vqa"
     alias cdw='cd $WRK'
