@@ -7,7 +7,7 @@ export HISTCONTROL=erasedups
 export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd.."
 shopt -s histappend
 
-so()
+howdy()
 {
 	source ~/.bashrc
 }

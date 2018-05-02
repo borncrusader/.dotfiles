@@ -73,6 +73,7 @@ if [[ $OS == 'MAC' ]]; then
     alias wumount="sudo umount -f /Volumes/work"
     alias vim="/usr/local/bin/vim"
 else
+    alias cdc='cd ~/code'
 	alias ls=' ls -F --color'
     alias vi="vim"
 fi
