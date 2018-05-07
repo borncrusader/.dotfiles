@@ -32,7 +32,7 @@ font pango:monaco 0
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec lilyterm
+bindsym $mod+Return exec lxterminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -129,11 +129,12 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace $w10
 
 # Window assignments
-assign [class="LilyTerm"] $w1
+assign [class="lxterminal"] $w1
 assign [title=".* - Wunderlist"] $w2
 assign [class="Firefox"] $w3
+assign [class="Epiphany"] $w4
 assign [class="chromium"] $w4
-assign [class="epiphany"] $w4
+assign [class="brave"] $w4
 assign [class="Pcmanfm"] $w5
 assign [class="mplayer"] $w6
 assign [class="Spotify"] $w10 for_window [class="Spotify"] layout tabbed
@@ -144,7 +145,7 @@ bindsym $win+c exec chromium
 bindsym $win+f exec firefox
 
 # Other quirks
-for_window [class="LilyTerm"] border none
+for_window [class="lxterminal"] border none
 for_window [class="chromium"] border none
 
 # reload the configuration file
@@ -205,16 +206,18 @@ bindsym XF86AudioMute exec amixer -q set Master toggle
 bindsym XF86ScreenSaver exec i3lock
 
 # Other hotkeys
-bindsym XF86WebCam exec pcmanfm
+bindsym XF86WebCam exec /home/ska/bin/dual_setup.sh arch-x230-lvds
+bindsym XF86Display exec /home/ska/bin/dual_setup.sh arch-x230-both-down
 bindsym Print exec /home/ska/bin/take_screenshot
 
 # Startup apps
 exec dropbox
 exec parcellite
 exec artha
+exec nm-applet
 
 # set keyboard map
 exec setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
 
 # Set wallpaper
-exec_always feh --bg-fill /home/ska/Pictures/wallpaper-1.jpg
+exec_always feh --bg-fill /home/ska/Pictures/wallpaper-6.jpg

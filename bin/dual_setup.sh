@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: CLEANUP!!
+
 usage()
 {
 	echo "usage : dual_setup.sh [options]"
@@ -7,6 +9,14 @@ usage()
 	echo "  home - home monitor"
 	echo "  work - external monitor at work"
 	echo "  auto - automatically set the resolution based on the display config"
+
+    echo "  arch-x230-lvds - only laptop configuration for arch linux on x230"
+    echo "  arch-x230-hdmi - only hdmi configuration for arch linux on x230"
+    echo "  arch-x230-both-left - both screens on x230; laptop on left"
+    echo "  arch-x230-both-right - both screens on x230; laptop on right"
+    echo "  arch-x230-both-down - both screens on x230; laptop on down"
+    echo "  arch-x230-toggle - toggle between 2 modes"
+
 	echo "  off  - switch off external monitor"
 }
 
@@ -37,6 +47,32 @@ elif [ "$1" == "auto" ]; then
 	else
 		$0 mac
 	fi
+elif [ "$1" == "arch-x230-lvds" ]; then
+    xrandr --output LVDS-1 --mode 1366x768
+    xrandr --output HDMI-1 --off
+    echo 'arch-x230-lvds' > /tmp/.dual-setup
+elif [ "$1" == "arch-x230-hdmi" ]; then
+    xrandr --output LVDS-1 --off
+    xrandr --output HDMI-1 --mode 1920x1080
+elif [ "$1" == "arch-x230-both-left" ]; then
+    xrandr --output LVDS-1 --mode 1366x768 --left-of HDMI-1
+    xrandr --output HDMI-1 --mode 1920x1080
+elif [ "$1" == "arch-x230-both-right" ]; then
+    xrandr --output LVDS-1 --mode 1366x768 --right-of HDMI-1
+    xrandr --output HDMI-1 --mode 1920x1080
+elif [ "$1" == "arch-x230-both-down" ]; then
+    xrandr --output LVDS-1 --mode 1366x768 --below HDMI-1
+    xrandr --output HDMI-1 --mode 1920x1080
+    echo 'arch-x230-both-down' > /tmp/.dual-setup
+elif [ "$1" == "arch-x230-toggle" ]; then
+    if [ -e /tmp/.dual-setup ]; then
+        if [ "$(cat /tmp/.dual-setup)" == "arch-x230-lvds" ]; then
+            xrandr --output LVDS-1 --off
+            $0 arch-x230-both-down
+        else
+            $0 arch-x230-lvds
+        fi
+    fi
 elif [ "$1" == "off" ]; then
 	xrandr --output Virtual1 --off
 else

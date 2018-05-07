@@ -22,4 +22,6 @@ xmodmap ~/.xmodmap
 # xkb maps
 setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
 
-exec i3
+#exec mate-session
+exec --shmlog-size=26214400
+#exec enlightenment_start
