@@ -51,7 +51,7 @@ command Nerd NERDTree | wincmd w
 " specific filetype vim settings
 autocmd FileType c setlocal shiftwidth=8 softtabstop=8 tabstop=8 textwidth=80 noexpandtab
 autocmd BufNewFile,BufRead *.h setlocal filetype=c
-autocmd FileType markdown setlocal textwidth=80 spell
+autocmd FileType markdown setlocal textwidth=80 spell noautoindent nosmartindent
 autocmd FileType python setlocal textwidth=79
 autocmd FileType scala setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
 autocmd FileType html setlocal textwidth=0 shiftwidth=2 softtabstop=2 tabstop=2
