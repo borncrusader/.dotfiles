@@ -6,7 +6,7 @@ if [[ $(uname) == 'Darwin' ]]; then
     export SESSION='HOME'
     export OS='MAC'
 elif [[ $(uname) == 'Linux' && $(whoami) == 'ska' ]]; then
-    export SESSION='WORK'
+    export SESSION='HOME'
     export OS='LINUX'
 elif [[ $(uname) == 'Linux' ]]; then
     export SESSION='HOME'
@@ -20,7 +20,7 @@ export EDITOR='vim'
 export TERM='xterm-256color'
 
 # TODO: path is special! if it already has the information, don't re-add it
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:$PATH:$GOPATH/bin:$HOME/.cargo/bin:/usr/local/opt/node@8/bin
 
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
@@ -46,6 +46,10 @@ if [[ $OS == 'MAC' ]]; then
     export GOPATH=$HACKER/sandbox/go
     # XQuartz on Mavericks sometimes needs this!
     export DISPLAY=":0"
+
+    # For GPG signing, else throws an inappropriate ioctl error
+    GPG_TTY=$(tty)
+    export GPG_TTY
 else
     export CODE=$HOME/code
 fi
@@ -82,4 +86,8 @@ fi
 # do this for all shells
 if [[ -z $SSH_AUTH_SOCK ]]; then
     export SSH_AUTH_SOCK=~/.ssh/.auth_socket
+fi
+
+if [ ! -n "$(pgrep gpg-agent)" ]; then
+    eval $(gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry)
 fi

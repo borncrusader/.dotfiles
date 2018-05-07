@@ -24,7 +24,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-so()
+howdy()
 {
 	source ~/.zshrc
 }
