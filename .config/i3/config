@@ -97,12 +97,13 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 set $w1 "1: "
-set $w2 "2:  "
+set $w2 "2: "
 set $w3 "3: "
 set $w4 "4: "
-set $w5 "5: "
+set $w5 "5: "
 set $w6 "6: "
-set $w10 "10: "
+set $w7 "7: "
+set $w8 "8: "
 
 # switch to workspace
 bindsym $mod+1 workspace $w1
@@ -111,8 +112,8 @@ bindsym $mod+3 workspace $w3
 bindsym $mod+4 workspace $w4
 bindsym $mod+5 workspace $w5
 bindsym $mod+6 workspace $w6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
+bindsym $mod+7 workspace $w7
+bindsym $mod+8 workspace $w8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace $w10
 
@@ -123,21 +124,22 @@ bindsym $mod+Shift+3 move container to workspace $w3
 bindsym $mod+Shift+4 move container to workspace $w4
 bindsym $mod+Shift+5 move container to workspace $w5
 bindsym $mod+Shift+6 move container to workspace $w6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+7 move container to workspace $w7
+bindsym $mod+Shift+8 move container to workspace $w8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace $w10
 
 # Window assignments
-assign [class="lxterminal"] $w1
-assign [title=".* - Wunderlist"] $w2
+assign [class="Lxterminal"] $w1
+assign [class="jetbrains-idea-ce"] $w2
 assign [class="Firefox"] $w3
 assign [class="Epiphany"] $w4
 assign [class="chromium"] $w4
 assign [class="brave"] $w4
 assign [class="Pcmanfm"] $w5
 assign [class="mplayer"] $w6
-assign [class="Spotify"] $w10 for_window [class="Spotify"] layout tabbed
+assign [title="Evince"] $w7
+assign [class="Spotify"] $w8 #for_window [class="Spotify"] layout tabbed
 
 # Shortcuts
 bindsym $win+s exec spotify
@@ -145,7 +147,7 @@ bindsym $win+c exec chromium
 bindsym $win+f exec firefox
 
 # Other quirks
-for_window [class="lxterminal"] border none
+for_window [class="Lxterminal"] border none
 for_window [class="chromium"] border none
 
 # reload the configuration file
