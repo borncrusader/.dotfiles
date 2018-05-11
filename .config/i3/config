@@ -217,6 +217,7 @@ exec dropbox
 exec parcellite
 exec artha
 exec nm-applet
+exec volumeicon
 
 # set keyboard map
 exec setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
