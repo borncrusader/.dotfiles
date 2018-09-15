@@ -11,12 +11,12 @@ alias makit='make 2>&1 | tee grep_op'
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias rdesk='rdesktop -g 1366x730'
 alias ssc="ssh -Y ska@srinathkrishna.in"
-alias ssd="ssh -p 3022 ska@sababthakri-wsm.internal.salesforce.com"
+alias ssd="ssh -Y -p 3022 ska@sababthakri-wsm.internal.salesforce.com"
 alias ssv="ssh -Y srinath@192.168.56.4"
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
-alias vi='vim -X'
+alias vi='/usr/bin/vim -X'
 
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
@@ -34,8 +34,11 @@ if [[ $SESSION == 'HOME' ]]; then
     alias ssa="ssh -Y sananthakrishnan@arch-sananth"
     alias ssar="ssh -Y sananth5@arc.csc.ncsu.edu"
     alias vid='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; vi $(date +%0d).md'
-    alias viw='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work.md $(date +%0d).md; vi $(date +%0d).md'
-    alias vipw='cdsp; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work.md $(date +%0d).md; vi $(date +%0d).md'
+    alias tod='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; touch $(date +%0d).md'
+    alias viw='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md; vi $(date +%0d).md'
+    alias tow='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md; touch $(date +%0d).md'
+    alias todw='tow && tod'
+    alias vipw='cdsp; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format .md $(date +%0d).md; vi $(date +%0d).md'
     alias vir='cdsr; vi $(date +%0d).md'
     #alias vidw='cdsw; vi week-of-$(date -v1w +%0d).md'
     #alias vidm='cdst; vi month.md'
@@ -44,21 +47,6 @@ if [[ $SESSION == 'HOME' ]]; then
     alias vidd='cds; vi done.md'
     alias vism='cdsm; vi log.md'
     alias visesame='vi $HOME/Dropbox/docs/sesame.yaml'
-else
-    alias aroma="aroma.py -vqa"
-    alias cdw='cd $WRK'
-    alias cds='cd $SECTP'
-    alias cdb="cd $WRK/builds"
-    alias exportpip="export PIP_INDEX_URL=http://glassjaw.lab.nbttech.com:8080/simple"
-    alias lj="source ~/.virtualenvs/lumberjack/bin/activate; exportpip"
-    alias lj6="source ~/.virtualenvs/lj0.6/bin/activate; exportpip"
-    alias lj7="source ~/.virtualenvs/lj0.7/bin/activate; exportpip"
-    alias lj1="source ~/.virtualenvs/lj1/bin/activate; exportpip"
-    alias lj12="source /work/aparanjpe/workspace/ljcode/ljenv1.2/bin/activate; exportpip"
-    alias lj13="source /work/aparanjpe/workspace/ljcode/ljenv1.3/bin/activate; exportpip"
-    alias lj136="source ~/.virtualenvs/lj1.3.6/bin/activate; exportpip"
-    alias svn-changed='svn status | grep "^M\|^D\|^A"'
-    alias svn-up='svn up --ignore-externals'
 fi
 
 # os specific
@@ -119,6 +107,13 @@ grayscale()
  $1
 }
 
+dboxsanity()
+{
+    find $HOME/Dropbox/ -name '*conflicted*'
+    find $HOME/Dropbox/ -name '.*.swp'
+    find $HOME/Dropbox/sysdump -type f -not -name '*.md'
+}
+
 function = () {
     /home/ska/share/vim/vim74/macros/less.sh "$*"
 }
@@ -138,5 +133,12 @@ unsetopt sharehistory
 
 export NVM_DIR=~/.nvm
 #source $(brew --prefix nvm)/nvm.sh
+
+# some golang specific aliases
+alias gotb="go test -bench ."
+
+if [ -d "/Users/sananthakrishnan/blt/tools/Darwin/jdk/openjdk1.8.0_172_x64" ]; then
+    export JAVA_HOME=/Users/sananthakrishnan/blt/tools/Darwin/jdk/openjdk1.8.0_172_x64
+fi
 
 echo 'Howdy Srinath'

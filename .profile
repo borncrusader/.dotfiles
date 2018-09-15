@@ -22,6 +22,10 @@ export TERM='xterm-256color'
 # TODO: path is special! if it already has the information, don't re-add it
 export PATH=$HOME/bin:$PATH:$GOPATH/bin:$HOME/.cargo/bin:/usr/local/opt/node@8/bin
 
+if [ -d "/Users/sananthakrishnan/anaconda3/bin" ]; then
+    export PATH="/Users/sananthakrishnan/anaconda3/bin:$PATH"
+fi
+
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
     if [[ -d $HOME/Dropbox ]]; then

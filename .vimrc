@@ -54,6 +54,7 @@ autocmd BufNewFile,BufRead *.h setlocal filetype=c
 autocmd FileType markdown setlocal textwidth=80 spell noautoindent nosmartindent
 autocmd FileType python setlocal textwidth=79
 autocmd FileType scala setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
 autocmd FileType html setlocal textwidth=0 shiftwidth=2 softtabstop=2 tabstop=2
 
 " set ctags related variables for function display in status bar
