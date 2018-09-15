@@ -61,8 +61,8 @@ elif [ "$1" == "arch-x230-both-right" ]; then
     xrandr --output LVDS-1 --mode 1366x768 --right-of HDMI-1
     xrandr --output HDMI-1 --mode 1920x1080
 elif [ "$1" == "arch-x230-both-down" ]; then
-    xrandr --output LVDS-1 --mode 1366x768 --below HDMI-1
-    xrandr --output HDMI-1 --mode 1920x1080
+    xrandr --output HDMI-1 --mode 1920x1080 --primary
+    xrandr --output LVDS-1 --mode 1366x768 --below HDMI-1 --noprimary
     echo 'arch-x230-both-down' > /tmp/.dual-setup
 elif [ "$1" == "arch-x230-toggle" ]; then
     if [ -e /tmp/.dual-setup ]; then

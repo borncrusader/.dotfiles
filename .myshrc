@@ -64,6 +64,7 @@ else
     alias cdc='cd ~/code'
 	alias ls=' ls -F --color'
     alias vi="vim"
+    alias open="xdg-open"
 fi
 
 # session and os specific

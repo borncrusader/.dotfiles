@@ -1,0 +1,44 @@
+#!/bin/bash
+
+usage()
+{
+    echo "$0: [options]"
+    echo -e "  -h:  print this help\n"
+    echo -e "  -o:  get orphans"
+    echo -e "  -ro: remove orphans\n"
+    echo -e "  -c:  get cache free"
+    echo -e "  -rc: remove cache\n"
+    echo -e "  -g [svg-filename]:  graph of all packages"
+    exit 1
+}
+
+if [ -z "$1" ]; then
+    usage
+fi
+
+case "$1" in
+    "-h")
+        usage
+        ;;
+    "-o")
+        pacman -Qtdq
+        ;;
+    "-ro")
+        pacman -Rns $(pacman -Qtdq)
+        ;;
+    "-c")
+        paccache -d -v
+        ;;
+    "-rc")
+        paccache -r
+        ;;
+    "-g")
+        if [ -z "$2" ]; then
+            usage
+        fi
+        pacgraph -s -f $2
+        ;;
+    *)
+        usage
+        ;;
+esac
