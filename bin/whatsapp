@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$(uname)" == "Darwin" ]; then
+    open "https://web.whatsapp.com"
+else
+    xdg-open "https://web.whatsapp.com"
+fi

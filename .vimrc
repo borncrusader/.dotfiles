@@ -41,6 +41,7 @@ set textwidth=79        " limit maximum length of line to 79
 set colorcolumn=80      " show a line at 80 char limit
 set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to first search cscope db
 set backspace=2         " allow backspace deleting of characters
+set mouse=i             " get all that nice mouse scrolling support in insert mode
 
 " autostart with NERDTree, but move to the other window
 command Nerd NERDTree | wincmd w
@@ -50,9 +51,10 @@ command Nerd NERDTree | wincmd w
 " specific filetype vim settings
 autocmd FileType c setlocal shiftwidth=8 softtabstop=8 tabstop=8 textwidth=80 noexpandtab
 autocmd BufNewFile,BufRead *.h setlocal filetype=c
-autocmd FileType markdown setlocal textwidth=80 spell
+autocmd FileType markdown setlocal spell noautoindent nosmartindent wrap
 autocmd FileType python setlocal textwidth=79
 autocmd FileType scala setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
 autocmd FileType html setlocal textwidth=0 shiftwidth=2 softtabstop=2 tabstop=2
 
 " set ctags related variables for function display in status bar

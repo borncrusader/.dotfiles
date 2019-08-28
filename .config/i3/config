@@ -149,12 +149,6 @@ bindsym $win+b exec brave
 bindsym $win+c exec chromium
 
 # Other quirks
-#for_window [class="Alacritty"] border none
-#for_window [class="Franz"] border none
-#for_window [class="Brave-browser"] border none
-#for_window [class="chromium"] border none
-#for_window [class="Pcmanfm"] border none
-#for_window [class="jetbrains-idea-ce"] border none
 default_border none
 
 # reload the configuration file
@@ -217,7 +211,8 @@ bindsym XF86MonBrightnessDown exec /home/ska/bin/brightnessctl -50
 bindsym $mod+shift+ctrl+l exec i3lock
 
 # Other hotkeys
-bindsym XF86WebCam exec pcmanfm
+bindsym XF86WebCam exec /home/ska/bin/dual_setup.sh arch-x230-lvds
+bindsym XF86Display exec /home/ska/bin/dual_setup.sh arch-x230-both-down
 bindsym Print exec /home/ska/bin/take_screenshot
 
 # Startup apps

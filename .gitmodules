@@ -40,3 +40,21 @@
 [submodule ".vim/bundle/rust.vim"]
 	path = .vim/bundle/rust.vim
 	url = https://github.com/rust-lang/rust.vim.git
+[submodule ".vim/bundle/vim-elixir"]
+	path = .vim/bundle/vim-elixir
+	url = https://github.com/elixir-lang/vim-elixir.git
+[submodule ".vim/bundle/alchemist.vim"]
+	path = .vim/bundle/alchemist.vim
+	url = https://github.com/slashmili/alchemist.vim.git
+[submodule ".vim/bundle/typescript-vim"]
+	path = .vim/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
+[submodule ".vim/bundle/vim-clojure-static"]
+	path = .vim/bundle/vim-clojure-static
+	url = https://github.com/guns/vim-clojure-static.git
+[submodule ".vim/bundle/vim-parinfer"]
+	path = .vim/bundle/vim-parinfer
+	url = https://github.com/bhurlow/vim-parinfer.git
+[submodule ".vim/bundle/kotlin-vim"]
+	path = .vim/bundle/kotlin-vim
+	url = https://github.com/udalov/kotlin-vim.git

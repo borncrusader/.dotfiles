@@ -32,7 +32,8 @@
     sclone=svn clone -s --prefix=origin/
     sha=show --abbrev-commit
     ablog = log --abbrev-commit
-    br = branch
+    lf = log --name-only
+    br = --no-pager branch
     co = checkout
     d = difftool
     drev = diff --no-prefix --full-index

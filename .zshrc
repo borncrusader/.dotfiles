@@ -24,7 +24,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-so()
+howdy()
 {
 	source ~/.zshrc
 }
@@ -47,3 +47,5 @@ bindkey '^[[3~' delete-char
 
 # finally source the common shell rc
 [[ -f ~/.dotfiles/.myshrc ]] && source ~/.dotfiles/.myshrc
+
+

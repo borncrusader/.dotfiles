@@ -1,20 +1,4 @@
-#exec ck-launch-session startxfce4
-#exec ck-launch-session gnome-session-cinnamon
-#exec ck-launch-session gnome-session
-#exec ck-launch-session openbox-session
-#exec ck-launch-session startkde
-#exec openbox-session
-#exec awesome
-
-# startup apps
-#artha &
-#parcellite &
-#pnmixer &
-#nm-applet &
-#dropbox &
-#batti &
-
-#~/bin/dual_setup.sh auto
+# 08/27/2019 - this is not used for ska-arch
 
 # map capslock to control
 xmodmap ~/.xmodmap
@@ -22,5 +6,5 @@ xmodmap ~/.xmodmap
 # xkb maps
 setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
 
+# run display manager
 exec i3
-#exec enlightenment_start

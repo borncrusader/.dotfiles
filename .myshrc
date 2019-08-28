@@ -10,9 +10,8 @@ alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias rdesk='rdesktop -g 1366x730'
-alias ssc="ssh -Y sananthakrishnan@chief-sh101"
-#alias ssd="ssh -Y sananthakrishnan@chief-cs162"
-alias ssd="ssh -Y -o ServerAliveInterval=30 ska@rts39"
+alias ssc="ssh -Y ska@srinathkrishna.in"
+alias ssd="ssh -Y -p 3022 ska@sababthakri-wsm.internal.salesforce.com"
 alias ssv="ssh -Y srinath@192.168.56.4"
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
@@ -22,41 +21,32 @@ alias vi='vim -X'
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
     alias ctags='/usr/local/bin/ctags'
-    alias cdf='cd $SYSDUMP/fortnights'
-    alias cdm='cd $MONK'
-    alias cds='cd $SYSDUMP'
-    alias cdst='mkcd $SYSDUMP/$(date +%0y)/$(date +%0m)/'
-    #alias cdsw='mkcd $SYSDUMP/$(date -v1w +%0y)/$(date -v1w +%0m)/'
-    #alias cdsr='mkcd $SYSDUMP/research/$(date -v1w +%0y)/$(date -v1w +%0m)/'
-    alias cdsk='cd $SYSDUMP/knowledge'
-    alias cdsm='cd $SYSDUMP/music'
-    alias cdsw='mkcd $SYSDUMP/work/salesforce/$(date +%0y)/$(date +%0m)/'
-    alias ssa="ssh -Y sananthakrishnan@arch-sananth"
-    alias ssar="ssh -Y sananth5@arc.csc.ncsu.edu"
-    alias vid='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; vi $(date +%0d).md'
-    alias viw='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work.md $(date +%0d).md; vi $(date +%0d).md'
-    alias vir='cdsr; vi $(date +%0d).md'
-    #alias vidw='cdsw; vi week-of-$(date -v1w +%0d).md'
-    #alias vidm='cdst; vi month.md'
-    alias vido='cds; vi doing.md'
-    alias vidb='cds; vi backlog.md'
-    alias vidd='cds; vi done.md'
-    alias vism='cdsm; vi log.md'
-else
-    alias aroma="aroma.py -vqa"
-    alias cdw='cd $WRK'
-    alias cds='cd $SECTP'
-    alias cdb="cd $WRK/builds"
-    alias exportpip="export PIP_INDEX_URL=http://glassjaw.lab.nbttech.com:8080/simple"
-    alias lj="source ~/.virtualenvs/lumberjack/bin/activate; exportpip"
-    alias lj6="source ~/.virtualenvs/lj0.6/bin/activate; exportpip"
-    alias lj7="source ~/.virtualenvs/lj0.7/bin/activate; exportpip"
-    alias lj1="source ~/.virtualenvs/lj1/bin/activate; exportpip"
-    alias lj12="source /work/aparanjpe/workspace/ljcode/ljenv1.2/bin/activate; exportpip"
-    alias lj13="source /work/aparanjpe/workspace/ljcode/ljenv1.3/bin/activate; exportpip"
-    alias lj136="source ~/.virtualenvs/lj1.3.6/bin/activate; exportpip"
-    alias svn-changed='svn status | grep "^M\|^D\|^A"'
-    alias svn-up='svn up --ignore-externals'
+#    alias cdf='cd $SYSDUMP/journal/fortnights'
+#    alias cdm='cd $MONK'
+    #alias cds='cd $SYSDUMP'
+    #alias cdst='mkcd $SYSDUMP/journal/$(date +%0y)/$(date +%0m)/'
+    #alias cdsm='mkcd $SYSDUMP/media/$(date +%0y)/$(date +%0m)/'
+#    #alias cdsw='mkcd $SYSDUMP/journal/$(date -v1w +%0y)/$(date -v1w +%0m)/'
+#    #alias cdsr='mkcd $SYSDUMP/research/$(date -v1w +%0y)/$(date -v1w +%0m)/'
+#    alias cdsk='cd $SYSDUMP/knowledge'
+#    #alias cdsm='cd $SYSDUMP/music'
+#    alias cdsw='mkcd $SYSDUMP/work/salesforce/$(date +%0y)/$(date +%0m)/'
+#    alias cdsp='mkcd $SYSDUMP/projects/$(date +%0y)/$(date +%0m)/'
+#    alias vid='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; vi $(date +%0d).md'
+#    alias tod='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md'
+#    alias tom='cdsm; test ! -f $(date +%0d).md && touch $(date +%0d).md'
+#    alias viw='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md; vi $(date +%0d).md'
+#    alias tow='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md'
+#    alias todw='tow && tod'
+#    alias vipw='cdsp; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format .md $(date +%0d).md; vi $(date +%0d).md'
+#    alias vir='cdsr; vi $(date +%0d).md'
+#    #alias vidw='cdsw; vi week-of-$(date -v1w +%0d).md'
+#    #alias vidm='cdst; vi month.md'
+#    alias vido='cds; vi doing.md'
+#    alias vidb='cds; vi backlog.md'
+#    alias vidd='cds; vi done.md'
+#    alias vism='cdsm; vi log.md'
+    alias visesame='vi $HOME/Dropbox/docs/sesame.yaml'
 fi
 
 # os specific
@@ -71,11 +61,14 @@ if [[ $OS == 'MAC' ]]; then
     alias wumount="sudo umount -f /Volumes/work"
     alias vim="/usr/local/bin/vim"
 else
+    alias cdc='cd ~/code'
 	alias ls=' ls -F --color'
     alias vi="vim"
+    alias open="xdg-open"
 fi
 
 # session and os specific
+
 
 ## FUNCTIONS ##
 # common
@@ -103,9 +96,32 @@ xrpm()
     rpm2cpio $1 | cpio -idmv
 }
 
+grayscale()
+{
+    gs \
+ -sOutputFile=$2 \
+ -sDEVICE=pdfwrite \
+ -sColorConversionStrategy=Gray \
+ -dProcessColorModel=/DeviceGray \
+ -dCompatibilityLevel=1.4 \
+ -dNOPAUSE \
+ -dBATCH \
+ $1
+}
+
+dboxsanity()
+{
+    find $HOME/Dropbox/ -name '*conflicted*'
+    find $HOME/Dropbox/ -name '.*.swp'
+    find $HOME/Dropbox/sysdump -type f -not -name '*.md'
+}
+
 function = () {
     /home/ska/share/vim/vim74/macros/less.sh "$*"
 }
+
+[[ -f ~/.myshrc_sysdump ]] && source ~/.myshrc_sysdump
+
 
 # source unshared rc
 [[ -f ~/.myshrc_unshared ]] && source ~/.myshrc_unshared
@@ -122,5 +138,10 @@ unsetopt sharehistory
 
 export NVM_DIR=~/.nvm
 #source $(brew --prefix nvm)/nvm.sh
+
+# some golang specific aliases
+alias gotb="go test -bench ."
+
+alias sed="/usr/bin/sed"
 
 echo 'Howdy Srinath'
