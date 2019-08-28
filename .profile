@@ -6,7 +6,7 @@ if [[ $(uname) == 'Darwin' ]]; then
     export SESSION='HOME'
     export OS='MAC'
 elif [[ $(uname) == 'Linux' && $(whoami) == 'ska' ]]; then
-    export SESSION='WORK'
+    export SESSION='HOME'
     export OS='LINUX'
 elif [[ $(uname) == 'Linux' ]]; then
     export SESSION='HOME'

@@ -1,0 +1,10 @@
+[Unit]
+Description=Startup Service
+After=sys-kernel-config.mount
+
+[Service]
+Type=oneshot
+ExecStart=/home/ska/bin/startup
+
+[Install]
+WantedBy=multi-user.target

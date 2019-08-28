@@ -15,24 +15,26 @@ set $win Mod4
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 #font pango:monospace 8
-font pango:monaco 0
+font pango:Inconsolata 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+#font pango:DejaVu Sans Mono 12
 
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# Use pactl to adjust volume in PulseAudio.
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec lilyterm
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -97,12 +99,15 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 set $w1 "1: "
-set $w2 "2:  "
-set $w3 "3: "
-set $w4 "4: "
-set $w5 "5: "
-set $w6 "6: "
-set $w10 "10: "
+set $w2 "2: "
+set $w3 "3: "
+set $w4 "4: "
+set $w5 "5: "
+set $w6 "6: "
+set $w7 "7: "
+set $w8 "8"
+set $w9 "9"
+set $w10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace $w1
@@ -111,9 +116,9 @@ bindsym $mod+3 workspace $w3
 bindsym $mod+4 workspace $w4
 bindsym $mod+5 workspace $w5
 bindsym $mod+6 workspace $w6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
+bindsym $mod+7 workspace $w7
+bindsym $mod+8 workspace $w8
+bindsym $mod+9 workspace $w9
 bindsym $mod+0 workspace $w10
 
 # move focused container to workspace
@@ -123,29 +128,34 @@ bindsym $mod+Shift+3 move container to workspace $w3
 bindsym $mod+Shift+4 move container to workspace $w4
 bindsym $mod+Shift+5 move container to workspace $w5
 bindsym $mod+Shift+6 move container to workspace $w6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+7 move container to workspace $w7
+bindsym $mod+Shift+8 move container to workspace $w8
+bindsym $mod+Shift+9 move container to workspace $w9
 bindsym $mod+Shift+0 move container to workspace $w10
 
 # Window assignments
-assign [class="LilyTerm"] $w1
-assign [title=".* - Wunderlist"] $w2
-assign [class="Firefox"] $w3
-assign [class="chromium"] $w4
-assign [class="epiphany"] $w4
+assign [class="Alacritty"] $w1
+assign [class="jetbrains-idea-ce"] $w2
+assign [class="Code"] $w2
+assign [class="chromium"] $w3
+assign [class="Brave-browser"] $w4
 assign [class="Pcmanfm"] $w5
 assign [class="mplayer"] $w6
-assign [class="Spotify"] $w10 for_window [class="Spotify"] layout tabbed
+assign [class="feh"] $w6
+assign [class="Franz"] $w7
 
 # Shortcuts
-bindsym $win+s exec spotify
+bindsym $win+b exec brave
 bindsym $win+c exec chromium
-bindsym $win+f exec firefox
 
 # Other quirks
-for_window [class="LilyTerm"] border none
-for_window [class="chromium"] border none
+#for_window [class="Alacritty"] border none
+#for_window [class="Franz"] border none
+#for_window [class="Brave-browser"] border none
+#for_window [class="chromium"] border none
+#for_window [class="Pcmanfm"] border none
+#for_window [class="jetbrains-idea-ce"] border none
+default_border none
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -176,6 +186,7 @@ mode "resize" {
         # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
@@ -184,37 +195,41 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
-        font pango:monaco 10
+        #font pango:DejaVu Sans Mono 12
+        font pango:Inconsolata 14
 }
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec /home/ska/bin/brightnessctl +50
 bindsym XF86MonBrightnessDown exec /home/ska/bin/brightnessctl -50
 
-# Media player controls (for Thinkpad X230)
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-
-# Volume controls
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute
-bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
-bindsym XF86AudioMute exec amixer -q set Master toggle
+## Media player controls (for Thinkpad X230)
+#bindsym XF86AudioPlay exec playerctl play-pause
+#bindsym XF86AudioNext exec playerctl next
+#bindsym XF86AudioPrev exec playerctl previous
+#
+## Volume controls
+#bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute
+#bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
+#bindsym XF86AudioMute exec amixer -q set Master toggle
 
 # Lock screen
-bindsym XF86ScreenSaver exec i3lock
+bindsym $mod+shift+ctrl+l exec i3lock
 
 # Other hotkeys
 bindsym XF86WebCam exec pcmanfm
 bindsym Print exec /home/ska/bin/take_screenshot
 
 # Startup apps
-exec dropbox
-exec parcellite
-exec artha
+exec --no-startup-id parcellite
+exec --no-startup-id artha
+exec --no-startup-id nm-applet
+exec --no-startup-id dropbox
+exec --no-startup-id franz
+exec --no-startup-id pasystray
 
 # set keyboard map
 exec setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
 
 # Set wallpaper
-exec_always feh --bg-fill /home/ska/Pictures/wallpaper-1.jpg
+exec_always feh --bg-fill /home/ska/Pictures/wallpaper-5.jpg

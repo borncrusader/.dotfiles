@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+import time
+import subprocess
+
+def is_headphone_connected(fname):
+    mode = False
+    try:
+        with open(fname) as f:
+            lines = f.readlines()
+    except IOError as e:
+        print('cannot read file: {}'.format(fname))
+        return None
+
+    for line in lines:
+        if 'name="Speaker Playback Switch"' in line:
+            mode = True
+
+        if mode and 'Pin-ctls' in line:
+            if 'OUT' in line:
+                return False
+            else:
+                return True
+
+    return None
+
+last_status = None
+
+while True:
+    curr_status = is_headphone_connected('/proc/asound/card0/codec#0')
+
+    if curr_status != last_status and curr_status is True:
+        subprocess.run(['amixer', '-q', 'sset', 'Master', '50%'])
+    elif curr_status != last_status:
+        subprocess.run(['amixer', '-q', 'sset', 'Master', '100%'])
+
+    last_status = curr_status
+
+    time.sleep(1)
