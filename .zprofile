@@ -5,4 +5,5 @@
 # UPDATE : this isn't required as ~/.zshrc is sourced by default
 #[[ -f ~/.zshrc ]] && source ~/.zshrc
 
-export PATH="$HOME/.cargo/bin:$PATH"
+# update PATH to include personal bin if it exists
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"

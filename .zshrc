@@ -48,8 +48,4 @@ bindkey '^[[3~' delete-char
 # finally source the common shell rc
 [[ -f ~/.dotfiles/.myshrc ]] && source ~/.dotfiles/.myshrc
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Volumes/code/personal/kubelearn/google-cloud-sdk/path.zsh.inc' ]; then source '/Volumes/code/personal/kubelearn/google-cloud-sdk/path.zsh.inc'; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Volumes/code/personal/kubelearn/google-cloud-sdk/completion.zsh.inc' ]; then source '/Volumes/code/personal/kubelearn/google-cloud-sdk/completion.zsh.inc'; fi

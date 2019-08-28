@@ -16,36 +16,36 @@ alias ssv="ssh -Y srinath@192.168.56.4"
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
-alias vi='/usr/bin/vim -X'
+alias vi='vim -X'
 
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
     alias ctags='/usr/local/bin/ctags'
-    alias cdf='cd $SYSDUMP/fortnights'
-    alias cdm='cd $MONK'
-    alias cds='cd $SYSDUMP'
-    alias cdst='mkcd $SYSDUMP/$(date +%0y)/$(date +%0m)/'
-    #alias cdsw='mkcd $SYSDUMP/$(date -v1w +%0y)/$(date -v1w +%0m)/'
-    #alias cdsr='mkcd $SYSDUMP/research/$(date -v1w +%0y)/$(date -v1w +%0m)/'
-    alias cdsk='cd $SYSDUMP/knowledge'
-    alias cdsm='cd $SYSDUMP/music'
-    alias cdsw='mkcd $SYSDUMP/work/salesforce/$(date +%0y)/$(date +%0m)/'
-    alias cdsp='mkcd $SYSDUMP/projects/$(date +%0y)/$(date +%0m)/'
-    alias ssa="ssh -Y sananthakrishnan@arch-sananth"
-    alias ssar="ssh -Y sananth5@arc.csc.ncsu.edu"
-    alias vid='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; vi $(date +%0d).md'
-    alias tod='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; touch $(date +%0d).md'
-    alias viw='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md; vi $(date +%0d).md'
-    alias tow='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md; touch $(date +%0d).md'
-    alias todw='tow && tod'
-    alias vipw='cdsp; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format .md $(date +%0d).md; vi $(date +%0d).md'
-    alias vir='cdsr; vi $(date +%0d).md'
-    #alias vidw='cdsw; vi week-of-$(date -v1w +%0d).md'
-    #alias vidm='cdst; vi month.md'
-    alias vido='cds; vi doing.md'
-    alias vidb='cds; vi backlog.md'
-    alias vidd='cds; vi done.md'
-    alias vism='cdsm; vi log.md'
+#    alias cdf='cd $SYSDUMP/journal/fortnights'
+#    alias cdm='cd $MONK'
+    #alias cds='cd $SYSDUMP'
+    #alias cdst='mkcd $SYSDUMP/journal/$(date +%0y)/$(date +%0m)/'
+    #alias cdsm='mkcd $SYSDUMP/media/$(date +%0y)/$(date +%0m)/'
+#    #alias cdsw='mkcd $SYSDUMP/journal/$(date -v1w +%0y)/$(date -v1w +%0m)/'
+#    #alias cdsr='mkcd $SYSDUMP/research/$(date -v1w +%0y)/$(date -v1w +%0m)/'
+#    alias cdsk='cd $SYSDUMP/knowledge'
+#    #alias cdsm='cd $SYSDUMP/music'
+#    alias cdsw='mkcd $SYSDUMP/work/salesforce/$(date +%0y)/$(date +%0m)/'
+#    alias cdsp='mkcd $SYSDUMP/projects/$(date +%0y)/$(date +%0m)/'
+#    alias vid='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; vi $(date +%0d).md'
+#    alias tod='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md'
+#    alias tom='cdsm; test ! -f $(date +%0d).md && touch $(date +%0d).md'
+#    alias viw='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md; vi $(date +%0d).md'
+#    alias tow='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md'
+#    alias todw='tow && tod'
+#    alias vipw='cdsp; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format .md $(date +%0d).md; vi $(date +%0d).md'
+#    alias vir='cdsr; vi $(date +%0d).md'
+#    #alias vidw='cdsw; vi week-of-$(date -v1w +%0d).md'
+#    #alias vidm='cdst; vi month.md'
+#    alias vido='cds; vi doing.md'
+#    alias vidb='cds; vi backlog.md'
+#    alias vidd='cds; vi done.md'
+#    alias vism='cdsm; vi log.md'
     alias visesame='vi $HOME/Dropbox/docs/sesame.yaml'
 fi
 
@@ -68,6 +68,7 @@ else
 fi
 
 # session and os specific
+
 
 ## FUNCTIONS ##
 # common
@@ -119,6 +120,9 @@ function = () {
     /home/ska/share/vim/vim74/macros/less.sh "$*"
 }
 
+[[ -f ~/.myshrc_sysdump ]] && source ~/.myshrc_sysdump
+
+
 # source unshared rc
 [[ -f ~/.myshrc_unshared ]] && source ~/.myshrc_unshared
 
@@ -138,8 +142,6 @@ export NVM_DIR=~/.nvm
 # some golang specific aliases
 alias gotb="go test -bench ."
 
-if [ -d "/Users/sananthakrishnan/blt/tools/Darwin/jdk/openjdk1.8.0_172_x64" ]; then
-    export JAVA_HOME=/Users/sananthakrishnan/blt/tools/Darwin/jdk/openjdk1.8.0_172_x64
-fi
+alias sed="/usr/bin/sed"
 
 echo 'Howdy Srinath'

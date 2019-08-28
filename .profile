@@ -19,13 +19,6 @@ fi
 export EDITOR='vim'
 export TERM='xterm-256color'
 
-# TODO: path is special! if it already has the information, don't re-add it
-export PATH=$HOME/bin:$PATH:$GOPATH/bin:$HOME/.cargo/bin:/usr/local/opt/node@8/bin
-
-if [ -d "/Users/sananthakrishnan/anaconda3/bin" ]; then
-    export PATH="/Users/sananthakrishnan/anaconda3/bin:$PATH"
-fi
-
 # session specific
 if [[ $SESSION == 'HOME' ]]; then
     if [[ -d $HOME/Dropbox ]]; then
@@ -95,3 +88,19 @@ fi
 if [ ! -n "$(pgrep gpg-agent)" ]; then
     eval $(gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry)
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Volumes/code/personal/kubelearn/google-cloud-sdk/path.zsh.inc' ]; then source '/Volumes/code/personal/kubelearn/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Volumes/code/personal/kubelearn/google-cloud-sdk/completion.zsh.inc' ]; then source '/Volumes/code/personal/kubelearn/google-cloud-sdk/completion.zsh.inc'; fi
+
+# $PATH is special! if it already has the information, don't re-add it
+# Hence, only add to path here!
+[ -d $HOME/bin ] && PATH=$HOME/bin:$PATH
+[ -d $GOPATH/bin ] && PATH=$GOPATH/bin:$PATH
+[ -d $HOME/.cargo/bin ] && PATH=$HOME/.cargo/bin:$PATH
+
+export PATH=/usr/local/opt/node@8/bin:$PATH
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/Volumes/code/salesforce/PingDirectory/bin:$PATH"

@@ -7,10 +7,10 @@ alias primary 1
 # binding applications to tags
 bind 1:cmd focus 'iTerm2'
 bind 2:cmd focus 'IDEA'
-bind 3:cmd focus 'Firefox'
+bind 3:cmd focus 'Vivaldi'
 bind 4:cmd focus 'Finder'
 bind 5:cmd focus 'Google Chrome'
-bind 6:cmd focus 'Brave'
+bind 6:cmd focus 'Typora'
 #bind 7:cmd focus 'Postman - REST Client (Packaged app)'
 bind 7:cmd focus 'Safari'
 bind 8:cmd focus 'Spotify'
