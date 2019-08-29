@@ -1,0 +1,39 @@
+# vim: set ft=sh:
+
+export NGSYSDUMP=~/Dropbox/ngsysdump
+
+# common sysdump directory
+alias cds='cd $SYSDUMP'
+alias cdsn='cd $NGSYSDUMP'
+
+# for journaling
+alias cdsj='mkcd $SYSDUMP/journal/$(date +%0y)/$(date +%0m)'
+
+toj()
+{
+    cdsj
+    [[ ! -f $(date +%0d).md ]] && cp ../../sysdump-format.md $(date +%0d).md
+    _file=$PWD/$(date +%0d).md
+    open ${_file}
+}
+
+alias vij='cds && vi journal.md'
+
+# for media
+alias cdsm='mkcd $SYSDUMP/media/$(date +%0y)/$(date +%0m)'
+
+tom()
+{
+    cdsm && \
+    [[ ! -f $(date +%0d).md ]] && touch $(date +%0d).md
+    _file=$PWD/$(date +%0d).md
+    open ${_file}
+}
+
+alias vid='cds; vi media.md'
+
+# for work
+alias cdsw='cd $SYSDUMP/work/salesforce'
+
+alias typora='open -a typora'
+alias today='toj; tom'

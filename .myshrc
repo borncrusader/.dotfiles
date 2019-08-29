@@ -120,7 +120,7 @@ function = () {
     /home/ska/share/vim/vim74/macros/less.sh "$*"
 }
 
-[[ -f ~/.myshrc_sysdump ]] && source ~/.myshrc_sysdump
+[[ -f ~/.dotfiles/.myshrc_sysdump ]] && source ~/.dotfiles/.myshrc_sysdump
 
 
 # source unshared rc
