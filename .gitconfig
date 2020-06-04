@@ -12,6 +12,7 @@
     tool = vimdiff
 [diff]
     tool = vimdiff
+    noprefix = true
 [difftool]
     prompt = false
 [alias]
@@ -33,7 +34,7 @@
     sha=show --abbrev-commit
     ablog = log --abbrev-commit
     lf = log --name-only
-    br = --no-pager branch
+    br = !"git --no-pager branch"
     co = checkout
     d = difftool
     drev = diff --no-prefix --full-index
@@ -46,3 +47,4 @@
     com = commit
     coma = commit --amend
     comad = !"git commit --amend --date=\"$(date -R)\""
+    cleanup = !"git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"

@@ -1,58 +1,51 @@
-# preliminary initiation
-# there are two types - sessions and OS
-# mac always is HOME
-# linux can either be HOME or WORK
-if [[ $(uname) == 'Darwin' ]]; then
-    export SESSION='HOME'
-    export OS='MAC'
-elif [[ $(uname) == 'Linux' && $(whoami) == 'ska' ]]; then
-    export SESSION='HOME'
-    export OS='LINUX'
-elif [[ $(uname) == 'Linux' ]]; then
-    export SESSION='HOME'
-    export OS='LINUX'
+#!/bin/sh
+#################################################
+# Some general rules
+# 1. Add only exports and PATHs to this file
+# 2. Don't run commands like brew here
+#################################################
+
+#################################################
+# Determine OS
+#################################################
+if [ "$(uname)" = "Darwin" ]; then
+    export OS="MAC"
+elif [ "$(uname)" = "Linux" ]; then
+    export OS="LINUX"
 else
-    echo "ALARM! New system found! $(uname) and $(whoami)"
+    echo "ALARM! New system found! uname: $(uname) and whoami: $(whoami)"
 fi
 
-# common
+#################################################
+# Common exports
+#################################################
 export EDITOR='vim'
 export TERM='xterm-256color'
+export SYSDUMP="$HOME/sysdump"
+export GOPATH="$HOME/go"
+export NVM_DIR="$HOME/.nvm"
 
-# session specific
-if [[ $SESSION == 'HOME' ]]; then
-    if [[ -d $HOME/Dropbox ]]; then
-        export MONK="$HOME/Dropbox/monk"
-        export SYSDUMP="$HOME/Dropbox/sysdump"
-    fi
-else
-    export WRK=/local/ska
-fi
-
-# os specific
-if [[ $OS == 'MAC' ]]; then
-	# proper colors on Mac
+#################################################
+# OS Specific exports
+#################################################
+if [ "$OS" = "MAC" ]; then
+	# proper colors on mac
 	export CLICOLOR=1
     export LSCOLORS=exfxcxdxbxegedabagacad
-    #export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD # from github
-
-    export PATH=$HOME/bin/mac:$PATH
-
-    export CODE=/Volumes/code
-    export HACKER="/Volumes/code/hacker"
-    export GOPATH=$HACKER/sandbox/go
-    # XQuartz on Mavericks sometimes needs this!
-    export DISPLAY=":0"
 
     # For GPG signing, else throws an inappropriate ioctl error
     GPG_TTY=$(tty)
     export GPG_TTY
+
+    export CODE=/Volumes/code
 else
     export CODE=$HOME/code
 fi
 
-# session and os specific
-function start_ssh_agent()
+#################################################
+# SSH/GPG Agent Handling
+#################################################
+start_ssh_agent()
 {
     if [[ `ps -ef | grep ssh-agent | wc -l` -gt 1 ]]; then
         echo "ssh-agent already running"
@@ -74,33 +67,48 @@ function start_ssh_agent()
 }
 
 # http://robinwinslow.co.uk/2012/07/20/tmux-and-ssh-auto-login-with-ssh-agent-finally/
-if [[ -z $TMUX && ! -z $SSH_TTY ]]; then
-    # we're not in a tmux session and logged in via SSH
-
-    start_ssh_agent
-fi
+#if [ -z "$TMUX" ] && [ ! -z "$SSH_TTY" ]; then
+#    # we're not in a tmux session and logged in via SSH
+#
+#    #start_ssh_agent
+#fi
 
 # do this for all shells
-if [[ -z $SSH_AUTH_SOCK ]]; then
-    export SSH_AUTH_SOCK=~/.ssh/.auth_socket
-fi
+#if [ -z "$SSH_AUTH_SOCK" ]; then
+#    export SSH_AUTH_SOCK=~/.ssh/.auth_socket
+#fi
 
-if [ ! -n "$(pgrep gpg-agent)" ]; then
-    eval $(gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry)
-fi
+#if [ -z "$(pgrep gpg-agent)" ]; then
+#    eval "$(gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry)"
+#fi
+#################################################
+# Some helpful functions
+#################################################
+_add_to_path() {
+    [ -d "$1" ] && PATH="$1":$PATH
+}
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Volumes/code/personal/kubelearn/google-cloud-sdk/path.zsh.inc' ]; then source '/Volumes/code/personal/kubelearn/google-cloud-sdk/path.zsh.inc'; fi
+_source_if_exists() {
+    # shellcheck disable=SC1090
+    [ -f "$1" ] && . "$1"
+}
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Volumes/code/personal/kubelearn/google-cloud-sdk/completion.zsh.inc' ]; then source '/Volumes/code/personal/kubelearn/google-cloud-sdk/completion.zsh.inc'; fi
+#################################################
+# Path Manipulation
+#################################################
+_add_to_path "$HOME/bin"
+_add_to_path "$GOPATH/bin"
+_add_to_path "$HOME/.cargo/bin"
+_add_to_path "/usr/local/opt/node@8/bin"
+_add_to_path "/usr/local/opt/gnu-sed/libexec/gnubin"
+_add_to_path "$HOME/.poetry/bin"
+_add_to_path "$HOME/bin/mac"
 
-# $PATH is special! if it already has the information, don't re-add it
-# Hence, only add to path here!
-[ -d $HOME/bin ] && PATH=$HOME/bin:$PATH
-[ -d $GOPATH/bin ] && PATH=$GOPATH/bin:$PATH
-[ -d $HOME/.cargo/bin ] && PATH=$HOME/.cargo/bin:$PATH
+# asdf
+_source_if_exists "/usr/local/opt/asdf/asdf.sh"
 
-export PATH=/usr/local/opt/node@8/bin:$PATH
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-export PATH="/Volumes/code/salesforce/PingDirectory/bin:$PATH"
+# broot
+_source_if_exists "/Users/sananthakrishnan/Library/Preferences/org.dystroy.broot/launcher/bash/br"
+
+# package-not-found details
+_source_if_exists "/usr/share/doc/pkgfile/command-not-found.zsh"

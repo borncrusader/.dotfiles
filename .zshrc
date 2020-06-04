@@ -1,51 +1,23 @@
-# vim: set ft=sh:
+#!/bin/bash
+#################################################
+# Zsh specific rc stuff go here (bash shebang to keep shellcheck happy)
+# 1. You might want to add to .myshrc and not here
+#################################################
 
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Lines configured by zsh-newuser-install
-export HISTFILE=~/.histfile
-export HISTSIZE=25000
-export SAVEHIST=10000
-export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd.."
-
-setopt histignoredups
-setopt histignorespace
-setopt incappendhistory
-setopt autocd
-setopt extendedglob
-bindkey -e
-# End of lines configured by zsh-newuser-install
-
-# The following lines were added by compinstall
-zstyle :compinstall filename "$HOME/.zshrc"
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
 howdy()
 {
-	source ~/.zshrc
+    # shellcheck disable=SC1090
+	source "$HOME/.zshrc"
 }
 
-autoload -U colors && colors
+# shellcheck disable=SC2034,1087,2154
 prompt="%{$fg[green]%}%m:%3~%# %{$reset_color%}"
 
-# source package-not-found details
-[[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
-
-# some keyboard shortcuts
-bindkey ';10D' beginning-of-line
-bindkey ';10C' end-of-line
-bindkey ';5D' backward-word
-bindkey ';5C' forward-word
-bindkey '^[[3~' delete-char
-
 # source ohmyzsh
-[[ -f ~/.dotfiles/.ohmyzshrc ]] && source ~/.dotfiles/.ohmyzshrc
+_source_if_exists "$HOME/.dotfiles/.ohmyzshrc"
 
 # finally source the common shell rc
-[[ -f ~/.dotfiles/.myshrc ]] && source ~/.dotfiles/.myshrc
-
-
+_source_if_exists "$HOME/.dotfiles/.myshrc"

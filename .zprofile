@@ -1,9 +1,41 @@
-# all *profile work done here
-[[ -f ~/.profile ]] && source ~/.profile
+#!/bin/sh
+#################################################
+# Some general rules
+# 1. Only add bash specific quirks here
+# 2. $HOME/.zshrc is sourced by default
+#################################################
 
-# source the zshrc for login shells too
-# UPDATE : this isn't required as ~/.zshrc is sourced by default
-#[[ -f ~/.zshrc ]] && source ~/.zshrc
+# shellcheck disable=SC1090
+[ -f "$HOME/.profile" ] && . "$HOME/.profile"
 
-# update PATH to include personal bin if it exists
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+# Lines configured by zsh-newuser-install
+export HISTFILE=~/.histfile
+export HISTSIZE=25000
+export SAVEHIST=10000
+export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd.."
+
+setopt histignoredups
+setopt histignorespace
+setopt incappendhistory
+setopt autocd
+setopt extendedglob
+bindkey -e
+# End of lines configured by zsh-newuser-install
+
+# The following lines were added by compinstall
+zstyle :compinstall filename "$HOME/.zshrc"
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+autoload -U colors && colors
+
+# some keyboard shortcuts
+bindkey ';10D' beginning-of-line
+bindkey ';10C' end-of-line
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey ';5D' backward-word
+bindkey ';5C' forward-word
+bindkey '^[[3~' delete-char

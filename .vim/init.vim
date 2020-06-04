@@ -1,1 +1,0 @@
-/Users/ska/.vimrc

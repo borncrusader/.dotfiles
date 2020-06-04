@@ -1,8 +1,12 @@
-# vim: set ft=sh:
+#!/bin/sh
+#################################################
+# This is the main rc file where everything is
+#################################################
 
-## ALIASES ##
+#################################################
+# Aliases
+#################################################
 # common
-alias cdt='cd $TMPDIR'
 alias chkconn='ping 8.8.8.8'
 alias dush=' du -sh'
 alias leaky='valgrind --leak-check=full --track-origins=yes'
@@ -10,138 +14,109 @@ alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias rdesk='rdesktop -g 1366x730'
-alias ssc="ssh -Y ska@srinathkrishna.in"
-alias ssd="ssh -Y -p 3022 ska@sababthakri-wsm.internal.salesforce.com"
-alias ssv="ssh -Y srinath@192.168.56.4"
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
 alias vi='vim -X'
+alias gotb="go test -bench ."
 
-# session specific
-if [[ $SESSION == 'HOME' ]]; then
-    alias ctags='/usr/local/bin/ctags'
-#    alias cdf='cd $SYSDUMP/journal/fortnights'
-#    alias cdm='cd $MONK'
-    #alias cds='cd $SYSDUMP'
-    #alias cdst='mkcd $SYSDUMP/journal/$(date +%0y)/$(date +%0m)/'
-    #alias cdsm='mkcd $SYSDUMP/media/$(date +%0y)/$(date +%0m)/'
-#    #alias cdsw='mkcd $SYSDUMP/journal/$(date -v1w +%0y)/$(date -v1w +%0m)/'
-#    #alias cdsr='mkcd $SYSDUMP/research/$(date -v1w +%0y)/$(date -v1w +%0m)/'
-#    alias cdsk='cd $SYSDUMP/knowledge'
-#    #alias cdsm='cd $SYSDUMP/music'
-#    alias cdsw='mkcd $SYSDUMP/work/salesforce/$(date +%0y)/$(date +%0m)/'
-#    alias cdsp='mkcd $SYSDUMP/projects/$(date +%0y)/$(date +%0m)/'
-#    alias vid='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md; vi $(date +%0d).md'
-#    alias tod='cdst; test ! -f $(date +%0d).md && cp ../../sysdump-format.md $(date +%0d).md'
-#    alias tom='cdsm; test ! -f $(date +%0d).md && touch $(date +%0d).md'
-#    alias viw='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md; vi $(date +%0d).md'
-#    alias tow='cdsw; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format.md $(date +%0d).md'
-#    alias todw='tow && tod'
-#    alias vipw='cdsp; test ! -f $(date +%0d).md && cp $SYSDUMP/sample-work-format .md $(date +%0d).md; vi $(date +%0d).md'
-#    alias vir='cdsr; vi $(date +%0d).md'
-#    #alias vidw='cdsw; vi week-of-$(date -v1w +%0d).md'
-#    #alias vidm='cdst; vi month.md'
-#    alias vido='cds; vi doing.md'
-#    alias vidb='cds; vi backlog.md'
-#    alias vidd='cds; vi done.md'
-#    alias vism='cdsm; vi log.md'
-    alias visesame='vi $HOME/Dropbox/docs/sesame.yaml'
-fi
+[ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
+[ -f /usr/bin/sed ] && alias sed='/usr/bin/sed'
+
+# shellcheck disable=SC2139
+[ -f "$HOME/Dropbox/docs/sesame.yaml" ] && \
+    alias visesame="vi $HOME/Dropbox/docs/sesame.yaml"
+
+# shellcheck disable=SC2139
+[ -d "$CODE" ] && alias cdc="cd $CODE"
+# shellcheck disable=SC2139
+[ -d "$GOPATH" ] && alias cdg="cd $GOPATH"
 
 # os specific
-if [[ $OS == 'MAC' ]]; then
+if [ "$OS" = 'MAC' ]; then
 	alias ls=' ls -GFh'
-    alias amount="sudo hdiutil attach ~/code/android.dmg.sparseimage -mountpoint /Volumes/android"
-    alias cmount="sudo hdiutil attach ~/code/code.dmg.sparseimage -mountpoint /Volumes/code"
-    alias cdc='cd $CODE'
-    alias cdh='cd $HACKER'
-    alias cdg='cd $GOPATH'
-    alias wmount="sudo hdiutil attach ~/code/work.dmg.sparseimage -mountpoint /Volumes/work"
     alias wumount="sudo umount -f /Volumes/work"
     alias vim="/usr/local/bin/vim"
 else
-    alias cdc='cd ~/code'
 	alias ls=' ls -F --color'
-    alias vi="vim"
     alias open="xdg-open"
 fi
 
-# session and os specific
-
-
-## FUNCTIONS ##
-# common
-mkcd()
+#################################################
+# Functions
+#################################################
+mount_all()
 {
-    if [[ ! -d $1 ]]; then
-        mkdir -p $1
+    if [ "$OS" = 'MAC' ]; then
+        if [ -f "$HOME/code/code.dmg.sparseimage" ]; then
+            sudo hdiutil attach "$HOME/code/code.dmg.sparseimage" \
+                -mountpoint "$CODE"
+        fi
+        if [ -f "$HOME/code/personal.dmg.sparseimage" ]; then
+            sudo hdiutil attach "$HOME/code/personal.dmg.sparseimage" \
+                -mountpoint "/Volumes/personal"
+        fi
+        if [ -f "$HOME/code/work.dmg.sparseimage" ]; then
+            sudo hdiutil attach "$HOME/code/work.dmg.sparseimage" \
+                -mountpoint "/Volumes/work"
+        fi
     fi
-
-    cd $1
 }
 
-insgen()
+umount_all()
 {
-    if [[ -z $1 ]]; then
-        echo $0 [box]
-        return
+    sudo umount -f /Volumes/code
+    sudo umount -f /Volumes/personal
+    sudo umount -f /Volumes/work
+}
+
+mkcd()
+{
+    if [ ! -d "$1" ]; then
+        mkdir -p "$1"
     fi
 
-    rm -rf $WRK/ljtmp; mkdir -p $WRK/ljtmp; pip install --no-deps --target $WRK/ljtmp .; rsync -e ssh -vltrSzD $WRK/ljtmp/ root@$1:/usr/lib/python2.7/site-packages
+    cd "$1" || return
 }
 
 xrpm()
 {
-    rpm2cpio $1 | cpio -idmv
+    rpm2cpio "$1" | cpio -idmv
 }
 
 grayscale()
 {
     gs \
- -sOutputFile=$2 \
- -sDEVICE=pdfwrite \
- -sColorConversionStrategy=Gray \
- -dProcessColorModel=/DeviceGray \
- -dCompatibilityLevel=1.4 \
- -dNOPAUSE \
- -dBATCH \
- $1
+        -sOutputFile="$2" \
+        -sDEVICE=pdfwrite \
+        -sColorConversionStrategy=Gray \
+        -dProcessColorModel=/DeviceGray \
+        -dCompatibilityLevel=1.4 \
+        -dNOPAUSE \
+        -dBATCH \
+        "$1"
 }
 
 dboxsanity()
 {
-    find $HOME/Dropbox/ -name '*conflicted*'
-    find $HOME/Dropbox/ -name '.*.swp'
-    find $HOME/Dropbox/sysdump -type f -not -name '*.md'
+    find "$HOME/Dropbox/" -name '*conflicted*'
+    find "$HOME/Dropbox/" -name '.*.swp'
+    find "$HOME/Dropbox/sysdump" -type f -not -name '*.md'
 }
 
-function = () {
-    /home/ska/share/vim/vim74/macros/less.sh "$*"
-}
+#function = () {
+#    /home/ska/share/vim/vim74/macros/less.sh "$*"
+#}
 
-[[ -f ~/.dotfiles/.myshrc_sysdump ]] && source ~/.dotfiles/.myshrc_sysdump
-
-
-# source unshared rc
-[[ -f ~/.myshrc_unshared ]] && source ~/.myshrc_unshared
-
-# source work rc
-[[ -f ~/.myshrc_work ]] && source ~/.myshrc_work
+_source_if_exists "$HOME/.dotfiles/.myshrc_sysdump"
+_source_if_exists "$HOME/.dotfiles/.myshrc_unshared"
+_source_if_exists "$HOME/.myshrc_work"
 
 # this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
 # restore it back here
-if [[ $OS == 'MAC' ]]; then
+if [ "$OS" = 'MAC' ]; then
     export LSCOLORS=exfxcxdxbxegedabagacad
 fi
 unsetopt sharehistory
-
-export NVM_DIR=~/.nvm
-#source $(brew --prefix nvm)/nvm.sh
-
-# some golang specific aliases
-alias gotb="go test -bench ."
-
-alias sed="/usr/bin/sed"
 
 echo 'Howdy Srinath'
