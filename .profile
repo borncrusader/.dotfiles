@@ -27,6 +27,7 @@ export TERM='xterm-256color'
 export SYSDUMP="$HOME/sysdump"
 export GOPATH="$HOME/go"
 export NVM_DIR="$HOME/.nvm"
+export SSH_AUTH_SOCK="$HOME/.ssh/.auth_socket"
 
 #################################################
 # OS Specific exports
@@ -44,46 +45,6 @@ if [ "$OS" = "MAC" ]; then
 else
     export CODE=$HOME/code
 fi
-
-#################################################
-# SSH/GPG Agent Handling
-#################################################
-start_ssh_agent()
-{
-    if [[ `ps -ef | grep ssh-agent | wc -l` -gt 1 ]]; then
-        echo "ssh-agent already running"
-        return
-    fi
-
-    if [[ -z $SSH_AUTH_SOCK ]]; then
-        export SSH_AUTH_SOCK=~/.ssh/.auth_socket
-    fi
-
-    # if socket is available create the new auth session
-    if [[ ! -S $SSH_AUTH_SOCK ]]; then
-        echo "starting ssh-agent"
-        `ssh-agent -a $SSH_AUTH_SOCK` > /dev/null 2>&1
-
-        # Add all default keys to ssh auth
-        ssh-add 2> /dev/null
-    fi
-}
-
-# http://robinwinslow.co.uk/2012/07/20/tmux-and-ssh-auto-login-with-ssh-agent-finally/
-#if [ -z "$TMUX" ] && [ ! -z "$SSH_TTY" ]; then
-#    # we're not in a tmux session and logged in via SSH
-#
-#    #start_ssh_agent
-#fi
-
-# do this for all shells
-#if [ -z "$SSH_AUTH_SOCK" ]; then
-#    export SSH_AUTH_SOCK=~/.ssh/.auth_socket
-#fi
-
-#if [ -z "$(pgrep gpg-agent)" ]; then
-#    eval "$(gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry)"
-#fi
 
 #################################################
 # Some helpful functions

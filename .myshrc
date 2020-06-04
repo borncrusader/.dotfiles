@@ -119,9 +119,42 @@ shdbg()
     echo "$_sp"
 }
 
-#function = () {
-#    /home/ska/share/vim/vim74/macros/less.sh "$*"
-#}
+#################################################
+# SSH/GPG Agent Handling
+#################################################
+start_ssh_agent()
+{
+    if pgrep ssh-agent > /dev/null;  then
+        return
+    fi
+
+    if [ -S "$SSH_AUTH_SOCK" ]; then
+        echo "removing stale socket: $SSH_AUTH_SOCK"
+        rm "$SSH_AUTH_SOCK"
+    fi
+
+    # if socket is available create the new auth session
+    if [ ! -S "$SSH_AUTH_SOCK" ]; then
+        echo "starting ssh-agent"
+        ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null 2>&1
+
+        # Add all default keys to ssh auth
+        ssh-add 2> /dev/null
+    fi
+}
+
+start_gpg_agent()
+{
+    if pgrep gpg-agent > /dev/null; then
+        return
+    fi
+
+    if [ -f /usr/local/bin/pinentry ]; then
+        gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry
+    else
+        gpg-agent --daemon
+    fi
+}
 
 _source_if_exists "$HOME/.myshrc_work"
 

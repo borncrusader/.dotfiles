@@ -5,7 +5,7 @@
 create_link()
 {
 	# usage: create_link original link
-	if [[ -e $2 ]]; then
+	if [ -e "$2" ]; then
 		echo "backing up $2 as $2.back"
 		mv "$2" "$2.back"
 	fi
@@ -28,10 +28,11 @@ create_link .dotfiles/.tmux.conf ~/.tmux.conf
 create_link .dotfiles/.vimrc ~/.vimrc
 
 ## Linux specific
-if [[ `uname` == 'Linux' ]]; then
+if [ "$(uname)" = 'Linux' ]; then
 	#create_link .dotfiles/.config/awesome/ ~/.config/awesome
 	create_link .dotfiles/.config/i3 ~/.config/i3
 	create_link .dotfiles/.config/lilyterm ~/.config/lilyterm
+	create_link .dotfiles/.config/alacritty ~/.config/alacritty
 	create_link .dotfiles/.xinitrc ~/.xinitrc
 	create_link .dotfiles/.xmodmap ~/.xmodmap
 	create_link .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
@@ -39,6 +40,6 @@ if [[ `uname` == 'Linux' ]]; then
 fi
 
 ## Mac specific
-if [[ `uname` == 'Darwin' ]]; then
+if [ "$(uname)" = 'Darwin' ]; then
 	create_link .dotfiles/.slate ~/.slate
 fi
