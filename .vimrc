@@ -58,8 +58,8 @@ autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwi
 autocmd FileType html setlocal textwidth=0 shiftwidth=2 softtabstop=2 tabstop=2
 
 " set ctags related variables for function display in status bar
-let g:ctags_statusline=1
-let generate_tags=1
+"let g:ctags_statusline=1
+"let generate_tags=1
 
 " Ultisnips directory for extra snippets
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]

@@ -119,4 +119,11 @@ if [ "$OS" = 'MAC' ]; then
 fi
 unsetopt sharehistory
 
+refresh() {
+    if [[ $OS == "LINUX" ]]; then
+        sudo pacman -Syyu
+        yay -Syyu
+    fi
+}
+
 echo 'Howdy Srinath'
