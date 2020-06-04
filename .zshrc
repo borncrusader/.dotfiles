@@ -10,9 +10,9 @@ _sp=${_sp}_zr
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# this is required for certain envs where .profile is not sourced
+# the .profile is only sourced for login shells; but let's source it
 # shellcheck disable=SC1090
-[[ "$_sp" != *_p_* ]] && . "$HOME/.profile"
+[[ "$_sp" != *_z_* ]] && . "$HOME/.zprofile"
 
 howdy()
 {

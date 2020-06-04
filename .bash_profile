@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #################################################
 # Some general rules
 # 1. Only add bash specific quirks here
@@ -8,10 +8,11 @@
 _sp=${_sp}_b
 
 # shellcheck disable=SC1090
-[ -f "$HOME/.profile" ] && . "$HOME/.profile"
+[[ "$_sp" != *_p_* ]] && . "$HOME/.profile"
 
 # source the bashrc for login shells too
-_source_if_exists "$HOME/.bashrc"
+# shellcheck disable=SC1090
+[[ "$_sp" != *_br_* ]] && . "$HOME/.bashrc"
 
 # Finally set the prompt variable
 export PS1='\[\e[0;32m\][\u@\h \W]\$\[\e[0m\] '

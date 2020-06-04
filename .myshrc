@@ -130,7 +130,6 @@ _source_if_exists "$HOME/.myshrc_work"
 if [ "$OS" = 'MAC' ]; then
     export LSCOLORS=exfxcxdxbxegedabagacad
 fi
-unsetopt sharehistory
 
 _sp=${_sp}_MR
 

@@ -2,7 +2,7 @@
 #################################################
 # Some general rules
 # 1. Only add bash specific quirks here
-# 2. $HOME/.zshrc is sourced by default
+# 2. $HOME/.zshrc is sourced for login shells too
 # 3. Make sure _sp is updated appropriately
 #################################################
 
@@ -20,6 +20,7 @@ export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd.."
 setopt histignoredups
 setopt histignorespace
 setopt incappendhistory
+setopt sharehistory
 setopt autocd
 setopt extendedglob
 bindkey -e
