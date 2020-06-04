@@ -3,6 +3,8 @@
 # This is the main rc file where everything is
 #################################################
 
+_sp=${_sp}_mr
+
 #################################################
 # Aliases
 #################################################
@@ -104,6 +106,19 @@ dboxsanity()
     find "$HOME/Dropbox/sysdump" -type f -not -name '*.md'
 }
 
+refresh()
+{
+    if [ "$OS" = "LINUX" ]; then
+        sudo pacman -Syyu
+        yay -Syyu
+    fi
+}
+
+shdbg()
+{
+    echo "$_sp"
+}
+
 #function = () {
 #    /home/ska/share/vim/vim74/macros/less.sh "$*"
 #}
@@ -117,11 +132,6 @@ if [ "$OS" = 'MAC' ]; then
 fi
 unsetopt sharehistory
 
-refresh() {
-    if [[ $OS == "LINUX" ]]; then
-        sudo pacman -Syyu
-        yay -Syyu
-    fi
-}
+_sp=${_sp}_MR
 
 echo 'Howdy Srinath'

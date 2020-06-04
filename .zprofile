@@ -3,7 +3,10 @@
 # Some general rules
 # 1. Only add bash specific quirks here
 # 2. $HOME/.zshrc is sourced by default
+# 3. Make sure _sp is updated appropriately
 #################################################
+
+_sp=${_sp}_z
 
 # shellcheck disable=SC1090
 [ -f "$HOME/.profile" ] && . "$HOME/.profile"
@@ -39,3 +42,14 @@ bindkey "^[[1;5D" backward-word
 bindkey ';5D' backward-word
 bindkey ';5C' forward-word
 bindkey '^[[3~' delete-char
+
+_add_to_path() {
+    [ -d "$1" ] && PATH="$1":$PATH
+}
+
+_source_if_exists() {
+    # shellcheck disable=SC1090
+    [ -f "$1" ] && . "$1"
+}
+
+_sp=${_sp}_Z

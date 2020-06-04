@@ -3,7 +3,10 @@
 # Some general rules
 # 1. Add only exports and PATHs to this file
 # 2. Don't run commands like brew here
+# 3. Make sure _sp is updated appropriately
 #################################################
+
+_sp=${_sp}_p
 
 #################################################
 # Determine OS
@@ -81,6 +84,7 @@ start_ssh_agent()
 #if [ -z "$(pgrep gpg-agent)" ]; then
 #    eval "$(gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry)"
 #fi
+
 #################################################
 # Some helpful functions
 #################################################
@@ -112,3 +116,5 @@ _source_if_exists "/Users/sananthakrishnan/Library/Preferences/org.dystroy.broot
 
 # package-not-found details
 _source_if_exists "/usr/share/doc/pkgfile/command-not-found.zsh"
+
+_sp=${_sp}_P

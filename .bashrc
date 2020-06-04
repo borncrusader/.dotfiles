@@ -2,7 +2,10 @@
 #################################################
 # Bash specific rc stuff go here
 # 1. You might want to add to .myshrc and not here
+# 2. Make sure _sp is updated appropriately
 #################################################
+
+_sp=${_sp}_br
 
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -21,3 +24,5 @@ shopt -s histappend
 
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
+
+_sp=${_sp}_BR
