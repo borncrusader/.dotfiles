@@ -3,12 +3,20 @@
 cleanup() {
     git submodule foreach git checkout -- .
     git submodule foreach git restore --staged .
+    git submodule foreach git clean -fx
 }
 
 latest() {
-    cleanup
     git submodule foreach git checkout master
     git submodule foreach git pull
+}
+
+add() {
+    grep 'path = ' .gitmodules | cut -d'=' -f2 | xargs | git add
+}
+
+febreze() {
+    cleanup && latest && add && echo "✨ So refreshing! ✨"
 }
 
 eval "$1"
