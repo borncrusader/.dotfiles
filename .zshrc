@@ -24,7 +24,23 @@ howdy()
 prompt="%{$fg[green]%}%m:%3~%# %{$reset_color%}"
 
 # source ohmyzsh
-_source_if_exists "$HOME/.dotfiles/.ohmyzshrc"
+#_source_if_exists "$HOME/.dotfiles/.ohmyzshrc"
+
+if [ -f $HOME/.dotfiles/antigen.zsh ]; then
+    source $HOME/.dotfiles/antigen.zsh
+
+    antigen use oh-my-zsh
+
+    antigen bundle git
+    antigen bundle sudo
+    antigen bundle zsh-autosuggestions
+    antigen bundle command-not-found
+    antigen bundle zsh-users/zsh-autosuggestions
+    antigen bundle zsh-users/zsh-syntax-highlighting
+
+    antigen theme cypher
+    antigen apply
+fi
 
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
