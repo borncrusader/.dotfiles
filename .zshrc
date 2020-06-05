@@ -33,6 +33,8 @@ if [ -f $HOME/.dotfiles/antigen.zsh ]; then
 
     antigen bundle git
     antigen bundle sudo
+    antigen bundle ruby
+    antigen bundle rails
     antigen bundle zsh-autosuggestions
     antigen bundle command-not-found
     antigen bundle zsh-users/zsh-autosuggestions
