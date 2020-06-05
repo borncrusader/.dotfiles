@@ -27,6 +27,7 @@ export TERM='xterm-256color'
 export SYSDUMP="$HOME/sysdump"
 export GOPATH_DEFAULT="$HOME/go"
 export GOPATH="$GOPATH_DEFAULT"
+export GOBIN="$GOPATH/bin"
 export NVM_DIR="$HOME/.nvm"
 export SSH_AUTH_SOCK="$HOME/.ssh/.auth_socket"
 

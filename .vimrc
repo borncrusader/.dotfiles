@@ -116,3 +116,5 @@ function TabDisplay()
         let g:TabDisplayVal=1
     endif
 endfunction
+
+autocmd FileType json syntax match Comment +\/\/.\+$+

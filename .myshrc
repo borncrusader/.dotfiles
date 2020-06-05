@@ -121,11 +121,14 @@ ws()
 {
     if [ "$1" = 'work' ] || [ "$1" = 'w' ]; then
         export GOPATH=$GOPATH_WORK
+        export GOBIN=$GOPATH/bin
     else
         export GOPATH=$GOPATH_DEFAULT
+        export GOBIN=$GOPATH/bin
     fi
 
     echo "GOPATH => $GOPATH"
+    echo "GOBIN => $GOBIN"
 }
 
 #################################################
