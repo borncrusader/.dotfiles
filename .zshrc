@@ -50,3 +50,4 @@ fi
 _source_if_exists "$HOME/.dotfiles/.myshrc"
 
 _sp=${_sp}_ZR
+if [ -e /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

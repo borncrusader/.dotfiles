@@ -18,3 +18,4 @@ _sp=${_sp}_b
 export PS1='\[\e[0;32m\][\u@\h \W]\$\[\e[0m\] '
 
 _sp=${_sp}_B
+if [ -e /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

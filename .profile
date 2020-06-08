@@ -81,4 +81,7 @@ _source_if_exists "/Users/sananthakrishnan/Library/Preferences/org.dystroy.broot
 # package-not-found details
 _source_if_exists "/usr/share/doc/pkgfile/command-not-found.zsh"
 
+# nix
+_source_if_exists "/Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh"
+
 _sp=${_sp}_P
