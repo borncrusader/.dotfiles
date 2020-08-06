@@ -157,7 +157,7 @@ start_ssh_agent()
         ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null 2>&1
 
         # Add all default keys to ssh auth
-        ssh-add 2> /dev/null
+        ssh-add ~/.ssh/*id_rsa.pub 2> /dev/null
     fi
 }
 
