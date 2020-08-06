@@ -42,6 +42,7 @@ if [ "$OS" = 'MAC' ]; then
 else
 	alias ls=' ls -F --color'
     alias open="xdg-open"
+    alias boot_to_windows="sudo grub-reboot 'Microsoft Windows 10' && sudo reboot"
 fi
 
 #################################################
@@ -111,6 +112,11 @@ refresh()
     if [ "$OS" = "LINUX" ]; then
         sudo pacman -Syyu
         yay -Syyu
+
+        if [ -n "$1" ] && [ "$1" = "all" ]; then
+            sudo pacman -S linux-lts linux-lts-docs linux-lts-headers \
+                linux-zen linux-zen-docs linux-zen-headers nvidia-lts
+        fi
     fi
 }
 
@@ -153,6 +159,23 @@ start_gpg_agent()
         gpg-agent --daemon --pinentry-program /usr/local/bin/pinentry
     else
         gpg-agent --daemon
+    fi
+}
+
+plex()
+{
+    if [ "$OS" = 'LINUX' ]; then
+        if [ "$1" = "stop" ]; then
+            echo "stopping plex"
+            sudo systemctl stop plexmediaserver.service
+            return
+        fi
+
+        echo "starting plex"
+        sudo systemctl start plexmediaserver.service
+        xdg-open http://localhost:32400/web &
+    else
+        echo "not implemented!"
     fi
 }
 
