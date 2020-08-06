@@ -25,7 +25,9 @@ fi
 export EDITOR='vim'
 export TERM='xterm-256color'
 export SYSDUMP="$HOME/sysdump"
-export GOPATH="$HOME/go"
+export GOPATH_DEFAULT="$HOME/go"
+export GOPATH="$GOPATH_DEFAULT"
+export GOBIN="$GOPATH/bin"
 export NVM_DIR="$HOME/.nvm"
 export SSH_AUTH_SOCK="$HOME/.ssh/.auth_socket"
 
@@ -68,6 +70,7 @@ _add_to_path "/usr/local/opt/node@8/bin"
 _add_to_path "/usr/local/opt/gnu-sed/libexec/gnubin"
 _add_to_path "$HOME/.poetry/bin"
 _add_to_path "$HOME/bin/mac"
+
 
 # asdf
 _source_if_exists "/usr/local/opt/asdf/asdf.sh"

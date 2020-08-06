@@ -29,10 +29,8 @@ alias gotb="go test -bench ."
 [ -f "$HOME/Dropbox/docs/sesame.yaml" ] && \
     alias visesame="vi $HOME/Dropbox/docs/sesame.yaml"
 
-# shellcheck disable=SC2139
-[ -d "$CODE" ] && alias cdc="cd $CODE"
-# shellcheck disable=SC2139
-[ -d "$GOPATH" ] && alias cdg="cd $GOPATH"
+alias cdc='cd $CODE'
+alias cdg='cd $GOPATH'
 
 # os specific
 if [ "$OS" = 'MAC' ]; then
@@ -125,6 +123,20 @@ shdbg()
     echo "$_sp"
 }
 
+ws()
+{
+    if [ "$1" = 'work' ] || [ "$1" = 'w' ]; then
+        export GOPATH=$GOPATH_WORK
+        export GOBIN=$GOPATH/bin
+    else
+        export GOPATH=$GOPATH_DEFAULT
+        export GOBIN=$GOPATH/bin
+    fi
+
+    echo "GOPATH => $GOPATH"
+    echo "GOBIN => $GOBIN"
+}
+
 #################################################
 # SSH/GPG Agent Handling
 #################################################
@@ -179,6 +191,13 @@ plex()
     fi
 }
 
+inspect_cert()
+{
+    echo | \
+        openssl s_client -showcerts -servername "$1" -connect "$1":443 2>/dev/null | \
+        openssl x509 -inform pem -noout -text
+}
+
 _source_if_exists "$HOME/.myshrc_work"
 
 # this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
@@ -189,4 +208,4 @@ fi
 
 _sp=${_sp}_MR
 
-echo 'Howdy Srinath'
+echo '🧘'

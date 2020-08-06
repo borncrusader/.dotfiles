@@ -3,7 +3,7 @@
 cleanup() {
     git submodule foreach git checkout -- .
     git submodule foreach git restore --staged .
-    git submodule foreach git clean -fx
+    git submodule foreach git clean -f
 }
 
 latest() {
