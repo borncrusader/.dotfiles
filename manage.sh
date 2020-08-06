@@ -12,7 +12,7 @@ latest() {
 }
 
 add() {
-    grep 'path = ' .gitmodules | cut -d'=' -f2 | xargs | git add
+    grep 'path = ' .gitmodules | awk -F " = " '{ print $2 }' | xargs git add
 }
 
 febreze() {
