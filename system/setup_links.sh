@@ -26,6 +26,7 @@ create_link .dotfiles/.profile ~/.profile
 create_link .dotfiles/.screenrc ~/.screenrc
 create_link .dotfiles/.tmux.conf ~/.tmux.conf
 create_link .dotfiles/.vimrc ~/.vimrc
+create_link .dotfiles/.psqlrc ~/.psqlrc
 
 ## Linux specific
 if [ "$(uname)" = 'Linux' ]; then

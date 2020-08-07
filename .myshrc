@@ -122,9 +122,11 @@ ws()
     if [ "$1" = 'work' ] || [ "$1" = 'w' ]; then
         export GOPATH=$GOPATH_WORK
         export GOBIN=$GOPATH/bin
+        _add_to_path "$GOBIN"
     else
         export GOPATH=$GOPATH_DEFAULT
         export GOBIN=$GOPATH/bin
+        _add_to_path "$GOBIN"
     fi
 
     echo "GOPATH => $GOPATH"
@@ -147,12 +149,12 @@ start_ssh_agent()
 
     # if socket is available create the new auth session
     if [ ! -S "$SSH_AUTH_SOCK" ]; then
-        echo "starting ssh-agent"
+        echo "starting ssh-agent and adding keys"
         ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null 2>&1
-
-        # Add all default keys to ssh auth
-        ssh-add 2> /dev/null
     fi
+
+    # Add all default keys to ssh auth
+    ssh-add -l
 }
 
 start_gpg_agent()
@@ -170,9 +172,29 @@ start_gpg_agent()
 
 inspect_cert()
 {
-    echo | \
-        openssl s_client -showcerts -servername "$1" -connect "$1":443 2>/dev/null | \
-        openssl x509 -inform pem -noout -text
+    if [ "$1" = "-f" ]; then
+        file=$2
+    else
+        host=$1
+        if [ -n "$2" ]; then
+            port=$2
+        else
+            port=443
+        fi
+    fi
+
+    if [ -n "$file" ]; then
+        openssl x509 -in "$file" -text -noout
+    else
+        echo | \
+            openssl s_client -showcerts -servername "$host" -connect "$host:$port" 2>/dev/null | \
+            openssl x509 -inform pem -noout -text
+    fi
+}
+
+inspect_cert_issuer()
+{
+    inspect_cert "$1" "$2" | grep -A5 'Issuer:'
 }
 
 _source_if_exists "$HOME/.myshrc_work"

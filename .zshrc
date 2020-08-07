@@ -20,9 +20,6 @@ howdy()
     source "$HOME/.zshrc"
 }
 
-# shellcheck disable=SC2034,1087,2154
-prompt="%{$fg[green]%}%m:%3~%# %{$reset_color%}"
-
 # source ohmyzsh
 #_source_if_exists "$HOME/.dotfiles/.ohmyzshrc"
 
@@ -45,6 +42,11 @@ if [ -f $HOME/.dotfiles/antigen.zsh ]; then
 
     antigen apply
 fi
+
+setopt PROMPT_SUBST
+# shellcheck disable=SC2034,1087,2154
+BASE_PROMPT="%m %{${fg_bold[red]}%}:: %{${fg[green]}%}%3~%(0?. . %{${fg[red]}%}%? )%{${fg[blue]}%}»%{${reset_color}%}"
+PROMPT="${BASE_PROMPT} "
 
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
