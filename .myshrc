@@ -185,7 +185,7 @@ plex()
 
         echo "starting plex"
         sudo systemctl start plexmediaserver.service
-        xdg-open http://localhost:32400/web &
+        echo "you can access the console via http://localhost:32400/web"
     else
         echo "not implemented!"
     fi

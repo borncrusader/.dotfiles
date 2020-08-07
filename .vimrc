@@ -38,7 +38,7 @@ set ruler               " show row,column in the bottom right corner
 set laststatus=2        " show the status line always
 set iskeyword+=_,$,@,%,#,' " for word boundaries
 set textwidth=79        " limit maximum length of line to 79
-set colorcolumn=80      " show a line at 80 char limit
+set colorcolumn=80,120  " show a line at 80 and 120 char limit
 set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to first search cscope db
 set backspace=2         " allow backspace deleting of characters
 set mouse=i             " get all that nice mouse scrolling support in insert mode
@@ -118,3 +118,7 @@ function TabDisplay()
 endfunction
 
 autocmd FileType json syntax match Comment +\/\/.\+$+
+
+" set color column color
+highlight ColorColumn ctermbg=grey
+
