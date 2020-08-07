@@ -137,28 +137,36 @@ bindsym $mod+Shift+0 move container to workspace $w10
 
 # Window assignments
 assign [class="Alacritty"] $w1
+
 assign [class="jetbrains-idea-ce"] $w2
 assign [class="ghostwriter"] $w2
 assign [class="zettlr"] $w2
 assign [class="Typora"] $w2
 assign [class="Code"] $w2
+
 assign [class="firefox"] $w3
 assign [class="chromium"] $w3
-assign [class="Vivaldi-stable"] $w3
+assign [class="vimb"] $w3
+
+assign [class="Vivaldi-stable"] $w4
 assign [class="Brave-browser"] $w4
+
 assign [class="Pcmanfm"] $w5
+
 assign [class="mplayer"] $w6
 assign [class="feh"] $w6
+
 assign [class="Franz"] $w7
 assign [class="slack"] $w7
 assign [class="Slack"] $w7
 assign [class="keybase"] $w7
+
 assign [class="Spotify"] $w8
 
 # Shortcuts
 bindsym $win+f exec franz
 bindsym $win+b exec brave
-bindsym $win+c exec chromium
+bindsym $win+c exec code
 
 # Other quirks
 default_border none
@@ -237,6 +245,7 @@ exec --no-startup-id dropbox
 exec --no-startup-id pasystray
 exec --no-startup-id blueman-applet
 exec --no-startup-id redshift-gtk
+exec --no-startup-id udiskie
 #exec --no-startup-id keybase-gui
 
 # set keyboard map

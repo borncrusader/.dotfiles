@@ -61,6 +61,9 @@
 [submodule ".vim/bundle/kotlin-vim"]
 	path = .vim/bundle/kotlin-vim
 	url = https://github.com/udalov/kotlin-vim.git
+[submodule ".vim/bundle/pgsql.vim"]
+	path = .vim/bundle/pgsql.vim
+	url = https://github.com/lifepillar/pgsql.vim.git
 [submodule ".vim/bundle/coc.nvim"]
 	path = .vim/bundle/coc.nvim
 	url = git@github.com:neoclide/coc.nvim.git

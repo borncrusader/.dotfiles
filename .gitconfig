@@ -6,6 +6,8 @@
     interactive = auto
     status = auto
     ui = auto
+[pull]
+	rebase = false
 [push]
     default = simple
 [merge]

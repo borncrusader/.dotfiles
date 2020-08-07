@@ -40,6 +40,7 @@ if [ "$OS" = 'MAC' ]; then
 else
 	alias ls=' ls -F --color'
     alias open="xdg-open"
+    alias boot_to_windows="sudo grub-reboot 'Microsoft Windows 10' && sudo reboot"
 fi
 
 #################################################
@@ -109,6 +110,11 @@ refresh()
     if [ "$OS" = "LINUX" ]; then
         sudo pacman -Syyu
         yay -Syyu
+
+        if [ -n "$1" ] && [ "$1" = "all" ]; then
+            sudo pacman -S linux-lts linux-lts-docs linux-lts-headers \
+                linux-zen linux-zen-docs linux-zen-headers nvidia-lts
+        fi
     fi
 }
 
@@ -170,6 +176,23 @@ start_gpg_agent()
     fi
 }
 
+plex()
+{
+    if [ "$OS" = 'LINUX' ]; then
+        if [ "$1" = "stop" ]; then
+            echo "stopping plex"
+            sudo systemctl stop plexmediaserver.service
+            return
+        fi
+
+        echo "starting plex"
+        sudo systemctl start plexmediaserver.service
+        echo "you can access the console via http://localhost:32400/web"
+    else
+        echo "not implemented!"
+    fi
+}
+
 inspect_cert()
 {
     if [ "$1" = "-f" ]; then
@@ -203,6 +226,8 @@ _source_if_exists "$HOME/.myshrc_work"
 # restore it back here
 if [ "$OS" = 'MAC' ]; then
     export LSCOLORS=exfxcxdxbxegedabagacad
+elif [ "$OS" = 'LINUX' ]; then
+    start_ssh_agent
 fi
 
 _sp=${_sp}_MR
