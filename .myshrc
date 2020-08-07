@@ -204,6 +204,8 @@ _source_if_exists "$HOME/.myshrc_work"
 # restore it back here
 if [ "$OS" = 'MAC' ]; then
     export LSCOLORS=exfxcxdxbxegedabagacad
+elif [ "$OS" = 'LINUX' ]; then
+    start_ssh_agent
 fi
 
 _sp=${_sp}_MR
