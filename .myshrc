@@ -158,9 +158,12 @@ start_ssh_agent()
         echo "starting ssh-agent and adding keys"
         ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null 2>&1
     fi
+}
 
-    # Add all default keys to ssh auth
-    ssh-add -l
+add_ssh()
+{
+    # shellcheck disable=SC2086
+    ssh-add $HOME/.ssh/*id_rsa
 }
 
 start_gpg_agent()
@@ -222,9 +225,9 @@ inspect_cert_issuer()
 
 _source_if_exists "$HOME/.myshrc_work"
 
-# this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
-# restore it back here
 if [ "$OS" = 'MAC' ]; then
+    # this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
+    # restore it back here
     export LSCOLORS=exfxcxdxbxegedabagacad
 elif [ "$OS" = 'LINUX' ]; then
     start_ssh_agent
@@ -232,4 +235,4 @@ fi
 
 _sp=${_sp}_MR
 
-echo '🧘'
+echo '~ Keep calm and 🧘 ~'

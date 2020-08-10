@@ -146,7 +146,7 @@ assign [class="Code"] $w2
 
 assign [class="firefox"] $w3
 assign [class="chromium"] $w3
-assign [class="vimb"] $w3
+assign [class="Vimb"] $w3
 
 assign [class="Vivaldi-stable"] $w4
 assign [class="Brave-browser"] $w4
