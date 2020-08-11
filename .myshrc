@@ -109,7 +109,7 @@ refresh()
 {
     if [ "$OS" = "LINUX" ]; then
         sudo pacman -Syyu
-        yay -Syyu
+        yay -Sua
 
         if [ -n "$1" ] && [ "$1" = "all" ]; then
             sudo pacman -S linux-lts linux-lts-docs linux-lts-headers \
@@ -155,7 +155,6 @@ start_ssh_agent()
 
     # if socket is available create the new auth session
     if [ ! -S "$SSH_AUTH_SOCK" ]; then
-        echo "starting ssh-agent and adding keys"
         ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null 2>&1
     fi
 }
