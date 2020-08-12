@@ -108,13 +108,49 @@ dboxsanity()
 refresh()
 {
     if [ "$OS" = "LINUX" ]; then
-        sudo pacman -Syyu
-        yay -Sua
-
-        if [ -n "$1" ] && [ "$1" = "all" ]; then
-            sudo pacman -S linux-lts linux-lts-docs linux-lts-headers \
-                linux-zen linux-zen-docs linux-zen-headers nvidia-lts
+        if [ -n "$1" ] && [ "$1" = "-h" ]; then
+            echo "$0 {options}"
+            echo "  without options, would attempt to update all installed packages"
+            echo "  -h  : print this help"
+            echo "  -a  : update excluded packages also"
+            echo "  -o  : get orphans"
+            echo "  -or : remove orphans [use caution]"
+            echo "  -c  : get cache free"
+            echo "  -cr : empty cache (including aur)"
+            echo "  -g  : graph of all packages; provide file name as argument"
+            return
         fi
+
+        case "$1" in
+            "-o")
+                pacman -Qtdq
+                ;;
+            "-or")
+                pacman -Qtdq | xargs pacman -Rns
+                ;;
+            "-c")
+                paccache -d -v
+                ;;
+            "-rc")
+                paccache -r
+                ;;
+            "-g")
+                if [ -z "$2" ]; then
+                    echo "provide file name"
+                    return
+                fi
+                pacgraph -s -f "$2"
+                ;;
+            *)
+                sudo pacman -Syyu
+                yay -Sua
+
+                if [ -n "$1" ] && [ "$1" = "-a" ]; then
+                    sudo pacman -S linux-lts linux-lts-docs linux-lts-headers \
+                        linux-zen linux-zen-docs linux-zen-headers nvidia-lts
+                fi
+                ;;
+        esac
     fi
 }
 
