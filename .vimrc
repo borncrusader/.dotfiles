@@ -44,9 +44,10 @@ set backspace=2         " allow backspace deleting of characters
 set mouse=i             " get all that nice mouse scrolling support in insert mode
 
 " autostart with NERDTree, but move to the other window
-command Nerd NERDTree | wincmd w
+"command Nerd NERDTree | wincmd w
 "autocmd VimEnter * NERDTree
 "autocmd VimEnter * wincmd w
+:nnoremap <C-g> :NERDTreeToggle<CR>
 
 " specific filetype vim settings
 autocmd FileType c setlocal shiftwidth=8 softtabstop=8 tabstop=8 textwidth=80 noexpandtab
@@ -122,3 +123,7 @@ autocmd FileType json syntax match Comment +\/\/.\+$+
 " set color column color
 highlight ColorColumn ctermbg=grey
 
+" some golang stuff
+let g:go_fmt_command = "goimports" " run goimports along gofmt on save
+let g:go_auto_type_info = 1 " automatically get signature/typo info of object under cursor
+au filetype go inoremap <buffer> . .<C-x><C-o>
