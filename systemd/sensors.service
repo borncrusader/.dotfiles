@@ -1,0 +1,10 @@
+[Unit]
+Description=Get some sensors output
+Wants=sensors.timer
+
+[Service]
+Type=oneshot
+ExecStart=/home/ska/bin/cron_temperature.sh
+
+[Install]
+WantedBy=multi-user.target

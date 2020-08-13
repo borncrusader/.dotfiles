@@ -1,0 +1,8 @@
+[Unit]
+Description=Run sensors every 5 seconds once activated
+
+[Timer]
+OnUnitActiveSec=5s
+
+[Install]
+WantedBy=timers.target
