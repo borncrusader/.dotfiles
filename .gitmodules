@@ -67,3 +67,6 @@
 [submodule ".vim/bundle/coc.nvim"]
 	path = .vim/bundle/coc.nvim
 	url = git@github.com:neoclide/coc.nvim.git
+[submodule "linux/i3blocks-contrib"]
+	path = linux/i3blocks-contrib
+	url = https://github.com/vivien/i3blocks-contrib.git
