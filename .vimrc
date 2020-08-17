@@ -57,6 +57,7 @@ autocmd FileType python setlocal textwidth=79
 autocmd FileType scala setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
 autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2 textwidth=79
 autocmd FileType html setlocal textwidth=0 shiftwidth=2 softtabstop=2 tabstop=2
+autocmd FileType go setlocal textwidth=79 shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 
 " set ctags related variables for function display in status bar
 "let g:ctags_statusline=1

@@ -254,7 +254,8 @@ exec --no-startup-id udiskie
 exec setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
 
 # Set wallpaper
-exec_always feh --bg-fill /home/ska/Pictures/wallpaper-7.jpg
+#exec_always feh --bg-fill /home/ska/Pictures/wallpaper-7.jpg
+exec_always feh --bg-fill /home/ska/Pictures/Indra-Janmashtami-2020.png
 
 # Set scaling for HiDPI
 #exec xrandr --output HDMI-0 --scale 1.25x1.25

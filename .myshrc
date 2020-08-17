@@ -146,8 +146,11 @@ refresh()
                 yay -Sua
 
                 if [ -n "$1" ] && [ "$1" = "-a" ]; then
-                    sudo pacman -S linux-lts linux-lts-docs linux-lts-headers \
-                        linux-zen linux-zen-docs linux-zen-headers nvidia-lts
+                    sudo pacman -S linux-lts linux-lts-headers linux-lts-docs \
+                        nvidia-lts linux-zen linux-zen-docs linux-zen-headers \
+                        nvidia-dkms v4l2loopback-dkms virtualbox-guest-dkms \
+                        virtualbox-host-dkms wireguard-dkms zfs-dkms
+                    yay -S zenpower-dkms
                 fi
                 ;;
         esac
