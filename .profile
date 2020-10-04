@@ -43,7 +43,9 @@ if [ "$OS" = "MAC" ]; then
     GPG_TTY=$(tty)
     export GPG_TTY
 
-    export CODE=/Volumes/code
+    export CODE=/Volumes/Salesforce
+
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 else
     export CODE=$HOME/code
 fi

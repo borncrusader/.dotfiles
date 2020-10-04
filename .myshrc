@@ -35,7 +35,7 @@ alias cdg='cd $GOPATH'
 # os specific
 if [ "$OS" = 'MAC' ]; then
 	alias ls=' ls -GFh'
-    alias wumount="sudo umount -f /Volumes/work"
+    alias wumount="sudo umount -f /Volumes/Salesforce"
     alias vim="/usr/local/bin/vim"
 else
 	alias ls=' ls -F --color'
@@ -68,7 +68,7 @@ umount_all()
 {
     sudo umount -f /Volumes/code
     sudo umount -f /Volumes/personal
-    sudo umount -f /Volumes/work
+    sudo umount -f /Volumes/Salesforce
 }
 
 mkcd()
@@ -235,21 +235,31 @@ inspect_cert()
 {
     if [ "$1" = "-f" ]; then
         file=$2
+        shift 2
+    elif [ "$1" = "-nosni" ];then
+        nosni=TRUE
+        shift 1
+    fi
+
+    host=$1
+    if [ -n "$2" ]; then
+        port=$2
     else
-        host=$1
-        if [ -n "$2" ]; then
-            port=$2
-        else
-            port=443
-        fi
+        port=443
     fi
 
     if [ -n "$file" ]; then
         openssl x509 -in "$file" -text -noout
     else
+        if [ -n "$nosni" ]; then
+        echo | \
+            openssl s_client -showcerts -connect "$host:$port" 2>/dev/null | \
+            openssl x509 -inform pem -noout -text
+        else
         echo | \
             openssl s_client -showcerts -servername "$host" -connect "$host:$port" 2>/dev/null | \
             openssl x509 -inform pem -noout -text
+        fi
     fi
 }
 
