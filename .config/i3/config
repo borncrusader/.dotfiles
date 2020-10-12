@@ -107,7 +107,7 @@ set $w4 "4: B"
 set $w5 "5: F"
 set $w6 "6: V"
 set $w7 "7: W"
-set $w8 "8"
+set $w8 "8: M"
 set $w9 "9"
 set $w10 "10"
 
@@ -162,6 +162,10 @@ assign [class="Slack"] $w7
 assign [class="keybase"] $w7
 
 assign [class="Spotify"] $w8
+assign [class="Clementine"] $w8
+
+# configure default window rules
+for_window [class="Artha"] floating enable
 
 # Shortcuts
 bindsym $win+f exec franz

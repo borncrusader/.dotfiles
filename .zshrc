@@ -48,6 +48,9 @@ setopt PROMPT_SUBST
 BASE_PROMPT="%m %{${fg_bold[red]}%}:: %{${fg[green]}%}%3~%(0?. . %{${fg[red]}%}%? )%{${fg[blue]}%}»%{${reset_color}%}"
 PROMPT="${BASE_PROMPT} "
 
+# always best to set noclobber
+set -o noclobber
+
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
 

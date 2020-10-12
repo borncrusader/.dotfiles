@@ -107,17 +107,21 @@ dboxsanity()
 
 refresh()
 {
+    usage() {
+        echo "$0 {options}"
+        echo "  without options, would attempt to update all installed packages"
+        echo "  -h  : print this help"
+        echo "  -a  : update excluded packages also"
+        echo "  -o  : get orphans"
+        echo "  -or : remove orphans [use caution]"
+        echo "  -c  : get cache free"
+        echo "  -cr : empty cache (including aur)"
+        echo "  -g  : graph of all packages; provide file name as argument"
+    }
+
     if [ "$OS" = "LINUX" ]; then
         if [ -n "$1" ] && [ "$1" = "-h" ]; then
-            echo "$0 {options}"
-            echo "  without options, would attempt to update all installed packages"
-            echo "  -h  : print this help"
-            echo "  -a  : update excluded packages also"
-            echo "  -o  : get orphans"
-            echo "  -or : remove orphans [use caution]"
-            echo "  -c  : get cache free"
-            echo "  -cr : empty cache (including aur)"
-            echo "  -g  : graph of all packages; provide file name as argument"
+            usage
             return
         fi
 
@@ -131,7 +135,7 @@ refresh()
             "-c")
                 paccache -d -v
                 ;;
-            "-rc")
+            "-cr")
                 paccache -r
                 ;;
             "-g")
@@ -141,17 +145,21 @@ refresh()
                 fi
                 pacgraph -s -f "$2"
                 ;;
-            *)
+            "")
                 sudo pacman -Syyu
                 yay -Sua
 
                 if [ -n "$1" ] && [ "$1" = "-a" ]; then
-                    sudo pacman -S linux-lts linux-lts-headers linux-lts-docs \
-                        nvidia-lts linux-zen linux-zen-docs linux-zen-headers \
-                        nvidia-dkms v4l2loopback-dkms virtualbox-guest-dkms \
-                        virtualbox-host-dkms wireguard-dkms zfs-dkms
+                    sudo pacman --noconfirm -S linux-lts linux-lts-headers \
+                        linux-lts-docs nvidia-lts linux-zen linux-zen-docs \
+                        linux-zen-headers nvidia-dkms v4l2loopback-dkms \
+                        virtualbox-guest-dkms virtualbox-host-dkms \
+                        wireguard-dkms zfs-utils zfs-dkms nvidia-utils
                     yay -S zenpower-dkms
                 fi
+                ;;
+            *)
+                usage
                 ;;
         esac
     fi

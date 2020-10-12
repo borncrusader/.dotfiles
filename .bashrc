@@ -26,6 +26,9 @@ export HISTCONTROL=erasedups
 export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd.."
 shopt -s histappend
 
+# always best to set noclobber
+set -o noclobber
+
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
 
