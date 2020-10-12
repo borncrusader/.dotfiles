@@ -70,6 +70,9 @@
 [submodule "linux/i3blocks-contrib"]
 	path = linux/i3blocks-contrib
 	url = https://github.com/vivien/i3blocks-contrib.git
-[submodule ".vim/julia-vim"]
-	path = .vim/julia-vim
+[submodule ".vim/bundle/elm-vim"]
+	path = .vim/bundle/elm-vim
+	url = https://github.com/ElmCast/elm-vim.git
+[submodule ".vim/bundle/julia-vim"]
+	path = .vim/bundle/julia-vim
 	url = https://github.com/JuliaEditorSupport/julia-vim.git

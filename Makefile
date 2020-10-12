@@ -1,7 +1,13 @@
 all:
 
-submodule-master:
+list:
+	git submodule
+
+position:
 	git submodule foreach git co master
 
-submodule-update:
+update:
 	git submodule foreach git pull
+
+do: position update
+	echo "Done"
