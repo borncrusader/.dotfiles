@@ -1,0 +1,310 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Srinath Krishna Ananthakrishnan
+#+EMAIL: srinath.krishna@gmail.com
+#+OPTIONS: toc:nil num:nil
+
+I was heavily inspired by [[https://github.com/hrs][hrs]]'s talk on YouTube and decided to take the =org-babel= approach to
+maintaining my emacs configuration from the get-go. As a result, I scourged his confguration and
+used sections that I found to be useful.
+
+Over time, I also got inspired by many such wonderful resources and I have included a References
+section at the bottom to outline all of these.
+
+* Set personal information
+
+First things first, setting some of my information here.
+
+#+begin_src emacs-lisp
+  (setq user-full-name "Srinath Krishna Ananthakrishnan"
+        user-mail-address "srinath.krishna@gmail.com"
+        calendar-location-name "San Francisco, CA")
+#+end_src
+
+* Configure =use-package=
+
+Let's setup package management and the default package archives that are of concern.
+
+#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+#+end_src
+
+Always compile packages, and use the newest version available.
+
+#+begin_src emacs-lisp
+  (use-package auto-compile
+    :config (auto-compile-on-load-mode))
+
+  (setq load-prefer-newer t)
+#+end_src
+
+Let's refresh the archive contents and ensure =use-package= is installed and available as our package
+management system.
+
+This is actually no longer required in latest emacsen.
+
+#+begin_src emacs-lisp
+  ;;(package-initialize)
+#+end_src
+
+However, we'll go ahead and enable =use-package= as the default package manager.
+
+#+begin_src emacs-lisp
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+;; Initialize use-package on non-Linux platforms
+  (unless (package-installed-p 'use-package)
+     (package-install 'use-package))
+
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
+#+end_src
+
+* General Configuration
+** UX Enhancements
+
+I'm not a huge fan of the emacs splash screen, so let's turn that off first.
+
+#+begin_src emacs-lisp
+  (setq inhibit-splash-screen t)
+#+end_src
+
+I don't usually use the menu or scroll bar, and they take up useful space.
+
+#+begin_src emacs-lisp
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tooltip-mode 0)
+  (fringe-mode 4) ;; give some breathing room
+#+end_src
+
+There's a tiny scroll bar that appears in the minibuffer window. This disables that:
+
+#+begin_src emacs-lisp
+  (set-window-scroll-bars (minibuffer-window) nil nil)
+#+end_src
+
+The default frame title isn't useful. This binds it to the name of the current project:
+
+#+begin_src emacs-lisp
+  (setq frame-title-format '((:eval (projectile-project-name))))
+#+end_src
+
+Use fancy symbols instead of text; example =lambda= becomes λ.
+
+#+begin_src emacs-lisp
+  (global-prettify-symbols-mode t)
+#+end_src
+
+Load up a theme.
+
+#+begin_src emacs-lisp
+  (use-package doom-themes)
+  (load-theme 'doom-dracula t)
+  (setq default-frame-alist '((font . "Monaco-16")))
+#+end_src
+
+Jazz up with some icons.
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons)
+#+end_src
+
+Let's jazz up the mode line and add some themes to it.
+
+#+begin_src emacs-lisp
+  
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1))
+    ;;:custom ((doom-modeline-height 4)))
+#+end_src
+
+** Other miscellaneous configuration
+
+Not a huge fan of backup files that emacs leaves around in the filesystem.
+
+#+begin_src emacs-lisp
+  (setq make-backup-files nil)
+#+end_src
+
+=ESC= should quit prompts.
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src
+
+I like seeing column numbers and line numbers.
+
+#+begin_src emacs-lisp
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+#+end_src
+  
+But I want to disable it for certain modes
+
+#+begin_src emacs-lisp
+  (dolist (mode '(org-mode-hook
+                  shell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+* =evil-mode=
+
+Load and configure =evil-mode=.
+
+I'd prefer not to expand abbrevs when I hit escape. That's always jarring and
+usually not what I want. In particular, it makes working with Coq really
+frustrating.
+
+Don't automatically load Evil bindings in different modes.
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :init
+    (setq evil-want-abbrev-expand-on-insert-exit nil
+          evil-want-keybinding nil)
+
+    :config
+    (evil-mode 1))
+#+end_src
+
+Install =evil-collection=, which provides evil-friendly bindings for many modes.
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil
+    :config
+    (setq evil-collection-mode-list
+          '(ag dired magit mu4e which-key))
+    (evil-collection-init))
+#+end_src
+
+Enable =surround= everywhere.
+
+#+begin_src emacs-lisp
+  (use-package evil-surround
+    :config
+    (global-evil-surround-mode 1))
+#+end_src
+
+Use =evil= with Org agendas.
+
+#+begin_src emacs-lisp
+  (use-package evil-org
+    :after org
+    :config
+    (add-hook 'org-mode-hook 'evil-org-mode)
+    (add-hook 'evil-org-mode-hook
+              (lambda () (evil-org-set-key-theme)))
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
+#+end_src
+
+* =ivy=
+
+I like =swiper= and =ivy= for incremental search.
+
+#+begin_src emacs-lisp
+  (use-package swiper)
+  (use-package ivy
+    :diminish
+    :bind (("C-s" . swiper)
+           :map ivy-minibuffer-map
+           ("TAB" . ivy-alt-done)	
+           ("C-l" . ivy-alt-done)
+           ("C-j" . ivy-next-line)
+           ("C-k" . ivy-previous-line)
+           :map ivy-switch-buffer-map
+           ("C-k" . ivy-previous-line)
+           ("C-l" . ivy-done)
+           ("C-d" . ivy-switch-buffer-kill)
+           :map ivy-reverse-i-search-map
+           ("C-k" . ivy-previous-line)
+           ("C-d" . ivy-reverse-i-search-kill))
+    :config
+    (ivy-mode 1))
+#+end_src
+
+* =org-mode=
+** First things
+#+begin_src emacs-lisp
+  ;; force UTF-8
+  (setq org-export-coding-system 'utf-8)
+  (setq org-directory "~/org")
+  (setq org-directory-journal (concat org-directory "/journal"))
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-default-todo-file (concat org-directory "/inbox.org"))
+  (setq org-default-books-file (concat org-directory "/books.org"))
+  (setq org-insert-mode-line-in-empty-file "SCRATCH -*- mode: org-*-")
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
+  (global-set-key (kbd "C-c g") (lambda () (interactive) (find-file "~/.emacs.d/configuration.org")))
+  (global-set-key (kbd "C-c n") (lambda () (interactive) (find-file org-default-notes-file)))
+  (global-set-key (kbd "C-c o") (lambda () (interactive) (find-file org-default-todo-file)))
+  (global-set-key (kbd "C-c b") (lambda () (interactive) (find-file org-default-books-file)))
+  (global-set-key (kbd "C-c w") (lambda () (interactive) (find-file (expand-file-name (format-time-string "%Y-%m.org") (concat org-directory "/work-notes")))))
+  (add-hook 'org-mode-hook #'visual-line-mode)
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+  (add-hook 'org-mode-hook (lambda() (setq fill-column 100)))
+  (setq org-capture-templates
+      '(("t" "Todo" entry (file+headline org-default-todo-file "Inbox")
+         "** TODO %?\n %i\n")
+        ("b" "Book" entry (file+headline org-default-books-file "Unfiled")
+	 (file "~/.emacs.d/org-templates/book.orgcaptmpl"))
+        ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") (concat org-directory "/work-notes"))))
+	 (file "~/.emacs.d/org-templates/work.orgcaptmpl"))))
+#+end_src
+
+** Display preferences
+
+I like to see an outline of pretty bullets instead of a list of asterisks.
+
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :init
+    (add-hook 'org-mode-hook 'org-bullets-mode))
+#+end_src
+
+I like seeing a little downward-pointing arrow instead of the usual ellipsis
+(=...=) that org displays when there's stuff under a header.
+
+#+begin_src emacs-lisp
+  (setq org-ellipsis "⤵")
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq org-hide-emphasis-markers t)
+#+end_src
+
+Use syntax highlighting in source blocks while editing.
+
+#+begin_src emacs-lisp
+  (setq org-src-fontify-natively t)
+#+end_src
+* Language Specific Configuration
+** Test
+#+begin_src emacs-lisp
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (replace-regexp-in-string
+                          "[ \t\n]*$"
+                          ""
+                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq eshell-path-env path-from-shell) ; for eshell users
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(when window-system (set-exec-path-from-shell-PATH))
+#+end_src
+** Golang
+#+begin_src emacs-lisp
+  (use-package go-mode)
+#+end_src
+* References
+1. =hsr='s humongous [[https://github.com/hrs/dotfiles/blob/main/emacs/dot-emacs.d/configuration.org][configuration]]
+2. =hsr='s talk on [[https://www.youtube.com/watch?v=SzA2YODtgK4][YouTube]]
+3. =daviwil='s excellent [[https://github.com/daviwil/dotfiles][dotfiles]]
+4. =daviwil='s excellent series on [[https://www.youtube.com/watch?v=74zOY-vgkyw&list=PLEoMzSkcN8oPH1au7H6B7bBJ4ZO7BXjSZ][YouTube]]
