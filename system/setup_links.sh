@@ -1,10 +1,16 @@
 #!/bin/sh
 
-# TODO: cmd line arg based sym-linking
+# bail out on first error
+set -e
 
 create_link()
 {
 	# usage: create_link original link
+    if [ -L "$2" ]; then
+        echo "link already exists"
+        return
+    fi
+
 	if [ -e "$2" ]; then
 		echo "backing up $2 as $2.back"
 		mv "$2" "$2.back"
@@ -16,6 +22,7 @@ create_link()
 
 ## common
 create_link .dotfiles/.vim/ ~/.vim
+create_link .dotfiles/emacs/.emacs.d/ ~/.emacs.d
 create_link .dotfiles/bin/ ~/bin
 create_link .dotfiles/.zprofile ~/.zprofile
 create_link .dotfiles/.zshrc ~/.zshrc
