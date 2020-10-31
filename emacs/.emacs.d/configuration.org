@@ -117,23 +117,10 @@ Jazz up with some icons.
 Let's jazz up the mode line and add some themes to it.
 
 #+begin_src emacs-lisp
-  
+
   (use-package doom-modeline
     :init (doom-modeline-mode 1))
     ;;:custom ((doom-modeline-height 4)))
-#+end_src
-
-** Other miscellaneous configuration
-
-Not a huge fan of backup files that emacs leaves around in the filesystem.
-
-#+begin_src emacs-lisp
-  (setq make-backup-files nil)
-#+end_src
-
-=ESC= should quit prompts.
-#+begin_src emacs-lisp
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
 I like seeing column numbers and line numbers.
@@ -142,13 +129,48 @@ I like seeing column numbers and line numbers.
   (column-number-mode)
   (global-display-line-numbers-mode t)
 #+end_src
-  
+
 But I want to disable it for certain modes
 
 #+begin_src emacs-lisp
   (dolist (mode '(org-mode-hook
                   shell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+Use rainbow delimiters - super helpful for emacs-lisp.
+
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Backup configuration
+
+Not a huge fan of backup files that emacs leaves around in the filesystem.
+
+#+begin_src emacs-lisp
+  (setq make-backup-files nil)
+#+end_src
+
+** Keybinding configuration
+
+=ESC= should quit prompts.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src
+
+* =which-key=
+
+=which-key= is helpful to learn key bindings when pressing common key chords starting with =C-x= or =C-h=.
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish
+    :config
+    (setq which-key-idle-delay 1))
 #+end_src
 
 * =evil-mode=
@@ -213,7 +235,7 @@ I like =swiper= and =ivy= for incremental search.
     :diminish
     :bind (("C-s" . swiper)
            :map ivy-minibuffer-map
-           ("TAB" . ivy-alt-done)	
+           ("TAB" . ivy-alt-done)
            ("C-l" . ivy-alt-done)
            ("C-j" . ivy-next-line)
            ("C-k" . ivy-previous-line)
@@ -229,27 +251,81 @@ I like =swiper= and =ivy= for incremental search.
 #+end_src
 
 * =org-mode=
-** First things
+** Initial Setup
+
+Let's first setup default directories and files for =org-mode=.
+
 #+begin_src emacs-lisp
-  ;; force UTF-8
-  (setq org-export-coding-system 'utf-8)
   (setq org-directory "~/org")
-  (setq org-directory-journal (concat org-directory "/journal"))
+  (setq org-journal-directory (concat org-directory "/journal"))
+  (setq org-work-directory (concat org-directory "/work"))
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-default-todo-file (concat org-directory "/inbox.org"))
   (setq org-default-books-file (concat org-directory "/books.org"))
+#+end_src
+
+When doing exports, we'll always export as UTF-8.
+  
+#+begin_src emacs-lisp
+  (setq org-export-coding-system 'utf-8)
+#+end_src
+
+I usually don't use this but if I have to invoke =org-mode= explicitly, I'll want this mode line to be
+added to it.
+
+#+begin_src emacs-lisp
   (setq org-insert-mode-line-in-empty-file "SCRATCH -*- mode: org-*-")
+#+end_src
+
+** Utility Methods
+
+Define these helpful utility methods.
+
+#+begin_src emacs-lisp
+  (defun org-mode-find-file (filename)
+   (if (eq (file-name-directory filename) nil)
+       (find-file (file-name-nondirectory filename))
+     (if (file-directory-p (file-name-directory filename))
+         (find-file filename)
+       (progn (make-directory (file-name-directory filename) t)
+         (find-file filename)))))
+#+end_src
+
+** Keybindings
+
+Setup some key bindings for opening up some quick files
+
+#+begin_src emacs-lisp
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
-  (global-set-key (kbd "C-c g") (lambda () (interactive) (find-file "~/.emacs.d/configuration.org")))
-  (global-set-key (kbd "C-c n") (lambda () (interactive) (find-file org-default-notes-file)))
-  (global-set-key (kbd "C-c o") (lambda () (interactive) (find-file org-default-todo-file)))
-  (global-set-key (kbd "C-c b") (lambda () (interactive) (find-file org-default-books-file)))
-  (global-set-key (kbd "C-c w") (lambda () (interactive) (find-file (expand-file-name (format-time-string "%Y-%m.org") (concat org-directory "/work-notes")))))
+  (global-set-key (kbd "C-c g")
+    (lambda () (interactive) (find-file "~/.emacs.d/configuration.org")))
+  (global-set-key (kbd "C-c n")
+    (lambda () (interactive) (find-file org-default-notes-file)))
+  (global-set-key (kbd "C-c o")
+    (lambda () (interactive) (find-file org-default-todo-file)))
+  (global-set-key (kbd "C-c b")
+    (lambda () (interactive) (find-file org-default-books-file)))
+  (global-set-key (kbd "C-c w")
+    (lambda () (interactive)
+      (find-file (expand-file-name (format-time-string "%Y-%m.org") org-work-directory))))
+  (global-set-key (kbd "C-c j")
+    (lambda () (interactive)
+      (org-mode-find-file (concat org-journal-directory (format-time-string "/%y/%m/%d.org")))))
+#+end_src
+
+** Hooks
+
+#+begin_src emacs-lisp
   (add-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
   (add-hook 'org-mode-hook (lambda() (setq fill-column 100)))
+#+end_src
+
+** Capture Templates
+
+#+begin_src emacs-lisp
   (setq org-capture-templates
       '(("t" "Todo" entry (file+headline org-default-todo-file "Inbox")
          "** TODO %?\n %i\n")
@@ -269,8 +345,8 @@ I like to see an outline of pretty bullets instead of a list of asterisks.
     (add-hook 'org-mode-hook 'org-bullets-mode))
 #+end_src
 
-I like seeing a little downward-pointing arrow instead of the usual ellipsis
-(=...=) that org displays when there's stuff under a header.
+I like seeing a little downward-pointing arrow instead of the usual ellipsis (=...=) that org displays
+when there's stuff under a header.
 
 #+begin_src emacs-lisp
   (setq org-ellipsis "⤵")
@@ -285,6 +361,7 @@ Use syntax highlighting in source blocks while editing.
 #+begin_src emacs-lisp
   (setq org-src-fontify-natively t)
 #+end_src
+
 * Language Specific Configuration
 ** Test
 #+begin_src emacs-lisp
