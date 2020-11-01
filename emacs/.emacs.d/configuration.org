@@ -117,7 +117,6 @@ Jazz up with some icons.
 Let's jazz up the mode line and add some themes to it.
 
 #+begin_src emacs-lisp
-
   (use-package doom-modeline
     :init (doom-modeline-mode 1))
     ;;:custom ((doom-modeline-height 4)))
@@ -259,9 +258,10 @@ Let's first setup default directories and files for =org-mode=.
   (setq org-directory "~/org")
   (setq org-journal-directory (concat org-directory "/journal"))
   (setq org-work-directory (concat org-directory "/work"))
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (setq org-default-todo-file (concat org-directory "/inbox.org"))
   (setq org-default-books-file (concat org-directory "/books.org"))
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-default-questions-file (concat org-directory "/questions.org"))
+  (setq org-default-todo-file (concat org-directory "/inbox.org"))
 #+end_src
 
 When doing exports, we'll always export as UTF-8.
@@ -282,13 +282,11 @@ added to it.
 Define these helpful utility methods.
 
 #+begin_src emacs-lisp
-  (defun org-mode-find-file (filename)
-   (if (eq (file-name-directory filename) nil)
-       (find-file (file-name-nondirectory filename))
-     (if (file-directory-p (file-name-directory filename))
-         (find-file filename)
-       (progn (make-directory (file-name-directory filename) t)
-         (find-file filename)))))
+  ;;(defun org-mode-journal-file
+  ;;  (progn (let ((d (concat org-journal-directory (format-time-string "/%Y/%m")))
+  ;;               (f (format-time-string "/%d.org")))
+  ;;           (make-directory d 1) ;; the 1 is for creating parent directories
+  ;;           (expand-file-name f d))))
 #+end_src
 
 ** Keybindings
@@ -296,23 +294,24 @@ Define these helpful utility methods.
 Setup some key bindings for opening up some quick files
 
 #+begin_src emacs-lisp
-  (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c b")
+    (lambda () (interactive) (find-file org-default-books-file)))
   (global-set-key (kbd "C-c c") 'org-capture)
   (global-set-key (kbd "C-c g")
     (lambda () (interactive) (find-file "~/.emacs.d/configuration.org")))
+  (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c n")
     (lambda () (interactive) (find-file org-default-notes-file)))
   (global-set-key (kbd "C-c o")
     (lambda () (interactive) (find-file org-default-todo-file)))
-  (global-set-key (kbd "C-c b")
-    (lambda () (interactive) (find-file org-default-books-file)))
+  (global-set-key (kbd "C-c q")
+    (lambda () (interactive) (find-file org-default-questions-file)))
   (global-set-key (kbd "C-c w")
     (lambda () (interactive)
       (find-file (expand-file-name (format-time-string "%Y-%m.org") org-work-directory))))
-  (global-set-key (kbd "C-c j")
-    (lambda () (interactive)
-      (org-mode-find-file (concat org-journal-directory (format-time-string "/%y/%m/%d.org")))))
+  ;;(global-set-key (kbd "C-c j")
+  ;;  (lambda () (interactive) (find-file (org-mode-journal-file))))
 #+end_src
 
 ** Hooks
@@ -327,12 +326,16 @@ Setup some key bindings for opening up some quick files
 
 #+begin_src emacs-lisp
   (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline org-default-todo-file "Inbox")
-         "** TODO %?\n %i\n")
-        ("b" "Book" entry (file+headline org-default-books-file "Unfiled")
-	 (file "~/.emacs.d/org-templates/book.orgcaptmpl"))
-        ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") (concat org-directory "/work-notes"))))
-	 (file "~/.emacs.d/org-templates/work.orgcaptmpl"))))
+    '(("b" "Book" entry (file+headline org-default-books-file "Unfiled")
+       (file "~/.emacs.d/org-templates/book.orgcaptmpl"))
+      ("j" "Journal" entry (file (lambda() ""))
+        (file "~/.emacs.d/org-templates/journal.orgcaptmpl"))
+      ("q" "Questions" entry (file org-default-questions-file)
+        (file "~/.emacs.d/org-templates/questions.orgcaptmpl"))
+      ("t" "Todo" entry (file+headline org-default-todo-file "Inbox")
+        "** TODO %?\n %i\n")
+      ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") (concat org-directory "/work-notes"))))
+        (file "~/.emacs.d/org-templates/work.orgcaptmpl"))))
 #+end_src
 
 ** Display preferences
