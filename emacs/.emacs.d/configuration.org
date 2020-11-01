@@ -282,11 +282,11 @@ added to it.
 Define these helpful utility methods.
 
 #+begin_src emacs-lisp
-  ;;(defun org-mode-journal-file
-  ;;  (progn (let ((d (concat org-journal-directory (format-time-string "/%Y/%m")))
-  ;;               (f (format-time-string "/%d.org")))
-  ;;           (make-directory d 1) ;; the 1 is for creating parent directories
-  ;;           (expand-file-name f d))))
+  (defun org-default-journal-file ()
+    (let ((d (concat org-journal-directory (format-time-string "/%y/%m")))
+          (f (format-time-string "/%d.org")))
+      (progn (make-directory d 1)
+             (concat d f))))
 #+end_src
 
 ** Keybindings
@@ -310,8 +310,8 @@ Setup some key bindings for opening up some quick files
   (global-set-key (kbd "C-c w")
     (lambda () (interactive)
       (find-file (expand-file-name (format-time-string "%Y-%m.org") org-work-directory))))
-  ;;(global-set-key (kbd "C-c j")
-  ;;  (lambda () (interactive) (find-file (org-mode-journal-file))))
+  (global-set-key (kbd "C-c j")
+    (lambda () (interactive) (find-file (org-default-journal-file))))
 #+end_src
 
 ** Hooks
@@ -328,13 +328,13 @@ Setup some key bindings for opening up some quick files
   (setq org-capture-templates
     '(("b" "Book" entry (file+headline org-default-books-file "Unfiled")
        (file "~/.emacs.d/org-templates/book.orgcaptmpl"))
-      ("j" "Journal" entry (file (lambda() ""))
+      ("j" "Journal" entry (file (lambda() (org-default-journal-file)))
         (file "~/.emacs.d/org-templates/journal.orgcaptmpl"))
       ("q" "Questions" entry (file org-default-questions-file)
         (file "~/.emacs.d/org-templates/questions.orgcaptmpl"))
       ("t" "Todo" entry (file+headline org-default-todo-file "Inbox")
         "** TODO %?\n %i\n")
-      ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") (concat org-directory "/work-notes"))))
+      ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") org-work-directory)))
         (file "~/.emacs.d/org-templates/work.orgcaptmpl"))))
 #+end_src
 
@@ -354,6 +354,8 @@ when there's stuff under a header.
 #+begin_src emacs-lisp
   (setq org-ellipsis "⤵")
 #+end_src
+
+Let's hide these emphasis markers to make things a little cleaner.
 
 #+begin_src emacs-lisp
   (setq org-hide-emphasis-markers t)
