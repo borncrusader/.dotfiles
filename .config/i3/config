@@ -10,7 +10,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod1
-set $win Mod4
+#set $win Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -168,9 +168,9 @@ assign [class="Clementine"] $w8
 for_window [class="Artha"] floating enable
 
 # Shortcuts
-bindsym $win+f exec franz
-bindsym $win+b exec brave
-bindsym $win+c exec code
+#bindsym $win+f exec franz
+#bindsym $win+b exec brave
+#bindsym $win+c exec code
 
 # Other quirks
 default_border none
