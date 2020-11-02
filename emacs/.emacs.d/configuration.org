@@ -249,6 +249,12 @@ I like =swiper= and =ivy= for incremental search.
     (ivy-mode 1))
 #+end_src
 
+#+begin_src emacs-lisp
+;;(use-package ivy-rich
+;;  :init
+;;  (ivy-rich-mode 1))
+#+end_src
+
 * =org-mode=
 ** Initial Setup
 
@@ -330,12 +336,22 @@ Setup some key bindings for opening up some quick files
        (file "~/.emacs.d/org-templates/book.orgcaptmpl"))
       ("j" "Journal" entry (file (lambda() (org-default-journal-file)))
         (file "~/.emacs.d/org-templates/journal.orgcaptmpl"))
+      ("n" "Notes" entry (file+headline (lambda() org-default-notes-file) "Inbox")
+        (file "~/.emacs.d/org-templates/notes.orgcaptmpl"))
       ("q" "Questions" entry (file org-default-questions-file)
         (file "~/.emacs.d/org-templates/questions.orgcaptmpl"))
       ("t" "Todo" entry (file+headline org-default-todo-file "Inbox")
         "** TODO %?\n %i\n")
       ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") org-work-directory)))
         (file "~/.emacs.d/org-templates/work.orgcaptmpl"))))
+#+end_src
+
+** Map entries
+
+#+begin_src emacs-lisp
+  ;;(defun org-mark-as-done ()
+  ;;  message "hi")
+  ;;(org-map-entries '(org-mark-as-done) t 'tree)
 #+end_src
 
 ** Display preferences
