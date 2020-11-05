@@ -270,7 +270,6 @@ Let's first setup default directories and files for =org-mode=.
   (setq org-directory "~/org")
   (setq org-books-directory (concat org-directory "/books"))
   (setq org-journal-directory (concat org-directory "/journal"))
-  (setq org-templates-directory (concat org-directory "/templates"))
   (setq org-work-directory (concat org-directory "/work"))
 
   (setq org-default-book-notes-file (concat org-books-directory "/book-notes.org"))
@@ -304,6 +303,12 @@ Define these helpful utility methods.
           (f (format-time-string "/%d.org")))
       (progn (make-directory d 1)
              (concat d f))))
+	     
+  (defun get-file-contents (filename)
+    "Return the contents of FILENAME."
+    (with-temp-buffer
+      (insert-file-contents filename)
+      (buffer-string)))
 #+end_src
 
 ** Keybindings
@@ -342,25 +347,25 @@ Setup some key bindings for opening up some quick files
 #+end_src
 
 ** Capture Templates
-
+*** TODO make org templates into variables
 #+begin_src emacs-lisp
   (setq org-capture-templates
     '(("b" "Book" entry (file+headline org-default-book-notes-file "Unfiled")
-       (file (concat org-templates-directory "/book-notes.orgcaptmpl")))
+       (file "~/org/templates/book-notes.orgcaptmpl"))
       ("c" "Course Notes" entry (file (lambda() (org-default-course-notes-file)))
-        (file (concat org-templates-directory "/course-notes.orgcaptmpl")))
+        (file "~/org/templates/course-notes.orgcaptmpl"))
       ("j" "Journal" entry (file (lambda() (org-default-journal-file)))
-        (file (concat org-templates-directory "/journal.orgcaptmpl")))
+        (file "~/org/templates//journal.orgcaptmpl"))
       ("n" "Notes" entry (file+headline (lambda() org-default-notes-file) "Inbox")
-        (file (concat org-templates-directory "/notes.orgcaptmpl")))
+        (file "~/org/templates/notes.orgcaptmpl"))
       ("t" "TODO" entry (file+headline org-default-todo-file "Inbox")
         "** TODO %?\n %i\n")
       ("u" "Questions" entry (file org-default-questions-file)
-        (file (concat org-templates-directory "/questions.orgcaptmpl")))
+        (file "~/org/templates/questions.orgcaptmpl"))
       ("v" "Work TODO" entry (file+headline org-default-work-todo-file "Inbox")
         "** TODO %?\n %i\n")
       ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") org-work-directory)))
-        (file (concat org-templates-directory "/work-notes.orgcaptmpl")))))
+        (file "~/org/templates/work-notes.orgcaptmpl"))))
 #+end_src
 
 ** Agenda
