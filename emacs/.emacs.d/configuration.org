@@ -91,7 +91,7 @@ There's a tiny scroll bar that appears in the minibuffer window. This disables t
 The default frame title isn't useful. This binds it to the name of the current project:
 
 #+begin_src emacs-lisp
-  (setq frame-title-format '((:eval (projectile-project-name))))
+  ;;(setq frame-title-format '((:eval (projectile-project-name))))
 #+end_src
 
 Use fancy symbols instead of text; example =lambda= becomes λ.
@@ -160,6 +160,12 @@ Not a huge fan of backup files that emacs leaves around in the filesystem.
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
+I prefer having the capture windows and the like open as horizontal splits.
+
+#+begin_src emacs-lisp
+  (setq split-width-threshold nil
+        split-height-threshold 80)
+#+end_src
 * =which-key=
 
 =which-key= is helpful to learn key bindings when pressing common key chords starting with =C-x= or =C-h=.
@@ -262,12 +268,17 @@ Let's first setup default directories and files for =org-mode=.
 
 #+begin_src emacs-lisp
   (setq org-directory "~/org")
+  (setq org-books-directory (concat org-directory "/books"))
   (setq org-journal-directory (concat org-directory "/journal"))
+  (setq org-templates-directory (concat org-directory "/templates"))
   (setq org-work-directory (concat org-directory "/work"))
-  (setq org-default-books-file (concat org-directory "/books.org"))
+
+  (setq org-default-book-notes-file (concat org-books-directory "/book-notes.org"))
+  (setq org-default-course-notes-file (concat org-directory "/course-notes.org"))
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-default-questions-file (concat org-directory "/questions.org"))
   (setq org-default-todo-file (concat org-directory "/inbox.org"))
+  (setq org-default-work-todo-file (concat org-work-directory "/inbox.org"))
 #+end_src
 
 When doing exports, we'll always export as UTF-8.
@@ -311,12 +322,14 @@ Setup some key bindings for opening up some quick files
     (lambda () (interactive) (find-file org-default-notes-file)))
   (global-set-key (kbd "C-c o")
     (lambda () (interactive) (find-file org-default-todo-file)))
-  (global-set-key (kbd "C-c q")
+  (global-set-key (kbd "C-c u")
     (lambda () (interactive) (find-file org-default-questions-file)))
+  (global-set-key (kbd "C-c v")
+    (lambda () (interactive) (find-file org-default-work-todo-file)))
   (global-set-key (kbd "C-c w")
     (lambda () (interactive)
       (find-file (expand-file-name (format-time-string "%Y-%m.org") org-work-directory))))
-  (global-set-key (kbd "C-c j")
+  (global-set-key (kbd "C-c t")
     (lambda () (interactive) (find-file (org-default-journal-file))))
 #+end_src
 
@@ -332,26 +345,40 @@ Setup some key bindings for opening up some quick files
 
 #+begin_src emacs-lisp
   (setq org-capture-templates
-    '(("b" "Book" entry (file+headline org-default-books-file "Unfiled")
-       (file "~/.emacs.d/org-templates/book.orgcaptmpl"))
+    '(("b" "Book" entry (file+headline org-default-book-notes-file "Unfiled")
+       (file (concat org-templates-directory "/book-notes.orgcaptmpl")))
+      ("c" "Course Notes" entry (file (lambda() (org-default-course-notes-file)))
+        (file (concat org-templates-directory "/course-notes.orgcaptmpl")))
       ("j" "Journal" entry (file (lambda() (org-default-journal-file)))
-        (file "~/.emacs.d/org-templates/journal.orgcaptmpl"))
+        (file (concat org-templates-directory "/journal.orgcaptmpl")))
       ("n" "Notes" entry (file+headline (lambda() org-default-notes-file) "Inbox")
-        (file "~/.emacs.d/org-templates/notes.orgcaptmpl"))
-      ("q" "Questions" entry (file org-default-questions-file)
-        (file "~/.emacs.d/org-templates/questions.orgcaptmpl"))
-      ("t" "Todo" entry (file+headline org-default-todo-file "Inbox")
+        (file (concat org-templates-directory "/notes.orgcaptmpl")))
+      ("t" "TODO" entry (file+headline org-default-todo-file "Inbox")
+        "** TODO %?\n %i\n")
+      ("u" "Questions" entry (file org-default-questions-file)
+        (file (concat org-templates-directory "/questions.orgcaptmpl")))
+      ("v" "Work TODO" entry (file+headline org-default-work-todo-file "Inbox")
         "** TODO %?\n %i\n")
       ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") org-work-directory)))
-        (file "~/.emacs.d/org-templates/work.orgcaptmpl"))))
+        (file (concat org-templates-directory "/work-notes.orgcaptmpl")))))
+#+end_src
+
+** Agenda
+
+#+begin_src emacs-lisp
+  (setq org-agenda-files (list org-default-todo-file
+                               org-default-work-todo-file))
 #+end_src
 
 ** Map entries
 
 #+begin_src emacs-lisp
-  ;;(defun org-mark-as-done ()
-  ;;  message "hi")
-  ;;(org-map-entries '(org-mark-as-done) t 'tree)
+  (defun org-archive-done-items ()
+    (interactive)
+    (progn
+      (org-map-entries 'org-archive-subtree "/DONE" 'done.org)
+      (org-map-entries 'org-archive-subtree "/DONE" 'done.org)))
+  (global-set-key (kbd "C-c j") 'org-archive-done-items)
 #+end_src
 
 ** Display preferences
