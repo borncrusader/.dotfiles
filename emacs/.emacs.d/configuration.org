@@ -163,8 +163,7 @@ Not a huge fan of backup files that emacs leaves around in the filesystem.
 I prefer having the capture windows and the like open as horizontal splits.
 
 #+begin_src emacs-lisp
-  (setq split-width-threshold nil
-        split-height-threshold 80)
+  (setq split-width-threshold nil)
 #+end_src
 * =which-key=
 
@@ -275,7 +274,7 @@ Let's first setup default directories and files for =org-mode=.
   (setq org-default-book-notes-file (concat org-books-directory "/book-notes.org"))
   (setq org-default-course-notes-file (concat org-directory "/course-notes.org"))
   (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (setq org-default-questions-file (concat org-directory "/questions.org"))
+  (setq org-default-learn-list-file (concat org-directory "/learn.org"))
   (setq org-default-todo-file (concat org-directory "/inbox.org"))
   (setq org-default-work-todo-file (concat org-work-directory "/inbox.org"))
 #+end_src
@@ -322,13 +321,12 @@ Setup some key bindings for opening up some quick files
   (global-set-key (kbd "C-c c") 'org-capture)
   (global-set-key (kbd "C-c g")
     (lambda () (interactive) (find-file "~/.emacs.d/configuration.org")))
-  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c l")
+    (lambda () (interactive) (find-file org-default-learn-list-file)))
   (global-set-key (kbd "C-c n")
     (lambda () (interactive) (find-file org-default-notes-file)))
   (global-set-key (kbd "C-c o")
     (lambda () (interactive) (find-file org-default-todo-file)))
-  (global-set-key (kbd "C-c u")
-    (lambda () (interactive) (find-file org-default-questions-file)))
   (global-set-key (kbd "C-c v")
     (lambda () (interactive) (find-file org-default-work-todo-file)))
   (global-set-key (kbd "C-c w")
@@ -352,15 +350,17 @@ Setup some key bindings for opening up some quick files
   (setq org-capture-templates
     '(("b" "Book" entry (file+headline org-default-book-notes-file "Unfiled")
        (file "~/org/templates/book-notes.orgcaptmpl"))
-      ("c" "Course Notes" entry (file (lambda() (org-default-course-notes-file)))
+      ("c" "Course Notes" entry (file+headline org-default-course-notes-file "Unfiled")
         (file "~/org/templates/course-notes.orgcaptmpl"))
       ("j" "Journal" entry (file (lambda() (org-default-journal-file)))
         (file "~/org/templates//journal.orgcaptmpl"))
-      ("n" "Notes" entry (file+headline (lambda() org-default-notes-file) "Inbox")
+      ("l" "Learn List" entry (file+headline org-default-learn-list-file "Unfiled")
+        "** TODO %?\n %i\n")
+      ("n" "Notes" entry (file+headline org-default-notes-file "Unfiled")
         (file "~/org/templates/notes.orgcaptmpl"))
       ("t" "TODO" entry (file+headline org-default-todo-file "Inbox")
         "** TODO %?\n %i\n")
-      ("u" "Questions" entry (file org-default-questions-file)
+      ("u" "Questions" entry (file+headline org-default-learn-list-file "Questions")
         (file "~/org/templates/questions.orgcaptmpl"))
       ("v" "Work TODO" entry (file+headline org-default-work-todo-file "Inbox")
         "** TODO %?\n %i\n")
