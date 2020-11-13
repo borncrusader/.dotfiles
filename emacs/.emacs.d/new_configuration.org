@@ -1,0 +1,410 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Srinath Krishna Ananthakrishnan
+#+EMAIL: srinath.krishna@gmail.com
+#+OPTIONS: toc:nil num:nil
+
+* About
+
+* Personal Info
+
+#+begin_src emacs-lisp
+  (setq user-full-name "Srinath Krishna Ananthakrishnan"
+    user-mail-address "srinath.krishna@gmail.com"
+    calendar-location-name "San Francisco, CA")
+#+end_src
+
+* Package Management
+
+#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")))
+			   ;;("elpa" . "https://elpa.gnu.org/packages/")))
+
+  ;; always compile packages
+  (use-package auto-compile
+    :config
+    (auto-compile-on-load-mode))
+
+  ;; Initialize use-package
+  (package-initialize)
+  (when (not (package-installed-p 'use-package))
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  ;; always have packages ensured by default
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
+
+  ;; try lets us try packages without installing
+  (use-package try)
+#+end_src
+
+* Common Quirks
+
+#+begin_src emacs-lisp
+  ;; use shorter prompts
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  ;; use ibuffer for buffer management
+  (defalias 'list-buffers 'ibuffer-other-window)
+
+  ;; don't create backup files
+  (setq make-backup-files nil)
+
+  ;; ESC should quit prompts
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+  ;; which-key is useful to learn key combinations
+  (use-package which-key
+    :init (which-key-mode)
+    :config (setq which-key-idle-delay 1)
+    :diminish)
+#+end_src
+
+* UX Enhancements
+
+#+begin_src emacs-lisp
+  ;; disable splash screen
+  (setq inhibit-splash-screen t)
+
+  ;; remove unnecessary bars to give some more room
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tooltip-mode 0)
+  (fringe-mode 4) ;; give some breathing room around the edges
+
+  ;; disable minibuffer scrollbar
+  (set-window-scroll-bars (minibuffer-window) nil nil)
+
+  ;; use fancy symbols for text; for example lambda becomes λ.
+  (global-prettify-symbols-mode t)
+
+  ;; set theme and font
+  (use-package doom-themes)
+  (load-theme 'doom-dracula t)
+  (setq default-frame-alist '((font . "Monaco-16")))
+
+  ;; jazz up with some icons
+  (use-package all-the-icons)
+
+  ;; modeline
+  (use-package doom-modeline
+    :init
+    (doom-modeline-mode 1))
+
+  ;; display column numbers, line numbers and highlight entire line
+  (column-number-mode 1)
+  (global-display-line-numbers-mode 1)
+  (global-hl-line-mode 1)
+
+  ;; stray whitespaces will be highlighted
+  (global-whitespace-mode 1)
+  (setq
+     whitespace-style
+     '(face ; viz via faces
+       trailing ; trailing blanks visualized
+       lines-tail ; lines beyond whitespace-line-column
+       space-before-tab
+       space-after-tab
+       newline ; lines with only blanks
+       indentation ; spaces used for when config wants tabs
+       empty ; empty lines at beginning or end
+       )
+     whitespace-line-column 100 ; column at whitespace-mode says the line is too long
+  )
+
+  ;; parenthesis matching and rainbox delimiters
+  (show-paren-mode 1)
+  (use-package rainbow-delimiters
+    :hook
+    (prog-mode . rainbow-delimiters-mode))
+
+  ;; default split, mostly for org-mode would be horizontal and not vertical
+  (setq split-width-threshold nil)
+#+end_src
+* Let's get =evil=
+
+#+begin_src emacs-lisp
+  ;; install evil
+  (use-package evil
+    :init
+    (setq evil-want-abbrev-expand-on-insert-exit nil
+      evil-want-keybinding nil)
+    :config
+    (evil-mode 1)):
+
+  ;; evil-friendly bindings for many modes
+  (use-package evil-collection
+    :after
+    evil
+    :config
+    (setq evil-collection-mode-list
+      '(ag dired magit mu4e which-key))
+    (evil-collection-init))
+
+  ;; surround everywhere
+  (use-package evil-surround
+    :config
+    (global-evil-surround-mode 1))
+
+  ;; evil with org mode
+  (use-package evil-org
+    :after org
+    :config
+    (add-hook 'org-mode-hook 'evil-org-mode)
+    (add-hook 'evil-org-mode-hook
+      (lambda () (evil-org-set-key-theme)))
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
+#+end_src
+* Searching
+
+#+begin_src emacs-lisp
+  ;; install swiper and ivy for incremental search
+  (use-package ivy
+    :diminish
+    :config
+    (ivy-mode 1))
+
+  (use-package swiper
+    :after
+    ivy
+    :bind
+    (("C-s" . swiper)
+     ("C-r" . swiper-backward)))
+#+end_src
+
+* Org Mode
+
+#+begin_src emacs-lisp
+  ;; default directories
+  (setq org-directory "~/org")
+  (setq org-books-directory (concat org-directory "/books"))
+  (setq org-feeds-directory (concat org-directory "/feeds"))
+  (setq org-journal-directory (concat org-directory "/journal"))
+  (setq org-work-directory (concat org-directory "/work"))
+
+  ;; default files
+  (setq org-default-book-notes-file (concat org-books-directory "/book-notes.org"))
+  (setq org-default-course-notes-file (concat org-directory "/course-notes.org"))
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-default-learn-list-file (concat org-directory "/learn.org"))
+  (setq org-default-projects-file (concat org-directory "/projects.org"))
+  (setq org-default-todo-file (concat org-directory "/inbox.org"))
+  (setq org-default-work-todo-file (concat org-work-directory "/inbox.org"))
+  (setq org-elfeed-file (concat org-feeds-directory "/elfeed.org"))
+
+  ;; export to utf-8
+  (setq org-export-coding-system 'utf-8)
+
+  ;; hooks
+  (add-hook 'org-mode-hook #'visual-line-mode)
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+  (add-hook 'org-mode-hook (lambda() (setq fill-column 100)))
+
+  ;; utility methods
+  (defun org-default-journal-file ()
+    "Return the journal file for the day"
+    (let ((d (concat org-journal-directory (format-time-string "/%y/%m")))
+      (f (format-time-string "/%d.org")))
+      (progn (make-directory d 1)
+       (concat d f))))
+
+  (defun get-file-contents (filename)
+    "Return the contents of FILENAME"
+    (with-temp-buffer
+      (insert-file-contents filename)
+      (buffer-string)))
+
+  (defun org-sort-and-archive-done ()
+    "Sort and archive all done items"
+    (progn (org-map-entries '(org-sort-entries t ?o) "ROOT=\"true\"" 'file)
+      (org-map-entries 'org-archive-subtree "/DONE" 'file)
+      (org-map-entries 'org-archive-subtree "/NOTDOING" 'file)))
+
+  ;; setup key bindings
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c b")
+    (lambda ()
+      "Open default books file"
+      (interactive) (find-file org-default-books-file)))
+  (global-set-key (kbd "C-c c") 'org-capture)
+  (global-set-key (kbd "C-c g")
+    (lambda ()
+      "Open emacs configuration file"
+      (interactive) (find-file "~/.emacs.d/new_configuration.org")))
+  ;;(global-set-key (kbd "C-c l")
+  ;;  (lambda () (interactive) (find-file org-default-learn-list-file)))
+  (global-set-key (kbd "C-c n")
+    (lambda ()
+      "Open default notes file"
+      (interactive) (find-file org-default-notes-file)))
+  (global-set-key (kbd "C-c o")
+    (lambda ()
+      "Open default TODO file"
+      (interactive) (find-file org-default-todo-file)))
+  ;;(global-set-key (kbd "C-c p")
+  ;;  (lambda () (interactive) (find-file org-default-projects-file)))
+  (global-set-key (kbd "C-c v")
+    (lambda ()
+      "Open default work TODO file"
+      (interactive) (find-file org-default-work-todo-file)))
+  (global-set-key (kbd "C-c w")
+    (lambda ()
+      "Open default work notes file"
+      (interactive)
+      (find-file (expand-file-name (format-time-string "%Y-%m.org") org-work-directory))))
+  (global-set-key (kbd "C-c t")
+    (lambda ()
+      "Open default journal file"
+      (interactive) (find-file (org-default-journal-file))))
+  (global-set-key (kbd "C-c C-x s")
+    (lambda ()
+      "Sort and archive all done items"
+      (interactive)
+      (progn (org-sort-and-archive-done)
+       (message "Sorted and archived all done items"))))
+
+  ;; templates for various kinds of files
+  (setq org-capture-templates
+    '(("b" "Book" entry (file+headline org-default-book-notes-file "Unfiled")
+       (file "~/org/templates/book-notes.orgcaptmpl"))
+      ("c" "Course Notes" entry (file+headline org-default-course-notes-file "Unfiled")
+       (file "~/org/templates/course-notes.orgcaptmpl"))
+      ("f" "Feeds" entry (file+headline org-elfeed-file "Incoming")
+       "** %?\n")
+      ("j" "Journal" entry (file (lambda() (org-default-journal-file)))
+       (file "~/org/templates//journal.orgcaptmpl"))
+      ("l" "Learn List" entry (file+headline org-default-learn-list-file "Unfiled")
+       "** TODO %?\n %i\n")
+      ("n" "Notes" entry (file+headline org-default-notes-file "Unfiled")
+       (file "~/org/templates/notes.orgcaptmpl"))
+      ("t" "TODO" entry (file+headline org-default-todo-file "Inbox")
+       "** TODO %?\n %i\n")
+      ("u" "Questions" entry (file+headline org-default-learn-list-file "Questions")
+       (file "~/org/templates/questions.orgcaptmpl"))
+      ("v" "Work TODO" entry (file+headline org-default-work-todo-file "Inbox")
+       "** TODO %?\n %i\n")
+      ("w" "Work" entry (file (lambda() (expand-file-name (format-time-string "%Y-%m.org") org-work-directory)))
+       (file "~/org/templates/work-notes.orgcaptmpl"))))
+
+  ;; default agenda files
+  (setq org-agenda-files
+    (list org-default-todo-file org-default-work-todo-file))
+
+  ;; ux improvements
+  (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook 'org-bullets-mode))
+  (setq org-ellipsis "⤵")
+  (setq org-hide-emphasis-markers t)
+  (setq org-src-fontify-natively t)
+#+end_src
+
+* Reading
+
+#+begin_src emacs-lisp
+  (defun elfeed-mark-all-as-read ()
+    "Mark all the feed items as read"
+    (interactive)
+    (mark-whole-buffer)
+    (elfeed-search-untag-all-unread))
+
+  (defun elfeed-search-browse-background-url ()
+    "Open current `elfeed' entry (or region entries) in browser without losing focus."
+    (interactive)
+    (let ((entries (elfeed-search-selected)))
+      (mapc (lambda (entry)
+	(cl-assert (memq system-type '(darwin)) t "open command is macOS only")
+	(start-process (concat "open " (elfeed-entry-link entry))
+	  nil "open" "--background" "-a" elfeed-default-browser (elfeed-entry-link entry))
+	(elfeed-untag entry 'unread)
+	(elfeed-search-update-entry entry))
+      entries)
+      (unless (or elfeed-search-remain-on-entry (use-region-p))
+	(forward-line))))
+
+  (use-package elfeed
+    :bind
+    ("C-c f" . elfeed)
+    (:map elfeed-search-mode-map
+      ("b" . elfeed-search-browse-background-url)
+      ("m" . elfeed-toggle-star)
+      ("j" . evil-next-line)
+      ("k" . evil-previous-line))
+    :config
+    (defalias 'elfeed-toggle-star
+      (elfeed-expose 'elfeed-search-toggle-all 'star))
+    (setq elfeed-db-directory org-feeds-directory)
+    (setq elfeed-default-browser "Brave Browser"))
+
+  (use-package elfeed-goodies
+    :config
+    (elfeed-goodies/setup))
+
+  (use-package elfeed-org
+    :config
+    (elfeed-org)
+    (setq rmh-elfeed-org-files (list org-elfeed-file)))
+#+end_src
+
+* Common Programming
+
+#+begin_src emacs-lisp
+  ;; grab PATH and GOPATH from the shell
+  (use-package exec-path-from-shell
+    :if (memq window-system '(mac ns))
+    :init
+    (setq exec-path-from-shell-check-startup-files nil)
+    :config
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "GOPATH"))
+
+  ;; packages for autocomplete, linting et. al
+  ;;(use-package lsp
+  ;;  :config
+  ;;  (lsp-register-custom-settings
+  ;;    '(("gopls.completeUnimported" t t)))
+  ;;  :commands
+  ;;  (lsp lsp-deferred)
+  ;;  :hook
+  ;;  (go-mode . lsp-deferred))
+  ;;(use-package lsp-ui
+  ;;  :commands
+  ;;  lsp-ui-mode)
+  (use-package company
+    :diminish)
+  ;;(use-package company-lsp
+  ;;  :commands
+  ;;  company-lsp)
+  (use-package flycheck)
+#+end_src
+
+* Julia
+
+#+begin_src emacs-lisp
+  ;;(use-package julia-mode)
+  ;;(use-package lsp-julia)
+#+end_src
+
+* Golang
+#+begin_src emacs-lisp
+  (use-package go-mode)
+
+  (defun lsp-go-install-save-hooks ()
+    "Run formatting and organize imports on save"
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+
+#+end_src
+* References
+
+1. =hsr='s humongous [[https://github.com/hrs/dotfiles/blob/main/emacs/dot-emacs.d/configuration.org][configuration]]
+2. =hsr='s talk on [[https://www.youtube.com/watch?v=SzA2YODtgK4][YouTube]]
+3. =daviwil='s excellent [[https://github.com/daviwil/dotfiles][dotfiles]]
+4. =daviwil='s excellent series on [[https://www.youtube.com/watch?v=74zOY-vgkyw&list=PLEoMzSkcN8oPH1au7H6B7bBJ4ZO7BXjSZ][YouTube]]
+5. =knz='s [[https://dr-knz.net/a-tour-of-emacs-as-go-editor.html][configuration]] for go
