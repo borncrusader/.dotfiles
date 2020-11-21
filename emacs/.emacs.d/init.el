@@ -1,4 +1,6 @@
-(org-babel-load-file "~/.emacs.d/new_configuration.org")
+(if (file-newer-than-file-p "~/.emacs.d/new_configuration.el" "~/.emacs.d/new_configuration.org")
+    (load "~/.emacs.d/new_configuration.el")
+    (org-babel-load-file "~/.emacs.d/new_configuration.org"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

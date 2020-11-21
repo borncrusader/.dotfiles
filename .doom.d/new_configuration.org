@@ -1,0 +1,117 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Srinath Krishna Ananthakrishnan
+#+EMAIL: srinath.krishna@gmail.com
+#+OPTIONS: toc:nil num:nil
+
+* Org Mode
+
+#+begin_src emacs-lisp
+  ;; hooks
+  (add-hook 'org-mode-hook (lambda() (setq fill-column 100)))
+#+end_src
+
+* Reading
+
+#+begin_src emacs-lisp
+  (defun elfeed-mark-all-as-read ()
+    "Mark all the feed items as read"
+    (interactive)
+    (mark-whole-buffer)
+    (elfeed-search-untag-all-unread))
+
+  (defun elfeed-search-browse-background-url ()
+    "Open current `elfeed' entry (or region entries) in browser without losing focus."
+    (interactive)
+    (let ((entries (elfeed-search-selected)))
+      (mapc (lambda (entry)
+	(cl-assert (memq system-type '(darwin)) t "open command is macOS only")
+	(start-process (concat "open " (elfeed-entry-link entry))
+	  nil "open" "--background" "-a" elfeed-default-browser (elfeed-entry-link entry))
+	(elfeed-untag entry 'unread)
+	(elfeed-search-update-entry entry))
+      entries)
+      (unless (or elfeed-search-remain-on-entry (use-region-p))
+	(forward-line))))
+
+  (use-package elfeed
+    :bind
+    ("C-c f" . elfeed)
+    (:map elfeed-search-mode-map
+      ("b" . elfeed-search-browse-background-url)
+      ("m" . elfeed-toggle-star)
+      ("j" . evil-next-line)
+      ("k" . evil-previous-line))
+    :config
+    (defalias 'elfeed-toggle-star
+      (elfeed-expose 'elfeed-search-toggle-all 'star))
+    (setq elfeed-db-directory org-feeds-directory)
+    (setq elfeed-default-browser "Brave Browser"))
+
+  (use-package elfeed-goodies
+    :config
+    (elfeed-goodies/setup))
+
+  (use-package elfeed-org
+    :config
+    (elfeed-org)
+    (setq rmh-elfeed-org-files (list org-elfeed-file)))
+#+end_src
+
+* Common Programming
+
+#+begin_src emacs-lisp
+  ;; grab PATH and GOPATH from the shell
+  (use-package exec-path-from-shell
+    :if (memq window-system '(mac ns))
+    :init
+    (setq exec-path-from-shell-check-startup-files nil)
+    :config
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "GOPATH"))
+
+  ;; packages for autocomplete, linting et. al
+  ;;(use-package lsp
+  ;;  :config
+  ;;  (lsp-register-custom-settings
+  ;;    '(("gopls.completeUnimported" t t)))
+  ;;  :commands
+  ;;  (lsp lsp-deferred)
+  ;;  :hook
+  ;;  (go-mode . lsp-deferred))
+  ;;(use-package lsp-ui
+  ;;  :commands
+  ;;  lsp-ui-mode)
+  (use-package company
+    :diminish)
+  ;;(use-package company-lsp
+  ;;  :commands
+  ;;  company-lsp)
+  (use-package flycheck)
+#+end_src
+
+* Julia
+
+#+begin_src emacs-lisp
+  ;;(use-package julia-mode)
+  ;;(use-package lsp-julia)
+#+end_src
+
+* Golang
+#+begin_src emacs-lisp
+  (use-package go-mode)
+
+  (defun lsp-go-install-save-hooks ()
+    "Run formatting and organize imports on save"
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+
+#+end_src
+* References
+
+1. =hsr='s humongous [[https://github.com/hrs/dotfiles/blob/main/emacs/dot-emacs.d/configuration.org][configuration]]
+2. =hsr='s talk on [[https://www.youtube.com/watch?v=SzA2YODtgK4][YouTube]]
+3. =daviwil='s excellent [[https://github.com/daviwil/dotfiles][dotfiles]]
+4. =daviwil='s excellent series on [[https://www.youtube.com/watch?v=74zOY-vgkyw&list=PLEoMzSkcN8oPH1au7H6B7bBJ4ZO7BXjSZ][YouTube]]
+5. =knz='s [[https://dr-knz.net/a-tour-of-emacs-as-go-editor.html][configuration]] for go
