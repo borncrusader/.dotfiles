@@ -161,7 +161,7 @@
       "C-c j" 'org-find-journal-file
       "C-c l" 'org-find-curiosity-file
       "C-c n" 'org-find-notes-file
-      "C-c o" 'org-find-todo-file
+      "C-c t" 'org-find-todo-file
       "C-c v" 'org-find-work-todo-file
       "C-c w" 'org-find-work-notes-file)
 
@@ -175,11 +175,11 @@
             "** %?\n")
            ("j" "Journal" entry (file (lambda() (org-journal-file-name)))
             (file "~/org/templates//journal.orgcaptmpl"))
+           ("l" "Curiosity" entry (file+headline org-curiosity-file "Incoming")
+            "** TODO %?\n %i\n")
            ("n" "Notes" entry (file+headline org-notes-file "Unfiled")
             (file "~/org/templates/notes.orgcaptmpl"))
            ("t" "TODO" entry (file+headline org-default-todo-file "Inbox")
-            "** TODO %?\n %i\n")
-           ("l" "Curiosity List" entry (file+headline org-curiosity-file "Incoming")
             "** TODO %?\n %i\n")
            ("v" "Work TODO" entry (file+headline org-work-todo-file "Inbox")
             "** TODO %?\n %i\n")
