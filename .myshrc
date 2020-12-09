@@ -244,7 +244,13 @@ plex()
 
 inspect_cert()
 {
-    if [ "$1" = "-f" ]; then
+    if [ "$1" = "-h" ]; then
+        echo "multiple usages:"
+        echo "  $0 -f {filename}        - inspect a cert in file"
+        echo "  $0 {host} [port]        - inspect a cert in host; default port is 443"
+        echo "  $0 -nosni {host} [port] - inspect a cert in host; no sni header is sent; default port is 443"
+        return
+    elif [ "$1" = "-f" ]; then
         file=$2
         shift 2
     elif [ "$1" = "-nosni" ];then
@@ -252,16 +258,16 @@ inspect_cert()
         shift 1
     fi
 
-    host=$1
-    if [ -n "$2" ]; then
-        port=$2
-    else
-        port=443
-    fi
-
     if [ -n "$file" ]; then
         openssl x509 -in "$file" -text -noout
     else
+        host=$1
+        if [ -n "$2" ]; then
+            port=$2
+        else
+            port=443
+        fi
+
         if [ -n "$nosni" ]; then
         echo | \
             openssl s_client -showcerts -connect "$host:$port" 2>/dev/null | \
