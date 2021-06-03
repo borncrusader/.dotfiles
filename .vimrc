@@ -63,9 +63,6 @@ autocmd FileType go setlocal textwidth=79 shiftwidth=4 softtabstop=4 tabstop=4 e
 "let g:ctags_statusline=1
 "let generate_tags=1
 
-" Ultisnips directory for extra snippets
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
-
 " show extra whitespaces as red
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/

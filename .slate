@@ -6,7 +6,7 @@ alias primary 1
 
 # binding applications to tags
 #bind 1:cmd focus 'iTerm2'
-bind 1:cmd focus 'kitty'
+bind 1:cmd focus 'Alacritty'
 bind 2:cmd focus 'Emacs'
 bind 3:cmd focus 'Firefox'
 bind 4:cmd focus 'Brave Browser'

@@ -80,10 +80,10 @@
 (setq! org-books-directory (concat org-directory "/books")
        org-feeds-directory (concat org-directory "/feeds")
        org-journal-directory (concat org-directory "/journal")
+       org-notes-directory (concat org-directory "/notes")
        org-work-directory (concat org-directory "/work")
        org-book-notes-file (concat org-books-directory "/book-notes.org")
        org-course-notes-file (concat org-directory "/course-notes.org")
-       org-notes-file (concat org-directory "/notes.org")
        org-curiosity-file (concat org-directory "/curiosity.org")
        org-projects-file (concat org-directory "/projects.org")
        org-default-todo-file (concat org-directory "/inbox.org")
@@ -120,10 +120,15 @@
   (interactive)
   (find-file org-curiosity-file))
 
+(defun org-notes-file-name ()
+  "Get notes file name"
+  (interactive)
+  (concat org-notes-directory (format-time-string "/%Y-%m.org")))
+
 (defun org-find-notes-file ()
   "Open notes file"
   (interactive)
-  (find-file org-notes-file))
+  (find-file (org-notes-file-name)))
 
 (defun org-find-todo-file ()
   "Open TODO file"
@@ -147,9 +152,15 @@
          (org-map-entries 'org-archive-subtree "/DONE" 'file)
          (org-map-entries 'org-archive-subtree "/NOTDOING" 'file)))
 
-(defun org-sort-all-things()
+(defun org-sort-all-things ()
+  "Only sort"
   (interactive)
   (org-map-entries '(org-sort-entries t ?o) "ROOT=\"true\"" 'file))
+
+(defun org-curate-book-notes ()
+  "Curate all book notes to the appropriate file"
+  (interactive)
+  (concat (replace-regexp-in-string " " "-" (downcase "The Art of Engineering") ".org")))
 
 (map! :map org-mode-map
       :nv "C-c C-x s" 'org-sort-and-archive-done
@@ -177,7 +188,7 @@
             (file "~/org/templates//journal.orgcaptmpl"))
            ("l" "Curiosity" entry (file+headline org-curiosity-file "Incoming")
             "** TODO %?\n %i\n")
-           ("n" "Notes" entry (file+headline org-notes-file "Unfiled")
+           ("n" "Notes" entry (file (lambda() (org-notes-file-name)))
             (file "~/org/templates/notes.orgcaptmpl"))
            ("t" "TODO" entry (file+headline org-default-todo-file "Inbox")
             "** TODO %?\n %i\n")

@@ -44,13 +44,4 @@ bindkey ';5D' backward-word
 bindkey ';5C' forward-word
 bindkey '^[[3~' delete-char
 
-_add_to_path() {
-    [ -d "$1" ] && PATH="$1":$PATH
-}
-
-_source_if_exists() {
-    # shellcheck disable=SC1090
-    [ -f "$1" ] && . "$1"
-}
-
 _sp=${_sp}_Z

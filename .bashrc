@@ -32,4 +32,9 @@ set -o noclobber
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
 
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 _sp=${_sp}_BR
+

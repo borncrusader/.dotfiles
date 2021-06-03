@@ -57,6 +57,10 @@ _add_to_path() {
     [ -d "$1" ] && PATH="$1":$PATH
 }
 
+_add_to_cdpath() {
+    [ -d "$1" ] && CDPATH="$1":$CDPATH
+}
+
 _source_if_exists() {
     # shellcheck disable=SC1090
     [ -f "$1" ] && . "$1"
@@ -72,7 +76,10 @@ _add_to_path "/usr/local/opt/node@8/bin"
 _add_to_path "/usr/local/opt/gnu-sed/libexec/gnubin"
 _add_to_path "$HOME/.poetry/bin"
 _add_to_path "$HOME/bin/mac"
-
+_add_to_path "/usr/local/sbin"
+_add_to_path "$HOME/.yarn/bin"
+_add_to_path "$HOME/.config/yarn/global/node_modules/.bin"
+_add_to_path "/usr/local/opt/terraform@0.12/bin"
 
 # asdf
 _source_if_exists "/usr/local/opt/asdf/asdf.sh"

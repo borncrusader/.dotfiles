@@ -34,6 +34,7 @@ install_stow() {
 install_stow
 
 ## common
+create_link .dotfiles/.config/alacritty/alacritty.yml ~/.alacritty.yml
 create_link .dotfiles/.vim/ ~/.vim
 create_link .dotfiles/.doom.d ~/.doom.d
 create_link .dotfiles/emacs/.emacs.d/ ~/.emacs.d
@@ -53,7 +54,6 @@ create_link .dotfiles/.config/kitty ~/.config/kitty
 ## Linux specific
 if [ "$(uname)" = 'Linux' ]; then
 	create_link .dotfiles/.config/i3 ~/.config/i3
-	create_link .dotfiles/.config/alacritty ~/.config/alacritty
 	create_link .dotfiles/.xinitrc ~/.xinitrc
 	create_link .dotfiles/.xmodmap ~/.xmodmap
 	create_link .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0

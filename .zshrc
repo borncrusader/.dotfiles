@@ -54,5 +54,8 @@ set -o noclobber
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
 
+#if [ -e /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+#if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh"; fi  # This loads nvm
+
 _sp=${_sp}_ZR
-if [ -e /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
