@@ -29,6 +29,10 @@ shopt -s histappend
 # always best to set noclobber
 set -o noclobber
 
+# configure shortcuts
+bind '"\e[1;5C": forward-word'
+bind '"\e[1;5D": backward-word'
+
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
 

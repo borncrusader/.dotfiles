@@ -73,3 +73,6 @@
 [submodule ".vim/bundle/vim-pug"]
 	path = .vim/bundle/vim-pug
 	url = git://github.com/digitaltoad/vim-pug.git
+[submodule "zsh-vim-mode"]
+	path = zsh-vim-mode
+	url = https://github.com/softmoth/zsh-vim-mode.git

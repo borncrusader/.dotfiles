@@ -376,7 +376,7 @@ cursor:
     #   - ▇ Block
     #   - _ Underline
     #   - | Beam
-    shape: Underline
+    shape: Block
 
     # Cursor blinking state
     #
@@ -393,7 +393,7 @@ cursor:
   # the style of the active value of the normal cursor.
   #
   # See `cursor.style` for available options.
-  #vi_mode_style: None
+  vi_mode_style: Beam
 
   # Cursor blinking interval in milliseconds.
   #blink_interval: 750
