@@ -93,6 +93,10 @@ _source_if_exists "/usr/share/doc/pkgfile/command-not-found.zsh"
 # nix
 _source_if_exists "/Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh"
 
+# ruby
 _add_to_path "/Users/sananthakrishnan/.gem/ruby/2.6.0/bin"
+
+# emacs
+_add_to_path "/Applications/Emacs.app/Contents/MacOS"
 
 _sp=${_sp}_P
