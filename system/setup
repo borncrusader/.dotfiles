@@ -21,8 +21,6 @@ create_link()
 }
 
 ## common
-mkdir ~/org
-
 create_link .dotfiles/.config/alacritty/alacritty.yml ~/.alacritty.yml
 create_link .dotfiles/.vim/ ~/.vim
 create_link .dotfiles/.doom.d ~/.doom.d
@@ -39,7 +37,7 @@ create_link .dotfiles/.tmux.conf ~/.tmux.conf
 create_link .dotfiles/.vimrc ~/.vimrc
 create_link .dotfiles/.psqlrc ~/.psqlrc
 create_link .dotfiles/zsh-vim-mode ~/.zsh-vim-mode
-create_link .dotfiles/org/templates ~/org/templates
+create_link .dotfiles/org/templates ~/syncthing/obsidian/archive/org/templates
 
 ## Linux specific
 if [ "$(uname)" = 'Linux' ]; then
