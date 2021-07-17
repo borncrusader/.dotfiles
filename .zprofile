@@ -36,6 +36,8 @@ compinit
 autoload -U colors && colors
 
 # some keyboard shortcuts
+# helpful way to determine what a key press's code is on the prompt
+# press ctrl-v and then type your key combination
 bindkey ';10D' beginning-of-line
 bindkey ';10C' end-of-line
 bindkey "^[[1;5C" forward-word
@@ -43,14 +45,8 @@ bindkey "^[[1;5D" backward-word
 bindkey ';5D' backward-word
 bindkey ';5C' forward-word
 bindkey '^[[3~' delete-char
-
-_add_to_path() {
-    [ -d "$1" ] && PATH="$1":$PATH
-}
-
-_source_if_exists() {
-    # shellcheck disable=SC1090
-    [ -f "$1" ] && . "$1"
-}
+# TODO: doesn't work yet
+#bindkey '^[[1;3C' forward-kill-word
+bindkey '^[[1;3D' backward-kill-word
 
 _sp=${_sp}_Z

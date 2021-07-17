@@ -20,9 +20,6 @@ howdy()
     source "$HOME/.zshrc"
 }
 
-# source ohmyzsh
-#_source_if_exists "$HOME/.dotfiles/.ohmyzshrc"
-
 if [ -f $HOME/.dotfiles/antigen.zsh ]; then
     source $HOME/.dotfiles/antigen.zsh
 
@@ -30,8 +27,6 @@ if [ -f $HOME/.dotfiles/antigen.zsh ]; then
 
     antigen bundle git
     antigen bundle sudo
-    antigen bundle ruby
-    antigen bundle rails
     antigen bundle zsh-autosuggestions
     antigen bundle command-not-found
     antigen bundle zsh-users/zsh-autosuggestions
@@ -43,7 +38,21 @@ if [ -f $HOME/.dotfiles/antigen.zsh ]; then
     antigen apply
 fi
 
+# this is not part of zsh-users; hence using source
+if [ -f $HOME/.zsh-vim-mode/zsh-vim-mode.plugin.zsh ]; then
+    source "$HOME/.zsh-vim-mode/zsh-vim-mode.plugin.zsh"
+
+    #MODE_INDICATOR_VIINS='%F{15}<%F{8}INSERT<%f'
+    MODE_INDICATOR_VICMD='%F{10}<%F{2}NORMAL>%f'
+    MODE_INDICATOR_REPLACE='%F{9}<%F{1}REPLACE>%f'
+    MODE_INDICATOR_SEARCH='%F{13}<%F{5}SEARCH>%f'
+    MODE_INDICATOR_VISUAL='%F{12}<%F{4}VISUAL>%f'
+    MODE_INDICATOR_VLINE='%F{12}<%F{4}V-LINE>%f'
+fi
+
+# prompt shenanigans
 setopt PROMPT_SUBST
+
 # shellcheck disable=SC2034,1087,2154
 BASE_PROMPT="%m %{${fg_bold[red]}%}:: %{${fg[green]}%}%3~%(0?. . %{${fg[red]}%}%? )%{${fg[blue]}%}»%{${reset_color}%}"
 PROMPT="${BASE_PROMPT} "
@@ -54,5 +63,8 @@ set -o noclobber
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
 
+#if [ -e /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+#if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh"; fi  # This loads nvm
+
 _sp=${_sp}_ZR
-if [ -e /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

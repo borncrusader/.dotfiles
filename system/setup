@@ -20,20 +20,8 @@ create_link()
 	ln -s "$1" "$2"
 }
 
-install_stow() {
-    if [ "$(uname)" = 'Darwin' ]; then
-        echo "Detected Mac OS X; using Homebrew to install dependencies"
-        brew install stow
-    else
-        echo "Detected Linux; using pacman to install dependencies"
-        sudo pacman -S stow
-    fi
-}
-
-# install dependencies for the setup process
-install_stow
-
 ## common
+create_link .dotfiles/.config/alacritty/alacritty.yml ~/.alacritty.yml
 create_link .dotfiles/.vim/ ~/.vim
 create_link .dotfiles/.doom.d ~/.doom.d
 create_link .dotfiles/emacs/.emacs.d/ ~/.emacs.d
@@ -48,12 +36,12 @@ create_link .dotfiles/.screenrc ~/.screenrc
 create_link .dotfiles/.tmux.conf ~/.tmux.conf
 create_link .dotfiles/.vimrc ~/.vimrc
 create_link .dotfiles/.psqlrc ~/.psqlrc
-create_link .dotfiles/.config/kitty ~/.config/kitty
+create_link .dotfiles/zsh-vim-mode ~/.zsh-vim-mode
+create_link .dotfiles/org/templates ~/syncthing/obsidian/archive/org/templates
 
 ## Linux specific
 if [ "$(uname)" = 'Linux' ]; then
 	create_link .dotfiles/.config/i3 ~/.config/i3
-	create_link .dotfiles/.config/alacritty ~/.config/alacritty
 	create_link .dotfiles/.xinitrc ~/.xinitrc
 	create_link .dotfiles/.xmodmap ~/.xmodmap
 	create_link .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
