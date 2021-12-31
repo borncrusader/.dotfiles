@@ -98,13 +98,6 @@ grayscale()
         "$1"
 }
 
-dboxsanity()
-{
-    find "$HOME/Dropbox/" -name '*conflicted*'
-    find "$HOME/Dropbox/" -name '.*.swp'
-    find "$HOME/Dropbox/sysdump" -type f -not -name '*.md'
-}
-
 refresh()
 {
     usage() {
@@ -246,13 +239,18 @@ inspect_cert()
 {
     if [ "$1" = "-h" ]; then
         echo "multiple usages:"
-        echo "  $0 -f {filename}        - inspect a cert in file"
-        echo "  $0 {host} [port]        - inspect a cert in host; default port is 443"
-        echo "  $0 -nosni {host} [port] - inspect a cert in host; no sni header is sent; default port is 443"
+        echo "  $0 -f {filename}                    - inspect a cert in file"
+        echo "  $0 -sni {servername} {host} [port]  - inspect a cert in host; providing an SNI header; default port is 443"
+        echo "  $0 -nosni {host} [port]             - inspect a cert in host; no sni header is sent; default port is 443"
+        echo "  $0 {host} [port]                    - inspect a cert in host; default port is 443"
         return
     elif [ "$1" = "-f" ]; then
         file=$2
         shift 2
+    elif [ "$1" = "-sni" ]; then
+        shift 1
+        servername=$1
+        shift 1
     elif [ "$1" = "-nosni" ];then
         nosni=TRUE
         shift 1
@@ -271,6 +269,10 @@ inspect_cert()
         if [ -n "$nosni" ]; then
         echo | \
             openssl s_client -showcerts -connect "$host:$port" 2>/dev/null | \
+            openssl x509 -inform pem -noout -text
+        elif [ -n "$servername" ]; then
+        echo | \
+            openssl s_client -showcerts -servername "$servername" -connect "$host:$port" 2>/dev/null | \
             openssl x509 -inform pem -noout -text
         else
         echo | \
