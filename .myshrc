@@ -138,7 +138,7 @@ refresh()
                 fi
                 pacgraph -s -f "$2"
                 ;;
-            "")
+            "-a" | "")
                 sudo pacman -Syyu
                 yay -Sua
 
@@ -146,8 +146,9 @@ refresh()
                     sudo pacman --noconfirm -S linux-lts linux-lts-headers \
                         linux-lts-docs nvidia-lts linux-zen linux-zen-docs \
                         linux-zen-headers nvidia-dkms v4l2loopback-dkms \
-                        virtualbox-guest-dkms virtualbox-host-dkms \
-                        wireguard-dkms zfs-utils zfs-dkms nvidia-utils
+                        virtualbox-guest-utils virtualbox-host-dkms \
+                        zfs-utils zfs-dkms nvidia-utils
+                        #wireguard-dkms
                     yay -S zenpower-dkms
                 fi
                 ;;
