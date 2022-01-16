@@ -35,7 +35,6 @@ alias cdg='cd $GOPATH'
 # os specific
 if [ "$OS" = 'MAC' ]; then
 	alias ls=' ls -GFh'
-    alias wumount="sudo umount -f /Volumes/Salesforce"
     alias vim="/usr/local/bin/vim"
 else
 	alias ls=' ls -F --color'
@@ -53,22 +52,12 @@ mount_all()
             sudo hdiutil attach "$HOME/code/code.dmg.sparseimage" \
                 -mountpoint "$CODE"
         fi
-        if [ -f "$HOME/code/personal.dmg.sparseimage" ]; then
-            sudo hdiutil attach "$HOME/code/personal.dmg.sparseimage" \
-                -mountpoint "/Volumes/personal"
-        fi
-        if [ -f "$HOME/code/work.dmg.sparseimage" ]; then
-            sudo hdiutil attach "$HOME/code/work.dmg.sparseimage" \
-                -mountpoint "/Volumes/work"
-        fi
     fi
 }
 
 umount_all()
 {
     sudo umount -f /Volumes/code
-    sudo umount -f /Volumes/personal
-    sudo umount -f /Volumes/Salesforce
 }
 
 mkcd()

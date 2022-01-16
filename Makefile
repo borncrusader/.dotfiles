@@ -6,8 +6,11 @@ list:
 position:
 	git submodule foreach git co master
 
+checkout:
+	git submodule foreach git checkout -- .
+
 update:
 	git submodule foreach git pull
 
-do: position update
+febreze: checkout position update
 	echo "Done"
