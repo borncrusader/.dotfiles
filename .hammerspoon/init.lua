@@ -16,31 +16,24 @@ function shrink(direction)
     end
 
     wf = window:frame()
-
-    top = window:topLeft()
-    size = window:size()
-
-    screen = window:screen()
-    frame = screen:frame()
-
-    wFactor = math.floor(frame.w / size.w)
-    hFactor = math.floor(frame.h / size.h)
+    f = window:screen():frame()
 
     set = false
-    if direction == "left" and hFactor == 1 and wFactor >= 1 then
-        wf.w = wf.w - math.floor(0.1 * frame.w)
+    if direction == "left" then
+        wf.w = wf.w - math.floor(0.1 * f.w)
         set = true
-    elseif direction == "right" and hFactor == 1 and wFactor >= 1 then
-        wf.w = wf.w - math.floor(0.1 * frame.w)
-        wf.x = frame.w - wf.w
+    elseif direction == "right" then
+        wf.w = wf.w - math.floor(0.1 * f.w)
+        wf.x = f.w - wf.w
         set = true
-    elseif direction == "up" and wFactor == 1 and hFactor >= 1 then
-        wf.h = wf.h - math.floor(0.1 * frame.h)
+    elseif direction == "up" then
+        wf.h = wf.h - math.floor(0.1 * f.h)
         set = true
-    elseif direction == "down" and wFactor == 1 and hFactor >= 1 then
-        wf.h = wf.h - math.floor(0.1 * frame.h)
+    elseif direction == "down" then
+        wf.h = wf.h - math.floor(0.1 * f.h)
         -- this is slightly round about to determine where the window should start
-        wf.y = frame.y + frame.h - wf.h
+        -- coz sometimes I like having the dock and accommodating for it
+        wf.y = f.y + f.h - wf.h
         set = true
     end
 
@@ -53,22 +46,10 @@ function shrink(direction)
     end
 
     -- default
-    wf.x = frame.x 
-    wf.y = frame.y
-    wf.w = frame.w
-    wf.h = frame.h
-
-    --if direction == "left" then
-    --    wf.w = frame.w / 2
-    --elseif direction == "right" then
-    --    wf.x = frame.x + frame.w / 2
-    --    wf.w = frame.w / 2
-    --elseif direction == "up" then
-    --    wf.h = frame.h / 2
-    --elseif direction == "down" then
-    --    wf.y = frame.y + frame.h / 2
-    --    wf.h = frame.h / 2
-    --end
+    wf.x = f.x 
+    wf.y = f.y
+    wf.w = f.w
+    wf.h = f.h
 
     window:setFrame(wf, 0)
 end
@@ -81,6 +62,7 @@ bindings[3] = "Firefox"
 bindings[4] = "Google Chrome"
 bindings[5] = "Slack"
 bindings[6] = "Google Calendar"
+bindings[7] = "VMware Fusion"
 bindings[8] = "Spotify"
 bindings[9] = "Obsidian"
 
