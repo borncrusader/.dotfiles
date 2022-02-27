@@ -22,9 +22,6 @@
 [submodule ".vim/bundle/ctrlp.vim"]
 	path = .vim/bundle/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim.git
-[submodule "zsh"]
-	path = zsh
-	url = git://github.com/robbyrussell/oh-my-zsh.git
 [submodule ".vim/bundle/syntastic"]
 	path = .vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
@@ -76,3 +73,6 @@
 [submodule "zsh-vim-mode"]
 	path = zsh-vim-mode
 	url = https://github.com/softmoth/zsh-vim-mode.git
+[submodule "zsh"]
+	path = zsh
+	url = https://github.com/ohmyzsh/ohmyzsh.git

@@ -21,10 +21,7 @@ create_link()
 }
 
 ## common
-create_link .dotfiles/.config/alacritty/alacritty.yml ~/.alacritty.yml
 create_link .dotfiles/.vim/ ~/.vim
-create_link .dotfiles/.doom.d ~/.doom.d
-create_link .dotfiles/emacs/.emacs.d/ ~/.emacs.d
 create_link .dotfiles/bin/ ~/bin
 create_link .dotfiles/.zprofile ~/.zprofile
 create_link .dotfiles/.zshrc ~/.zshrc
@@ -37,7 +34,6 @@ create_link .dotfiles/.tmux.conf ~/.tmux.conf
 create_link .dotfiles/.vimrc ~/.vimrc
 create_link .dotfiles/.psqlrc ~/.psqlrc
 create_link .dotfiles/zsh-vim-mode ~/.zsh-vim-mode
-create_link .dotfiles/org/templates ~/syncthing/obsidian/archive/org/templates
 
 ## Linux specific
 if [ "$(uname)" = 'Linux' ]; then
@@ -51,5 +47,9 @@ fi
 
 ## Mac specific
 if [ "$(uname)" = 'Darwin' ]; then
-	create_link .dotfiles/.slate ~/.slate
+	#create_link .dotfiles/.slate ~/.slate
+    create_link .dotfiles/.hammersoon ~/.hammerspoon
+
+    # solve for key repeat issues in macs
+    defaults write -g ApplePressAndHoldEnabled -bool false
 fi

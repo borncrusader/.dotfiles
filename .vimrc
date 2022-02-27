@@ -125,3 +125,8 @@ highlight ColorColumn ctermbg=grey
 let g:go_fmt_command = "goimports" " run goimports along gofmt on save
 let g:go_auto_type_info = 1 " automatically get signature/typo info of object under cursor
 "au filetype go inoremap <buffer> . .<C-x><C-o>
+"
+"let g:syntastic_python_checkers = ['flake8', 'pylint', 'mypy']
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_wq = 0

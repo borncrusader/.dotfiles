@@ -24,12 +24,12 @@ fi
 #################################################
 export EDITOR='vim'
 export TERM='xterm-256color'
-export SYSDUMP="$HOME/sysdump"
 export GOPATH_DEFAULT="$HOME/go"
 export GOPATH="$GOPATH_DEFAULT"
 export GOBIN="$GOPATH/bin"
 export NVM_DIR="$HOME/.nvm"
 export SSH_AUTH_SOCK="$HOME/.ssh/.auth_socket"
+export OBSIDIAN="$HOME/syncthing/obsidian"
 
 #################################################
 # OS Specific exports
@@ -43,11 +43,11 @@ if [ "$OS" = "MAC" ]; then
     GPG_TTY=$(tty)
     export GPG_TTY
 
-    export CODE=/Volumes/Salesforce
+    export CODE=/Volumes/code
 
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 else
-    export CODE=$HOME/code
+    export CODE="$HOME/code"
 fi
 
 #################################################
@@ -64,6 +64,11 @@ _add_to_cdpath() {
 _source_if_exists() {
     # shellcheck disable=SC1090
     [ -f "$1" ] && . "$1"
+}
+
+_function_exists() {
+    command -v "$1" > /dev/null
+    return $?
 }
 
 #################################################
@@ -101,5 +106,8 @@ _add_to_path "/Applications/Emacs.app/Contents/MacOS"
 
 # flutter
 _add_to_path "$HOME/code/flutter/bin"
+
+# work related profile (should be last)
+_source_if_exists "$HOME/.myshprofile_work"
 
 _sp=${_sp}_P

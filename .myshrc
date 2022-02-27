@@ -35,7 +35,6 @@ alias cdg='cd $GOPATH'
 # os specific
 if [ "$OS" = 'MAC' ]; then
 	alias ls=' ls -GFh'
-    alias wumount="sudo umount -f /Volumes/Salesforce"
     alias vim="/usr/local/bin/vim"
 else
 	alias ls=' ls -F --color'
@@ -53,22 +52,12 @@ mount_all()
             sudo hdiutil attach "$HOME/code/code.dmg.sparseimage" \
                 -mountpoint "$CODE"
         fi
-        if [ -f "$HOME/code/personal.dmg.sparseimage" ]; then
-            sudo hdiutil attach "$HOME/code/personal.dmg.sparseimage" \
-                -mountpoint "/Volumes/personal"
-        fi
-        if [ -f "$HOME/code/work.dmg.sparseimage" ]; then
-            sudo hdiutil attach "$HOME/code/work.dmg.sparseimage" \
-                -mountpoint "/Volumes/work"
-        fi
     fi
 }
 
 umount_all()
 {
     sudo umount -f /Volumes/code
-    sudo umount -f /Volumes/personal
-    sudo umount -f /Volumes/Salesforce
 }
 
 mkcd()
@@ -96,13 +85,6 @@ grayscale()
         -dNOPAUSE \
         -dBATCH \
         "$1"
-}
-
-dboxsanity()
-{
-    find "$HOME/Dropbox/" -name '*conflicted*'
-    find "$HOME/Dropbox/" -name '.*.swp'
-    find "$HOME/Dropbox/sysdump" -type f -not -name '*.md'
 }
 
 refresh()
@@ -145,7 +127,7 @@ refresh()
                 fi
                 pacgraph -s -f "$2"
                 ;;
-            "")
+            "-a" | "")
                 sudo pacman -Syyu
                 yay -Sua
 
@@ -153,8 +135,9 @@ refresh()
                     sudo pacman --noconfirm -S linux-lts linux-lts-headers \
                         linux-lts-docs nvidia-lts linux-zen linux-zen-docs \
                         linux-zen-headers nvidia-dkms v4l2loopback-dkms \
-                        virtualbox-guest-dkms virtualbox-host-dkms \
-                        wireguard-dkms zfs-utils zfs-dkms nvidia-utils
+                        virtualbox-guest-utils virtualbox-host-dkms \
+                        zfs-utils zfs-dkms nvidia-utils
+                        #wireguard-dkms
                     yay -S zenpower-dkms
                 fi
                 ;;
@@ -246,13 +229,18 @@ inspect_cert()
 {
     if [ "$1" = "-h" ]; then
         echo "multiple usages:"
-        echo "  $0 -f {filename}        - inspect a cert in file"
-        echo "  $0 {host} [port]        - inspect a cert in host; default port is 443"
-        echo "  $0 -nosni {host} [port] - inspect a cert in host; no sni header is sent; default port is 443"
+        echo "  $0 -f {filename}                    - inspect a cert in file"
+        echo "  $0 -sni {servername} {host} [port]  - inspect a cert in host; providing an SNI header; default port is 443"
+        echo "  $0 -nosni {host} [port]             - inspect a cert in host; no sni header is sent; default port is 443"
+        echo "  $0 {host} [port]                    - inspect a cert in host; default port is 443"
         return
     elif [ "$1" = "-f" ]; then
         file=$2
         shift 2
+    elif [ "$1" = "-sni" ]; then
+        shift 1
+        servername=$1
+        shift 1
     elif [ "$1" = "-nosni" ];then
         nosni=TRUE
         shift 1
@@ -271,6 +259,10 @@ inspect_cert()
         if [ -n "$nosni" ]; then
         echo | \
             openssl s_client -showcerts -connect "$host:$port" 2>/dev/null | \
+            openssl x509 -inform pem -noout -text
+        elif [ -n "$servername" ]; then
+        echo | \
+            openssl s_client -showcerts -servername "$servername" -connect "$host:$port" 2>/dev/null | \
             openssl x509 -inform pem -noout -text
         else
         echo | \

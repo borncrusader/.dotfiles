@@ -1,22 +1,42 @@
 [core]
     editor = vim
+    # http://stackoverflow.com/questions/18257622/why-is-git-core-preloadindex-default-value-false
+	preloadindex = true
+	deltabasecachelimit = 4g
+
+[help]
+	# Automatically correct and execute mistyped commands such as `git stauts`
+	autocorrect = 1
+
+[feature]
+	manyfiles = true
+
 [color]
     branch = auto
     diff = auto
     interactive = auto
     status = auto
     ui = auto
+
+[fetch]
+    prune = true
+
 [pull]
 	rebase = false
+
 [push]
     default = simple
+
 [merge]
     tool = vimdiff
+
 [diff]
     tool = vimdiff
     noprefix = true
+
 [difftool]
     prompt = false
+
 [alias]
     st = status --untracked-files=no
     sta = status
