@@ -31,6 +31,7 @@ alias gotb="go test -bench ."
 
 alias cdc='cd $CODE'
 alias cdg='cd $GOPATH'
+alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 
 # os specific
 if [ "$OS" = 'MAC' ]; then

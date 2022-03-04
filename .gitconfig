@@ -50,10 +50,12 @@
     lg = log -p
     who = shortlog -s --
     tree = log --graph --decorate --pretty=oneline --abbrev-commit
+    pu = pull --prune
+    puh = push -u origin HEAD
     svn-diff = !git-svn-diff
     stash-unapply = !git stash show -p | git apply -R
-    sclone=svn clone -s --prefix=origin/
-    sha=show --abbrev-commit
+    sclone = svn clone -s --prefix=origin/
+    sha = show --abbrev-commit
     ablog = log --abbrev-commit
     lf = log --name-only
     br = !"git --no-pager branch"

@@ -47,9 +47,20 @@ fi
 
 ## Mac specific
 if [ "$(uname)" = 'Darwin' ]; then
-	#create_link .dotfiles/.slate ~/.slate
+	create_link .dotfiles/.slate ~/.slate
     create_link .dotfiles/.hammersoon ~/.hammerspoon
+    create_link .dotfiles/alfred ~/alfred
 
     # solve for key repeat issues in macs
     defaults write -g ApplePressAndHoldEnabled -bool false
+
+    # smooth scrolling
+    defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
+    defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
+
+    # alacritty
+    # git clone https://github.com/alacritty/alacritty.git
+    # cd alacritty
+    # sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+    # cd .. && rm -rf alacritty
 fi

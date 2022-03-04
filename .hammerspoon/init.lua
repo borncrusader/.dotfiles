@@ -56,11 +56,12 @@ end
 
 -- hotkey bindings
 bindings = {}
-bindings[1] = "iTerm2"
-bindings[2] = "Visual Studio Code"
+-- bindings[1] = "iTerm2"
+bindings[1] = "Alacritty"
+bindings[2] = "Code"
 bindings[3] = "Firefox"
-bindings[4] = "Google Chrome"
-bindings[5] = "Slack"
+bindings[4] = "Slack"
+bindings[5] = "Google Chrome"
 bindings[6] = "Google Calendar"
 bindings[7] = "VMware Fusion"
 bindings[8] = "Spotify"

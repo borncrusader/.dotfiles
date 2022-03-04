@@ -101,6 +101,9 @@ endfunction
 
 call UnSolarize()
 
+" alacritty
+set termguicolors
+
 " show tabs as T>>>>
 let g:TabDisplayVal = 0
 highlight SpecialKey ctermfg=1
@@ -130,3 +133,24 @@ let g:go_auto_type_info = 1 " automatically get signature/typo info of object un
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_wq = 0
+
+" vim-plug
+call plug#begin()
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
+call plug#end()
+
+" fzf
+nnoremap <C-p> :GFiles<CR>
+
+" ack
+if executable('rg')
+    let g:ackprg = 'rg --vimgrep --no-heading'
+elseif executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+endif
+
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+nnoremap <Leader>A :Ack!<CR>
