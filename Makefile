@@ -1,4 +1,5 @@
-all:
+all: checkout position update
+	echo "Done"
 
 list:
 	git submodule
@@ -11,6 +12,3 @@ checkout:
 
 update:
 	git submodule foreach git pull
-
-febreze: checkout position update
-	echo "Done"
