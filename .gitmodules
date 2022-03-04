@@ -73,9 +73,6 @@
 [submodule "zsh"]
 	path = zsh
 	url = https://github.com/ohmyzsh/ohmyzsh.git
-[submodule ".vim/bundle/fzf.vim"]
-	path = .vim/bundle/fzf.vim
-	url = https://github.com/junegunn/fzf.vim
 [submodule ".vim/bundle/puppet"]
 	path = .vim/bundle/puppet
 	url = git://github.com/rodjek/vim-puppet.git
@@ -85,3 +82,6 @@
 [submodule ".vim/plugged/fzf"]
 	path = .vim/plugged/fzf
 	url = https://github.com/junegunn/fzf.git
+[submodule ".vim/plugged/fzf.vim"]
+	path = .vim/plugged/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git
