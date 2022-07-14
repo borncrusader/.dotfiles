@@ -50,6 +50,9 @@ bindkey '^[[3~' delete-char
 bindkey '^[[1;3D' backward-kill-word
 
 # nodenv
-eval "$(nodenv init -)"
+which nodeenv > /dev/null
+if [ $? -eq 0 ]; then
+    eval "$(nodenv init -)"
+fi
 
 _sp=${_sp}_Z
