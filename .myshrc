@@ -36,7 +36,13 @@ alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 # os specific
 if [ "$OS" = 'MAC' ]; then
 	alias ls=' ls -GFh'
-    alias vim="/usr/local/bin/vim"
+    if [ -f "/opt/homebrew/bin/vim" ]; then
+        alias vim="/opt/homebrew/bin/vim"
+    elif [ -f "/usr/bin/vim" ]; then
+        alias vim="/usr/bin/vim"
+    elif [ -f "/usr/local/bin/vim" ]; then
+        alias vim="/usr/local/bin/vim"
+    fi
 else
 	alias ls=' ls -F --color'
     alias open="xdg-open"
