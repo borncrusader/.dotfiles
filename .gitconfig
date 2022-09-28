@@ -3,8 +3,8 @@
     # http://stackoverflow.com/questions/18257622/why-is-git-core-preloadindex-default-value-false
     preloadindex = true
     deltabasecachelimit = 4g
-    fsmonitor = true
-    untrackedcache = true
+    #fsmonitor = true
+    #untrackedcache = true
 
 [help]
     # Automatically correct and execute mistyped commands such as `git stauts`
