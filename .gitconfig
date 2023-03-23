@@ -40,6 +40,7 @@
     prompt = false
 
 [alias]
+    mm = !"git fetch origin master && git merge origin/master --no-edit"
     st = status --untracked-files=no
     sta = status
     ci = commit
@@ -74,3 +75,5 @@
     coma = commit --amend
     comad = !"git commit --amend --date=\"$(date -R)\""
     cleanup = !"git branch --no-merged | grep  -v '\\*\\|master\\|develop\\|main' | xargs -n 1 git branch -d"
+    top100 = log -100 --pretty='format:%H (%an, %ad)'
+    top1000 = log -1000 --pretty='format:%H (%an, %ad)'

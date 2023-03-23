@@ -56,3 +56,5 @@ if [ $? -eq 0 ]; then
 fi
 
 _sp=${_sp}_Z
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/opt/homebrew/bin/brew shellenv)"
