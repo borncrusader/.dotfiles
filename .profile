@@ -76,7 +76,6 @@ _function_exists() {
 #################################################
 _add_to_path "$HOME/bin"
 _add_to_path "$GOPATH/bin"
-_add_to_path "$HOME/.cargo/bin"
 _add_to_path "/usr/local/opt/node@8/bin"
 _add_to_path "/usr/local/opt/gnu-sed/libexec/gnubin"
 _add_to_path "$HOME/.poetry/bin"
@@ -106,6 +105,9 @@ _add_to_path "/Applications/Emacs.app/Contents/MacOS"
 
 # flutter
 _add_to_path "$HOME/code/flutter/bin"
+
+# rust
+_source_if_exists "$HOME/.cargo/env"
 
 # work related profile (should be last)
 _source_if_exists "$HOME/.myshprofile_work"

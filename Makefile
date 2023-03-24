@@ -5,7 +5,7 @@ list:
 	git submodule
 
 position:
-	git submodule foreach git co master
+	git submodule foreach git checkout master
 
 checkout:
 	git submodule foreach git checkout -- .

@@ -18,9 +18,3 @@ _sp=${_sp}_b
 export PS1='\[\e[0;32m\][\u@\h \W]\$\[\e[0m\] '
 
 _sp=${_sp}_B
-
-# START - Managed by chef cookbook stripe_cpe_bin
-alias tc='/usr/local/stripe/bin/test_cookbook'
-alias cz='/usr/local/stripe/bin/chef-zero'
-alias cookit='tc && cz'
-# STOP - Managed by chef cookbook stripe_cpe_bin

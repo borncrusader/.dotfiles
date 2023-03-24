@@ -40,6 +40,7 @@
     prompt = false
 
 [alias]
+    unstage = reset HEAD --
     st = status --untracked-files=no
     sta = status
     ci = commit

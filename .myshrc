@@ -296,4 +296,11 @@ fi
 
 _sp=${_sp}_MR
 
+_source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+_add_to_path /Users/ska/Library/Python/3.8/bin
+_add_to_path "$GOPATH/bin"
+
+_add_to_path "$HOME/adb-fastboot/platform-tools"
+
 echo '~ Keep calm and 🧘 ~'
