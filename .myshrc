@@ -36,7 +36,12 @@ alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 # os specific
 if [ "$OS" = 'MAC' ]; then
 	alias ls=' ls -GFh'
-    if [ -f "/opt/homebrew/bin/vim" ]; then
+    if [ -f "/opt/homebrew/bin/nvim" ]; then
+        alias vim="/opt/homebrew/bin/nvim"
+    elif command -v nvim; then
+        # shellcheck disable=SC2139
+        alias vim="$(command -v nvim)"
+    elif [ -f "/opt/homebrew/bin/vim" ]; then
         alias vim="/opt/homebrew/bin/vim"
     elif [ -f "/usr/bin/vim" ]; then
         alias vim="/usr/bin/vim"
@@ -163,12 +168,12 @@ shdbg()
 ws()
 {
     if [ "$1" = 'work' ] || [ "$1" = 'w' ]; then
-        export GOPATH=$GOPATH_WORK
-        export GOBIN=$GOPATH/bin
+        export GOPATH="$GOPATH_WORK"
+        export GOBIN="$GOPATH/bin"
         _add_to_path "$GOBIN"
     else
-        export GOPATH=$GOPATH_DEFAULT
-        export GOBIN=$GOPATH/bin
+        export GOPATH="$GOPATH_DEFAULT"
+        export GOBIN="$GOPATH/bin"
         _add_to_path "$GOBIN"
     fi
 
@@ -298,7 +303,7 @@ _sp=${_sp}_MR
 
 _source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-_add_to_path /Users/ska/Library/Python/3.8/bin
+_add_to_path "$HOME/Library/Python/3.8/bin"
 _add_to_path "$GOPATH/bin"
 
 _add_to_path "$HOME/adb-fastboot/platform-tools"
