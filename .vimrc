@@ -21,7 +21,9 @@ syntax enable           " syntax coloring for files
 filetype plugin indent on " detect, load plugin and indent the filetype
 
 set keywordprg=:help    " use 'K' for vim-help
-set term=xterm-256color " for knowing the terminal control characters
+if !has('nvim')
+    set term=xterm-256color " for knowing the terminal control characters
+endif
 set nowrap              " don't wrap lines
 set tabstop=4           " a tab's worth
 set softtabstop=4       " a tab's worth while editing with <TAB> or <BS>

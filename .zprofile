@@ -56,4 +56,3 @@ if [ $? -eq 0 ]; then
 fi
 
 _sp=${_sp}_Z
-eval "$(/opt/homebrew/bin/brew shellenv)"

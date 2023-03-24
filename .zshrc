@@ -32,6 +32,7 @@ if [ -f $HOME/.dotfiles/antigen.zsh ]; then
     antigen bundle zsh-users/zsh-autosuggestions
     antigen bundle zsh-users/zsh-syntax-highlighting
     antigen bundle zsh-users/zsh-history-substring-search
+    antigen bundle unixorn/fzf-zsh-plugin@main
 
     antigen theme cypher
 

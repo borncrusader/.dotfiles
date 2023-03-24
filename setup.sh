@@ -34,6 +34,7 @@ create_link .dotfiles/.tmux.conf ~/.tmux.conf
 create_link .dotfiles/.vimrc ~/.vimrc
 create_link .dotfiles/.psqlrc ~/.psqlrc
 create_link .dotfiles/zsh-vim-mode ~/.zsh-vim-mode
+create_link .dotfiles/.config/nvim ~/.config/nvim
 
 ## Linux specific
 if [ "$(uname)" = 'Linux' ]; then
@@ -47,9 +48,9 @@ fi
 
 ## Mac specific
 if [ "$(uname)" = 'Darwin' ]; then
-	create_link .dotfiles/.slate ~/.slate
+    #create_link .dotfiles/.slate ~/.slate
     create_link .dotfiles/.hammersoon ~/.hammerspoon
-    create_link .dotfiles/alfred ~/alfred
+    #create_link .dotfiles/alfred ~/alfred
 
     # solve for key repeat issues in macs
     defaults write -g ApplePressAndHoldEnabled -bool false

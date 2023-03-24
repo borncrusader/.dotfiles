@@ -112,4 +112,9 @@ _source_if_exists "$HOME/.cargo/env"
 # work related profile (should be last)
 _source_if_exists "$HOME/.myshprofile_work"
 
+# homebrew
+if [ "$OS" = "MAC" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 _sp=${_sp}_P
