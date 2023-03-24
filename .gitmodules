@@ -85,8 +85,8 @@
 [submodule ".vim/bundle/vim-pug"]
 	path = .vim/bundle/vim-pug
 	url = https://github.com/digitaltoad/vim-pug.git
-[submodule ".vim/pack/github/start/copilot.vim"]
-	path = .vim/pack/github/start/copilot.vim
+[submodule ".vim/pack/plugins/start/copilot.vim"]
+	path = .vim/pack/plugins/start/copilot.vim
 	url = https://github.com/github/copilot.vim.git
 [submodule ".fzf"]
 	path = .fzf
