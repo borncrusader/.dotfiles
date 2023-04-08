@@ -145,6 +145,7 @@ assign [class="Typora"] $w2
 assign [class="Code"] $w2
 
 assign [class="firefox"] $w3
+assign [class="thunderbird"] $w3
 assign [class="chromium"] $w3
 assign [class="Vimb"] $w3
 
