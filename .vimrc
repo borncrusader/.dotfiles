@@ -21,7 +21,9 @@ syntax enable           " syntax coloring for files
 filetype plugin indent on " detect, load plugin and indent the filetype
 
 set keywordprg=:help    " use 'K' for vim-help
-set term=xterm-256color " for knowing the terminal control characters
+if !has('nvim')
+    set term=xterm-256color " for knowing the terminal control characters
+endif
 set nowrap              " don't wrap lines
 set tabstop=4           " a tab's worth
 set softtabstop=4       " a tab's worth while editing with <TAB> or <BS>
@@ -101,6 +103,9 @@ endfunction
 
 call UnSolarize()
 
+" alacritty
+set termguicolors
+
 " show tabs as T>>>>
 let g:TabDisplayVal = 0
 highlight SpecialKey ctermfg=1
@@ -126,5 +131,29 @@ let g:go_fmt_command = "goimports" " run goimports along gofmt on save
 let g:go_auto_type_info = 1 " automatically get signature/typo info of object under cursor
 "au filetype go inoremap <buffer> . .<C-x><C-o>
 
-" some python stuff
-let g:syntastic_python_checkers=['mypy']
+"
+"let g:syntastic_python_checkers = ['flake8', 'pylint', 'mypy']
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_wq = 0
+
+" vim-plug
+call plug#begin()
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
+call plug#end()
+
+" fzf
+nnoremap <C-p> :GFiles<CR>
+
+" ack
+if executable('rg')
+    let g:ackprg = 'rg --vimgrep --no-heading'
+elseif executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+endif
+
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+nnoremap <Leader>A :Ack!<CR>

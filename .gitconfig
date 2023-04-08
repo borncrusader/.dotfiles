@@ -1,23 +1,47 @@
 [core]
     editor = vim
+    # http://stackoverflow.com/questions/18257622/why-is-git-core-preloadindex-default-value-false
+    preloadindex = true
+    deltabasecachelimit = 4g
+    #fsmonitor = true
+    #untrackedcache = true
+
+[help]
+    # Automatically correct and execute mistyped commands such as `git stauts`
+    autocorrect = 1
+
+[feature]
+    manyfiles = true
+
 [color]
     branch = auto
     diff = auto
     interactive = auto
     status = auto
     ui = auto
+
+[fetch]
+    prune = true
+
 [pull]
-	rebase = false
+    rebase = false
+
 [push]
     default = simple
+
 [merge]
     tool = vimdiff
+
 [diff]
     tool = vimdiff
     noprefix = true
+
 [difftool]
     prompt = false
+
 [alias]
+    unstage = reset HEAD --
+    mm = !"git fetch origin master && git merge origin/master --no-edit"
     st = status --untracked-files=no
     sta = status
     ci = commit
@@ -30,10 +54,12 @@
     lg = log -p
     who = shortlog -s --
     tree = log --graph --decorate --pretty=oneline --abbrev-commit
+    pu = pull --prune
+    puh = push -u origin HEAD
     svn-diff = !git-svn-diff
     stash-unapply = !git stash show -p | git apply -R
-    sclone=svn clone -s --prefix=origin/
-    sha=show --abbrev-commit
+    sclone = svn clone -s --prefix=origin/
+    sha = show --abbrev-commit
     ablog = log --abbrev-commit
     lf = log --name-only
     br = !"git --no-pager branch"
@@ -50,3 +76,5 @@
     coma = commit --amend
     comad = !"git commit --amend --date=\"$(date -R)\""
     cleanup = !"git branch --no-merged | grep  -v '\\*\\|master\\|develop\\|main' | xargs -n 1 git branch -d"
+    top100 = log -100 --pretty='format:%H (%an, %ad)'
+    top1000 = log -1000 --pretty='format:%H (%an, %ad)'

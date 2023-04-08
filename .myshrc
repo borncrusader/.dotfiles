@@ -31,12 +31,23 @@ alias gotb="go test -bench ."
 
 alias cdc='cd $CODE'
 alias cdg='cd $GOPATH'
+alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 
 # os specific
 if [ "$OS" = 'MAC' ]; then
 	alias ls=' ls -GFh'
-    alias wumount="sudo umount -f /Volumes/Salesforce"
-    alias vim="/usr/local/bin/vim"
+    if [ -f "/opt/homebrew/bin/nvim" ]; then
+        alias vim="/opt/homebrew/bin/nvim"
+    elif command -v nvim; then
+        # shellcheck disable=SC2139
+        alias vim="$(command -v nvim)"
+    elif [ -f "/opt/homebrew/bin/vim" ]; then
+        alias vim="/opt/homebrew/bin/vim"
+    elif [ -f "/usr/bin/vim" ]; then
+        alias vim="/usr/bin/vim"
+    elif [ -f "/usr/local/bin/vim" ]; then
+        alias vim="/usr/local/bin/vim"
+    fi
 else
 	alias ls=' ls -F --color'
     alias open="xdg-open"
@@ -53,22 +64,12 @@ mount_all()
             sudo hdiutil attach "$HOME/code/code.dmg.sparseimage" \
                 -mountpoint "$CODE"
         fi
-        if [ -f "$HOME/code/personal.dmg.sparseimage" ]; then
-            sudo hdiutil attach "$HOME/code/personal.dmg.sparseimage" \
-                -mountpoint "/Volumes/personal"
-        fi
-        if [ -f "$HOME/code/work.dmg.sparseimage" ]; then
-            sudo hdiutil attach "$HOME/code/work.dmg.sparseimage" \
-                -mountpoint "/Volumes/work"
-        fi
     fi
 }
 
 umount_all()
 {
     sudo umount -f /Volumes/code
-    sudo umount -f /Volumes/personal
-    sudo umount -f /Volumes/Salesforce
 }
 
 mkcd()
@@ -96,13 +97,6 @@ grayscale()
         -dNOPAUSE \
         -dBATCH \
         "$1"
-}
-
-dboxsanity()
-{
-    find "$HOME/Dropbox/" -name '*conflicted*'
-    find "$HOME/Dropbox/" -name '.*.swp'
-    find "$HOME/Dropbox/sysdump" -type f -not -name '*.md'
 }
 
 refresh()
@@ -178,12 +172,12 @@ shdbg()
 ws()
 {
     if [ "$1" = 'work' ] || [ "$1" = 'w' ]; then
-        export GOPATH=$GOPATH_WORK
-        export GOBIN=$GOPATH/bin
+        export GOPATH="$GOPATH_WORK"
+        export GOBIN="$GOPATH/bin"
         _add_to_path "$GOBIN"
     else
-        export GOPATH=$GOPATH_DEFAULT
-        export GOBIN=$GOPATH/bin
+        export GOPATH="$GOPATH_DEFAULT"
+        export GOBIN="$GOPATH/bin"
         _add_to_path "$GOBIN"
     fi
 
@@ -251,13 +245,18 @@ inspect_cert()
 {
     if [ "$1" = "-h" ]; then
         echo "multiple usages:"
-        echo "  $0 -f {filename}        - inspect a cert in file"
-        echo "  $0 {host} [port]        - inspect a cert in host; default port is 443"
-        echo "  $0 -nosni {host} [port] - inspect a cert in host; no sni header is sent; default port is 443"
+        echo "  $0 -f {filename}                    - inspect a cert in file"
+        echo "  $0 -sni {servername} {host} [port]  - inspect a cert in host; providing an SNI header; default port is 443"
+        echo "  $0 -nosni {host} [port]             - inspect a cert in host; no sni header is sent; default port is 443"
+        echo "  $0 {host} [port]                    - inspect a cert in host; default port is 443"
         return
     elif [ "$1" = "-f" ]; then
         file=$2
         shift 2
+    elif [ "$1" = "-sni" ]; then
+        shift 1
+        servername=$1
+        shift 1
     elif [ "$1" = "-nosni" ];then
         nosni=TRUE
         shift 1
@@ -276,6 +275,10 @@ inspect_cert()
         if [ -n "$nosni" ]; then
         echo | \
             openssl s_client -showcerts -connect "$host:$port" 2>/dev/null | \
+            openssl x509 -inform pem -noout -text
+        elif [ -n "$servername" ]; then
+        echo | \
+            openssl s_client -showcerts -servername "$servername" -connect "$host:$port" 2>/dev/null | \
             openssl x509 -inform pem -noout -text
         else
         echo | \
@@ -301,5 +304,12 @@ elif [ "$OS" = 'LINUX' ]; then
 fi
 
 _sp=${_sp}_MR
+
+_source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+_add_to_path "$HOME/Library/Python/3.8/bin"
+_add_to_path "$GOPATH/bin"
+
+_add_to_path "$HOME/adb-fastboot/platform-tools"
 
 echo '~ Keep calm and 🧘 ~'

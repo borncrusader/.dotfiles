@@ -29,8 +29,8 @@ bindkey -e
 # The following lines were added by compinstall
 zstyle :compinstall filename "$HOME/.zshrc"
 
-autoload -Uz compinit
-compinit
+autoload -Uz compinit; compinit
+autoload -Uz bashcompinit; bashcompinit
 # End of lines added by compinstall
 
 autoload -U colors && colors
@@ -48,5 +48,11 @@ bindkey '^[[3~' delete-char
 # TODO: doesn't work yet
 #bindkey '^[[1;3C' forward-kill-word
 bindkey '^[[1;3D' backward-kill-word
+
+# nodenv
+which nodeenv > /dev/null
+if [ $? -eq 0 ]; then
+    eval "$(nodenv init -)"
+fi
 
 _sp=${_sp}_Z

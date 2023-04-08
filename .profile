@@ -24,12 +24,12 @@ fi
 #################################################
 export EDITOR='vim'
 export TERM='xterm-256color'
-export SYSDUMP="$HOME/sysdump"
 export GOPATH_DEFAULT="$HOME/go"
 export GOPATH="$GOPATH_DEFAULT"
 export GOBIN="$GOPATH/bin"
 export NVM_DIR="$HOME/.nvm"
 export SSH_AUTH_SOCK="$HOME/.ssh/.auth_socket"
+export OBSIDIAN="$HOME/syncthing/obsidian"
 
 #################################################
 # OS Specific exports
@@ -43,11 +43,11 @@ if [ "$OS" = "MAC" ]; then
     GPG_TTY=$(tty)
     export GPG_TTY
 
-    export CODE=/Volumes/Salesforce
+    export CODE=/Volumes/code
 
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 else
-    export CODE=$HOME/code
+    export CODE="$HOME/code"
 fi
 
 #################################################
@@ -66,12 +66,16 @@ _source_if_exists() {
     [ -f "$1" ] && . "$1"
 }
 
+_function_exists() {
+    command -v "$1" > /dev/null
+    return $?
+}
+
 #################################################
 # Path Manipulation
 #################################################
 _add_to_path "$HOME/bin"
 _add_to_path "$GOPATH/bin"
-_add_to_path "$HOME/.cargo/bin"
 _add_to_path "/usr/local/opt/node@8/bin"
 _add_to_path "/usr/local/opt/gnu-sed/libexec/gnubin"
 _add_to_path "$HOME/.poetry/bin"
@@ -85,18 +89,32 @@ _add_to_path "/usr/local/opt/terraform@0.12/bin"
 _source_if_exists "/usr/local/opt/asdf/asdf.sh"
 
 # broot
-_source_if_exists "/Users/sananthakrishnan/Library/Preferences/org.dystroy.broot/launcher/bash/br"
+_source_if_exists "$HOME/Library/Preferences/org.dystroy.broot/launcher/bash/br"
 
 # package-not-found details
 _source_if_exists "/usr/share/doc/pkgfile/command-not-found.zsh"
 
 # nix
-_source_if_exists "/Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh"
+_source_if_exists "$HOME/.nix-profile/etc/profile.d/nix.sh"
 
 # ruby
-_add_to_path "/Users/sananthakrishnan/.gem/ruby/2.6.0/bin"
+_add_to_path "$HOME/.gem/ruby/2.6.0/bin"
 
 # emacs
 _add_to_path "/Applications/Emacs.app/Contents/MacOS"
+
+# flutter
+_add_to_path "$HOME/code/flutter/bin"
+
+# rust
+_source_if_exists "$HOME/.cargo/env"
+
+# work related profile (should be last)
+_source_if_exists "$HOME/.myshprofile_work"
+
+# homebrew
+if [ "$OS" = "MAC" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 _sp=${_sp}_P

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+set -e
+
+febreze() {
+    if [ $(basename $PWD) != ".dotfiles" ]; then
+        echo "run this from the .dotfiles directory"
+        exit 1
+    fi
+
+    # first add any new submodules
+    git submodule init && git submodule update
+
+    # clean and checkout the master/main branch in all submodules
+    git submodule status | while read line; do
+        path=$(echo $line | cut -f2 -d' ')
+        cd $path
+        branch=$(git remote show origin | grep 'HEAD branch' | cut -f5 -d' ')
+
+        echo "dir: $path; branch: $branch"
+
+        git checkout -- .
+        git restore --staged .
+        git clean -f
+
+        git checkout $branch
+        git pull
+
+        cd - >/dev/null
+
+        echo "---"
+    done
+
+    # add all files
+    grep 'path = ' .gitmodules | awk -F " = " '{ print $2 }' | xargs git add
+
+    echo "✨ So refreshing! ✨"
+}
+
+febreze

@@ -32,6 +32,7 @@ if [ -f $HOME/.dotfiles/antigen.zsh ]; then
     antigen bundle zsh-users/zsh-autosuggestions
     antigen bundle zsh-users/zsh-syntax-highlighting
     antigen bundle zsh-users/zsh-history-substring-search
+    antigen bundle unixorn/fzf-zsh-plugin@main
 
     antigen theme cypher
 
@@ -60,11 +61,28 @@ PROMPT="${BASE_PROMPT} "
 # always best to set noclobber
 set -o noclobber
 
+# source fzf
+_source_if_exists "$HOME/.fzf.zsh"
+
 # finally source the common shell rc
 _source_if_exists "$HOME/.dotfiles/.myshrc"
 
-#if [ -e /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sananthakrishnan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-
-#if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh"; fi  # This loads nvm
+# TODO(srinath): clean this up
+if [ -d "$HOME/miniconda3" ]; then
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('$HOME/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+            . "$HOME/miniconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="$HOME/miniconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+fi
 
 _sp=${_sp}_ZR
