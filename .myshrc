@@ -111,6 +111,7 @@ refresh()
         echo "$0 {options}"
         echo "  without options, would attempt to update all installed packages"
         echo "  -h  : print this help"
+        echo "  -k  : update keyring and refresh keys"
         echo "  -a  : update excluded packages also"
         echo "  -o  : get orphans"
         echo "  -or : remove orphans [use caution]"
@@ -145,18 +146,21 @@ refresh()
                 fi
                 pacgraph -s -f "$2"
                 ;;
+            "-k")
+                sudo pacman -S archlinux-keyring
+                sudo pacman-key --refresh-keys
+                ;;
             "-a" | "")
                 sudo pacman -Syyu
                 yay -Sua
 
                 if [ -n "$1" ] && [ "$1" = "-a" ]; then
-                    sudo pacman --noconfirm -S linux-lts linux-lts-headers \
-                        linux-lts-docs nvidia-lts linux-zen linux-zen-docs \
-                        linux-zen-headers nvidia-dkms v4l2loopback-dkms \
+                    sudo pacman --needed --noconfirm -S \
+                        linux-zen linux-zen-docs linux-zen-headers \
+                        nvidia-dkms v4l2loopback-dkms \
                         virtualbox-guest-utils virtualbox-host-dkms \
                         zfs-utils zfs-dkms nvidia-utils
-                        #wireguard-dkms
-                    yay -S zenpower-dkms
+                    yay --needed -S wireguard-dkms zenpower-dkms
                 fi
                 ;;
             *)

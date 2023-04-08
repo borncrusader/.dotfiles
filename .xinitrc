@@ -4,7 +4,8 @@
 #xmodmap ~/.xmodmap
 #
 ## xkb maps
-setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
+#setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
 
 # run display manager
-#exec i3
+dbus-launch --exit-with-session
+exec i3
