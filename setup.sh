@@ -24,7 +24,6 @@ create_link()
 create_link .dotfiles/.vim/ ~/.vim
 create_link .dotfiles/bin/ ~/bin
 create_link .dotfiles/.config/nvim/ ~/.config/nvim
-create_link .dotfiles/.fzf/ ~/.fzf
 
 create_link .dotfiles/.zprofile ~/.zprofile
 create_link .dotfiles/.zshrc ~/.zshrc
@@ -38,6 +37,7 @@ create_link .dotfiles/.vimrc ~/.vimrc
 create_link .dotfiles/.psqlrc ~/.psqlrc
 create_link .dotfiles/zsh-vim-mode ~/.zsh-vim-mode
 create_link .dotfiles/.fzf.zsh ~/.fzf.zsh
+create_link .dotfiles/.fzf.bash ~/.fzf.bash
 
 ## Linux specific
 if [ "$(uname)" = 'Linux' ]; then
