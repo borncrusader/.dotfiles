@@ -41,7 +41,7 @@ set laststatus=2        " show the status line always
 set iskeyword+=_,$,@,%,#,' " for word boundaries
 set textwidth=79        " limit maximum length of line to 79
 set colorcolumn=80,120  " show a line at 80 and 120 char limit
-set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to first search cscope db
+"set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to first search cscope db
 set backspace=2         " allow backspace deleting of characters
 set mouse=i             " get all that nice mouse scrolling support in insert mode
 
@@ -126,11 +126,11 @@ autocmd FileType json syntax match Comment +\/\/.\+$+
 " set color column color
 highlight ColorColumn ctermbg=grey
 
-" some golang stuff
+" language: golang
 let g:go_fmt_command = "goimports" " run goimports along gofmt on save
 let g:go_auto_type_info = 1 " automatically get signature/typo info of object under cursor
 "au filetype go inoremap <buffer> . .<C-x><C-o>
-"
+
 "let g:syntastic_python_checkers = ['flake8', 'pylint', 'mypy']
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
