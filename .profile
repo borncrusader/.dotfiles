@@ -30,6 +30,7 @@ export GOBIN="$GOPATH/bin"
 export NVM_DIR="$HOME/.nvm"
 export SSH_AUTH_SOCK="$HOME/.ssh/.auth_socket"
 export OBSIDIAN="$HOME/syncthing/obsidian"
+export CODE="$HOME/code"
 
 #################################################
 # OS Specific exports
@@ -43,11 +44,7 @@ if [ "$OS" = "MAC" ]; then
     GPG_TTY=$(tty)
     export GPG_TTY
 
-    export CODE=/Volumes/code
-
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-else
-    export CODE="$HOME/code"
 fi
 
 #################################################

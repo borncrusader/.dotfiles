@@ -1,13 +1,13 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */Users/ska/.fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/Users/ska/.fzf/bin"
+if [[ ! "$PATH" == *${FZF_PATH}/bin* ]]; then
+  PATH="${PATH:+${PATH}:}${FZF_PATH}/bin"
 fi
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "/Users/ska/.fzf/shell/completion.bash" 2> /dev/null
+[[ $- == *i* ]] && source "${FZF_PATH}/shell/completion.bash" 2> /dev/null
 
 # Key bindings
 # ------------
-source "/Users/ska/.fzf/shell/key-bindings.bash"
+source "${FZF_PATH}/shell/key-bindings.bash"
