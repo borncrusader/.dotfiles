@@ -137,11 +137,11 @@ let g:go_auto_type_info = 1 " automatically get signature/typo info of object un
 "let g:syntastic_check_on_wq = 0
 
 " vim-plug
-call plug#begin()
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'
-call plug#end()
+"call plug#begin()
+"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"Plug 'junegunn/fzf.vim'
+"Plug 'mileszs/ack.vim'
+"call plug#end()
 
 " fzf
 nnoremap <C-p> :GFiles<CR>
@@ -156,3 +156,5 @@ endif
 cnoreabbrev Ack Ack!
 nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
+
+set rtp+=/opt/homebrew/bin/fzf

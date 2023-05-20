@@ -64,15 +64,6 @@
 [submodule "zsh"]
 	path = zsh
 	url = https://github.com/ohmyzsh/ohmyzsh.git
-[submodule ".vim/plugged/ack.vim"]
-	path = .vim/plugged/ack.vim
-	url = https://github.com/mileszs/ack.vim
-[submodule ".vim/plugged/fzf"]
-	path = .vim/plugged/fzf
-	url = https://github.com/junegunn/fzf.git
-[submodule ".vim/plugged/fzf.vim"]
-	path = .vim/plugged/fzf.vim
-	url = https://github.com/junegunn/fzf.vim.git
 [submodule ".vim/bundle/vim-terraform"]
 	path = .vim/bundle/vim-terraform
 	url = https://github.com/hashivim/vim-terraform
@@ -88,9 +79,6 @@
 [submodule ".vim/pack/plugins/start/copilot.vim"]
 	path = .vim/pack/plugins/start/copilot.vim
 	url = https://github.com/github/copilot.vim.git
-[submodule ".fzf"]
-	path = .fzf
-	url = https://github.com/junegunn/fzf.git
 [submodule ".vim/pack/plugins/start/zig.vim"]
 	path = .vim/pack/plugins/start/zig.vim
 	url = https://github.com/ziglang/zig.vim
