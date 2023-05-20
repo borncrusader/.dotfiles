@@ -136,17 +136,10 @@ let g:go_auto_type_info = 1 " automatically get signature/typo info of object un
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_wq = 0
 
-" vim-plug
-"call plug#begin()
-"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-"Plug 'junegunn/fzf.vim'
-"Plug 'mileszs/ack.vim'
-"call plug#end()
-
 " fzf
 nnoremap <C-p> :GFiles<CR>
 
-" ack
+" use rg or ag for ack
 if executable('rg')
     let g:ackprg = 'rg --vimgrep --no-heading'
 elseif executable('ag')
@@ -156,5 +149,3 @@ endif
 cnoreabbrev Ack Ack!
 nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
-
-set rtp+=/opt/homebrew/bin/fzf
