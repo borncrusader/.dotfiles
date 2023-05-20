@@ -30,6 +30,7 @@ alias gotb="go test -bench ."
     alias visesame="vi $HOME/Dropbox/docs/sesame.yaml"
 
 alias cdc='cd $CODE'
+alias cdl='cd $CODE/learn'
 alias cdg='cd $GOPATH'
 alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 
