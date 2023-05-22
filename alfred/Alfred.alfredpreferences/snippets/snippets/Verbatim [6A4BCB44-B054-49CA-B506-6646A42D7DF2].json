@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "```\n{cursor}\n```",
+    "uid" : "6A4BCB44-B054-49CA-B506-6646A42D7DF2",
+    "name" : "Verbatim",
+    "keyword" : "verb"
+  }
+}

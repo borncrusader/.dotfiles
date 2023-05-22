@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "host_env=qa host_domain=stripe.io host_cluster={cursor}",
+    "uid" : "30DEBDA2-060F-4326-9719-41FEC814FB07",
+    "name" : "Splunk qa stripe.io",
+    "keyword" : "sqs"
+  }
+}

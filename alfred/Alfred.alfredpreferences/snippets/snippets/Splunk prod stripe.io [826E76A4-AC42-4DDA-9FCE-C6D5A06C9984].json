@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "host_env=prod host_domain=stripe.io host_cluster={cursor}",
+    "uid" : "826E76A4-AC42-4DDA-9FCE-C6D5A06C9984",
+    "name" : "Splunk prod stripe.io",
+    "keyword" : "sps"
+  }
+}

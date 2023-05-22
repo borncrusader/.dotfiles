@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "host_env=qa host_domain=stripe.io host_cluster=* sourcetype=consul-proxy-srv CANONICAL-ACCESS-LOG host_type={cursor}",
+    "uid" : "0B054970-50A5-4E91-B573-C77E016B524D",
+    "name" : "qa cps logs",
+    "keyword" : "cpslogqa"
+  }
+}

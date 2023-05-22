@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "host_env=prod host_domain=stripe.io host_cluster=* sourcetype=consul-proxy-srv CANONICAL-ACCESS-LOG host_type={cursor}",
+    "uid" : "201CA4F1-118E-4BA9-879D-A66F4163F1A1",
+    "name" : "prod cps logs",
+    "keyword" : "cpslogprod"
+  }
+}
