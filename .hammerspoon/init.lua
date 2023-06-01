@@ -1,4 +1,4 @@
--- util functions
+-- utility functions
 function openOrFocus(appname)
     app = hs.application.find(appname)
 
@@ -7,7 +7,24 @@ function openOrFocus(appname)
         hs.application.open(appname)
     else
         current_window = hs.window.focusedWindow()
+
         windows = app:allWindows()
+
+        -- sort the table so that we always can cycle through the windows
+        table.sort(windows, function(left, right)
+            return left:title():lower() < right:title():lower()
+        end)
+
+        -- sometimes; there might be entries with no titles which we don't want
+        -- to entertain
+        hs.fnutils.ifilter(windows, function(value)
+            return value:title() ~= ""
+        end)
+
+        for key, value in pairs(windows) do
+            log.d(string.format("%s:%s:%s", key, value, value:isMinimized()))
+        end
+
         wkey = 0
         for key, value in pairs(windows) do
             if value == current_window then
@@ -15,6 +32,8 @@ function openOrFocus(appname)
                 break
             end
         end
+
+        log.d(string.format("current window is %d", wkey))
 
         -- if the current window is not part of this application or
         -- if we are at the last of the windows,
@@ -29,12 +48,21 @@ function openOrFocus(appname)
                 app:mainWindow():focus()
             end
         else
-            wkey = wkey + 1
-            if wkey > #windows then
-                wkey = 1
-            end
+            start_wkey = wkey
+            repeat
+                wkey = wkey + 1
+                if wkey > #windows then
+                    wkey = 1
+                end
 
-            windows[wkey]:focus()
+                next_window = windows[wkey]
+                -- if a window is minimized; don't bring it to the forefront
+                if not next_window:isMinimized() then
+                    log.d(string.format("switching to %d", wkey))
+                    next_window:focus()
+                    break
+                end
+            until wkey == start_wkey
         end
     end
 end
@@ -85,7 +113,40 @@ function shrink(direction)
     window:setFrame(wf, 0)
 end
 
+-- regular functions
+function setupGlobals()
+    hostname = hs.host.localizedName()
+
+    -- default logger with info log level
+    -- 3 for info; 4 for debug
+    log = hs.logger.new("logger", 3)
+end
+
+
 function setupBindings()
+    local bindings = {}
+    if hostname == "nucleas-mbp" then
+        bindings[1] = "Alacritty"
+        bindings[2] = "Code"
+        bindings[3] = "Brave"
+        bindings[4] = "Discord"
+        bindings[5] = "Brave"
+        bindings[6] = "Brave"
+        bindings[7] = nil
+        bindings[8] = "Spotify"
+        bindings[9] = "Obsidian"
+    else
+        bindings[1] = "Alacritty"
+        bindings[2] = "Code"
+        bindings[3] = "Brave"
+        bindings[4] = "Slack"
+        bindings[5] = "Google Chrome"
+        bindings[6] = "Google Calendar"
+        bindings[7] = "VMware Fusion"
+        bindings[8] = "Spotify"
+        bindings[9] = "Obsidian"
+    end
+
     for key, value in pairs(bindings) do
         if value ~= nil then
             hs.hotkey.bind({"cmd"}, tostring(key), function()
@@ -93,78 +154,59 @@ function setupBindings()
             end)
         end
     end
-end
 
--- start
-hostname = hs.host.localizedName()
-
--- hotkey bindings
-bindings = {}
-if hostname == "nucleas-mbp" then
-    bindings[1] = "Alacritty"
-    bindings[2] = "Code"
-    bindings[3] = "Brave"
-    bindings[4] = "Discord"
-    bindings[5] = "Brave"
-    bindings[6] = "Brave"
-    bindings[7] = nil
-    bindings[8] = "Spotify"
-    bindings[9] = "Obsidian"
-else
-    bindings[1] = "Alacritty"
-    bindings[2] = "Code"
-    bindings[3] = "Brave"
-    bindings[4] = "Slack"
-    bindings[5] = "Google Chrome"
-    bindings[6] = "Google Calendar"
-    bindings[7] = "VMware Fusion"
-    bindings[8] = "Spotify"
-    bindings[9] = "Obsidian"
-end
-
--- setup bindings
-setupBindings()
-
--- help
-hs.hotkey.bind({"cmd", "ctrl"}, "h", function()
-    helpString = ""
-
-    -- bindings
-    for key, value in pairs(bindings) do
-        helpString = helpString .. string.format("cmd + %d - %s\n", key, value)
-    end
+    -- help
+    hs.hotkey.bind({"cmd", "ctrl"}, "h", function()
+        local helpString = ""
+    
+        -- bindings
+        for key, value in pairs(bindings) do
+            helpString = helpString .. string.format("cmd + %d - %s\n", key, value)
+        end
+    
+        -- window functions
+        helpString = helpString .. "cmd + ctrl + m - maximize\n"
+        helpString = helpString .. "cmd + ctrl + {dir} - tile in direction\n"
+    
+        helpString = helpString .. "cmd + ctrl + h - help"
+    
+        hs.alert.show(helpString)
+    end)
 
     -- window functions
-    helpString = helpString .. "cmd + ctrl + m - maximize\n"
-    helpString = helpString .. "cmd + ctrl + {dir} - tile in direction\n"
+    hs.hotkey.bind({"cmd", "ctrl"}, "left", function()
+        shrink("left")
+    end)
+    
+    hs.hotkey.bind({"cmd", "ctrl"}, "right", function()
+        shrink("right")
+    end)
+    
+    hs.hotkey.bind({"cmd", "ctrl"}, "up", function()
+        shrink("up")
+    end)
+    
+    hs.hotkey.bind({"cmd", "ctrl"}, "down", function()
+        shrink("down")
+    end)
 
-    helpString = helpString .. "cmd + ctrl + h - help"
+    hs.hotkey.bind({"cmd", "ctrl"}, "m", function()
+        window = hs.window.focusedWindow()
+        if window == nil then
+            hs.alert.show("No focused window")
+        else
+            window:maximize(0)
+        end
+    end)
+end
 
-    hs.alert.show(helpString)
-end)
+function init()
+    setupGlobals()
 
--- Window Functions
-hs.hotkey.bind({"cmd", "ctrl"}, "m", function()
-    window = hs.window.focusedWindow()
-    if window == nil then
-        hs.alert.show("No focused window")
-    else
-        window:maximize(0)
-    end
-end)
+    setupBindings()
 
-hs.hotkey.bind({"cmd", "ctrl"}, "left", function()
-    shrink("left")
-end)
+    -- finally clear the console
+    hs.console.clearConsole()
+end
 
-hs.hotkey.bind({"cmd", "ctrl"}, "right", function()
-    shrink("right")
-end)
-
-hs.hotkey.bind({"cmd", "ctrl"}, "up", function()
-    shrink("up")
-end)
-
-hs.hotkey.bind({"cmd", "ctrl"}, "down", function()
-    shrink("down")
-end)
+init()
