@@ -1,10 +1,41 @@
 -- util functions
 function openOrFocus(appname)
     app = hs.application.find(appname)
+
+    -- if application is not present atm, open it
     if app == nil then
         hs.application.open(appname)
     else
-        app:mainWindow():focus()
+        current_window = hs.window.focusedWindow()
+        windows = app:allWindows()
+        wkey = 0
+        for key, value in pairs(windows) do
+            if value == current_window then
+                wkey = key
+                break
+            end
+        end
+
+        -- if the current window is not part of this application or
+        -- if we are at the last of the windows,
+        -- pick the first window
+        if wkey == 0 then
+            if app:mainWindow() == nil then
+                -- if no window exists; opportunistically try creating a new
+                -- window through the menu
+                app:activate()
+                app:selectMenuItem("New Window")
+            else
+                app:mainWindow():focus()
+            end
+        else
+            wkey = wkey + 1
+            if wkey > #windows then
+                wkey = 1
+            end
+
+            windows[wkey]:focus()
+        end
     end
 end
 
@@ -54,28 +85,44 @@ function shrink(direction)
     window:setFrame(wf, 0)
 end
 
--- hotkey bindings
-bindings = {}
--- bindings[1] = "iTerm2"
-bindings[1] = "Alacritty"
-bindings[2] = "Code"
-bindings[3] = "Brave"
-bindings[4] = "Slack"
-bindings[5] = "Google Chrome"
-bindings[6] = "Google Calendar"
-bindings[7] = "VMware Fusion"
-bindings[8] = "Spotify"
-bindings[9] = "Obsidian"
-
--- setup bindings
 function setupBindings()
     for key, value in pairs(bindings) do
-        hs.hotkey.bind({"cmd"}, tostring(key), function()
-            openOrFocus(value)
-        end)
+        if value ~= nil then
+            hs.hotkey.bind({"cmd"}, tostring(key), function()
+                openOrFocus(value)
+            end)
+        end
     end
 end
 
+-- start
+hostname = hs.host.localizedName()
+
+-- hotkey bindings
+bindings = {}
+if hostname == "nucleas-mbp" then
+    bindings[1] = "Alacritty"
+    bindings[2] = "Code"
+    bindings[3] = "Brave"
+    bindings[4] = "Discord"
+    bindings[5] = "Brave"
+    bindings[6] = "Brave"
+    bindings[7] = nil
+    bindings[8] = "Spotify"
+    bindings[9] = "Obsidian"
+else
+    bindings[1] = "Alacritty"
+    bindings[2] = "Code"
+    bindings[3] = "Brave"
+    bindings[4] = "Slack"
+    bindings[5] = "Google Chrome"
+    bindings[6] = "Google Calendar"
+    bindings[7] = "VMware Fusion"
+    bindings[8] = "Spotify"
+    bindings[9] = "Obsidian"
+end
+
+-- setup bindings
 setupBindings()
 
 -- help
