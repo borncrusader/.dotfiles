@@ -1,7 +1,6 @@
 .vim/.netrwhist
 .*.swp
 .DS_Store
-bin/
 .vim/view
 
 # emacs
@@ -10,3 +9,7 @@ emacs/.emacs.d/*
 !emacs/.emacs.d/new_configuration.org
 !emacs/.emacs.d/init.el
 !emacs/.emacs.d/org-templates
+
+# some custom binaries
+bin/zig
+bin/zls
