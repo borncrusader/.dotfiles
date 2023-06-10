@@ -38,7 +38,7 @@ set smartcase           " case-sensitive when uppercase chars given
 set sidescroll=1        " sidescroll this much number of chars
 set ruler               " show row,column in the bottom right corner
 set laststatus=2        " show the status line always
-set iskeyword+=_,$,@,%,#,' " for word boundaries
+set iskeyword+=_,$,@,%,#,',],),},; " for word boundaries
 set textwidth=79        " limit maximum length of line to 79
 set colorcolumn=80,120  " show a line at 80 and 120 char limit
 "set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to first search cscope db

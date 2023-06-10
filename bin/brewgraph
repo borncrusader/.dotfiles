@@ -1,0 +1,7 @@
+#!/bin/bash
+
+ofile=graph-$(date +%s).svg
+
+brew graph --installed | dot -Tsvg -o$ofile
+
+echo "created $ofile"
