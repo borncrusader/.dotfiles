@@ -139,6 +139,8 @@ let g:go_auto_type_info = 1 " automatically get signature/typo info of object un
 " fzf
 nnoremap <C-p> :GFiles<CR>
 
+nnoremap <C-k> :GoDoc<CR>
+
 " use rg or ag for ack
 if executable('rg')
     let g:ackprg = 'rg --vimgrep --no-heading'
@@ -149,3 +151,12 @@ endif
 cnoreabbrev Ack Ack!
 nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
+
+" ale
+let g:ale_linters_explicit = 1
+let g:ale_linters = {
+  \ 'zig': ['zls'],
+  \ 'go': ['gopls'],
+\}
+highlight ALEVirtualTextWarning guifg=#FF8800 gui=italic
+highlight ALEVirtualTextError guifg=#FF0000 gui=italic
