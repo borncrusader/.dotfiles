@@ -91,3 +91,6 @@
 [submodule ".vim/pack/plugins/start/ale.git"]
 	path = .vim/pack/plugins/start/ale.git
 	url = https://github.com/dense-analysis/ale.git
+[submodule ".vim/pack/plugins/start/vim-airline.git"]
+	path = .vim/pack/plugins/start/vim-airline.git
+	url = https://github.com/vim-airline/vim-airline.git
