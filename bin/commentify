@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Check if a file name is provided as an argument
+if [[ $# -eq 0 ]]; then
+    echo "Error: Please provide a file name."
+    exit 1
+fi
+
+if [[ "$1" == "-h" ]]; then
+    echo "Usage: commentify {-u} <file>"
+    echo "  -u: Remove comments from the file"
+    exit 0
+fi
+
+if [[ "$1" == "-u" ]]; then
+    uncomment=1
+    shift 1
+else
+    uncomment=0
+fi
+
+file="$1"
+
+# Check if the file exists
+if [[ ! -f "$file" ]]; then
+    echo "Error: File '$file' does not exist."
+    exit 1
+fi
+
+if [[ $uncomment -eq 0 ]]; then
+    sed -i.bak 's/^/# /' "$file"
+else
+    sed -i.bak 's/^# //' "$file"
+fi

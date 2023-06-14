@@ -1,0 +1,78 @@
+#!/bin/bash
+
+if ! which python3 > /dev/null ; then
+    echo "python3 not found"
+    exit 1
+fi
+
+usage() {
+    echo "usage: $0 [-d] scheme string"
+    echo "  by default does encoding; pass -d for decoding"
+    echo "  scheme can be [base64|url|html]"
+    echo "  scheme can also be 'all' for encoding"
+}
+
+if [ "$#" -lt 2 ]; then
+    usage
+    exit 1
+fi
+
+if [ "$1" == '-d' ]; then
+    decode=1
+    shift 1
+fi
+
+scheme=$1
+shift 1
+
+b64encode() {
+    python3 -c "import base64; print(base64.b64encode('$1'.encode('ascii')).decode('utf-8'), end='')"
+}
+
+b64decode() {
+    python3 -c "import base64; print(base64.b64decode('$1'.encode('ascii')).decode('utf-8'), end='')"
+}
+
+urlencode() {
+    python3 -c "import urllib.parse; print(urllib.parse.quote('$1', safe=''), end='')"
+}
+
+urldecode() {
+    python3 -c "import urllib.parse; print(urllib.parse.unquote('$1'), end='')"
+}
+
+htmlencode() {
+    python3 -c "import html; print(html.escape('$1'), end='')"
+}
+
+htmldecode() {
+    python3 -c "import html; print(html.unescape('$1'), end='')"
+}
+
+if [ "$scheme" == base64 ]; then
+    if [ -n "$decode" ]; then
+        b64decode "$1"
+    else
+        b64encode "$1"
+    fi
+elif [ "$scheme" == url ]; then
+    if [ -n "$decode" ]; then
+        urldecode "$1"
+    else
+        urlencode "$1"
+    fi
+elif [ "$scheme" == html ]; then
+    if [ -n "$decode" ]; then
+        htmldecode "$1"
+    else
+        htmlencode "$1"
+    fi
+elif [ "$scheme" == all ] && [ -z "$decode" ]; then
+    b64encode "$1"
+    echo ""
+    urlencode "$1"
+    echo ""
+    htmlencode "$1"
+else
+    exit 1
+fi
