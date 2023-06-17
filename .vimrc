@@ -1,5 +1,7 @@
 set nocp                " get all the vim goodness
 
+let mapleader = ";"
+
 " get os
 if has("win32")
     let os = "win"
@@ -44,6 +46,11 @@ set colorcolumn=80,120  " show a line at 80 and 120 char limit
 "set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to first search cscope db
 set backspace=2         " allow backspace deleting of characters
 set mouse=i             " get all that nice mouse scrolling support in insert mode
+
+" buffers
+map <Leader>n :bnext<cr>
+map <Leader>p :bprevious<cr>
+map <Leader>d :bdelete<cr>
 
 " autostart with NERDTree, but move to the other window
 "command Nerd NERDTree | wincmd w
@@ -166,3 +173,5 @@ let g:ale_lint_on_insert_leave = 0
 " You can disable this option too
 " if you don't want linters to run on opening a file
 let g:ale_lint_on_enter = 0
+
+let g:airline#extensions#tabline#enabled = 1
