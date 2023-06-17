@@ -174,4 +174,11 @@ let g:ale_lint_on_insert_leave = 0
 " if you don't want linters to run on opening a file
 let g:ale_lint_on_enter = 0
 
+" airline
 let g:airline#extensions#tabline#enabled = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.linenr = ' l:'
+let g:airline_symbols.maxlinenr = ' '
+let g:airline_symbols.colnr = 'col:'
