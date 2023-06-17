@@ -181,4 +181,4 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_symbols.linenr = ' l:'
 let g:airline_symbols.maxlinenr = ' '
-let g:airline_symbols.colnr = 'col:'
+let g:airline_symbols.colnr = 'c:'
