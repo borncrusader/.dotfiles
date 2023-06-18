@@ -36,6 +36,8 @@ set smartindent         " smartindent for more c-style indents
 set incsearch           " search incrementally as you key
 set hlsearch            " highlight search words
 set ignorecase          " ignore case for searches
+set magic               " use magic (regex) for searches
+set showmatch           " show matching brackets
 set smartcase           " case-sensitive when uppercase chars given
 set sidescroll=1        " sidescroll this much number of chars
 set ruler               " show row,column in the bottom right corner
@@ -46,6 +48,7 @@ set colorcolumn=80,120  " show a line at 80 and 120 char limit
 "set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to first search cscope db
 set backspace=2         " allow backspace deleting of characters
 set mouse=i             " get all that nice mouse scrolling support in insert mode
+set encoding=utf-8      " set encoding to utf-8
 
 " buffers
 map <Leader>n :bnext<cr>
@@ -182,3 +185,8 @@ endif
 let g:airline_symbols.linenr = ' l:'
 let g:airline_symbols.maxlinenr = ' '
 let g:airline_symbols.colnr = 'c:'
+
+" typo protection
+command! Wq wq
+command! Wqa wqa
+command! Q q
