@@ -21,6 +21,7 @@ alias tl='tmux list-sessions'
 alias tn='tmux new -s'
 alias vi='vim -X'
 alias gotb="go test -bench ."
+alias cat="bat"
 
 [ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
 [ -f /usr/bin/sed ] && alias sed='/usr/bin/sed'
