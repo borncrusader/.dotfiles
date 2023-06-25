@@ -67,7 +67,7 @@ function openOrFocus(appname)
     end
 end
 
-function shrink(direction)
+function shrink(direction, fast)
     window = hs.window.focusedWindow()
     if window == nil then
         hs.alert.show("No focused window")
@@ -77,19 +77,26 @@ function shrink(direction)
     wf = window:frame()
     f = window:screen():frame()
 
+    fast = fast or false
+    if fast == true then
+        pt = 0.25
+    else
+        pt = 0.1
+    end
+
     set = false
     if direction == "left" then
-        wf.w = wf.w - math.floor(0.1 * f.w)
+        wf.w = wf.w - math.floor(pt * f.w)
         set = true
     elseif direction == "right" then
-        wf.w = wf.w - math.floor(0.1 * f.w)
+        wf.w = wf.w - math.floor(pt * f.w)
         wf.x = f.w - wf.w
         set = true
     elseif direction == "up" then
-        wf.h = wf.h - math.floor(0.1 * f.h)
+        wf.h = wf.h - math.floor(pt * f.h)
         set = true
     elseif direction == "down" then
-        wf.h = wf.h - math.floor(0.1 * f.h)
+        wf.h = wf.h - math.floor(pt * f.h)
         -- this is slightly round about to determine where the window should start
         -- coz sometimes I like having the dock and accommodating for it
         wf.y = f.y + f.h - wf.h
@@ -176,6 +183,8 @@ function setupBindings()
     -- window functions
     hs.hotkey.bind({"cmd", "ctrl"}, "left", function()
         shrink("left")
+    end, nil, function()
+        shrink("left", true)
     end)
     
     hs.hotkey.bind({"cmd", "ctrl"}, "right", function()

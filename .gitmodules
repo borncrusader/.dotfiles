@@ -13,51 +13,18 @@
 [submodule ".vim/bundle/vim-colors-solarized"]
 	path = .vim/bundle/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized
-[submodule ".vim/bundle/vim-scala"]
-	path = .vim/bundle/vim-scala
-	url = https://github.com/derekwyatt/vim-scala.git
-[submodule ".vim/bundle/syntastic"]
-	path = .vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
-[submodule ".vim/bundle/vim-go"]
-	path = .vim/bundle/vim-go
-	url = https://github.com/fatih/vim-go.git
-[submodule ".vim/bundle/taglist.vim"]
-	path = .vim/bundle/taglist.vim
-	url = https://github.com/vim-scripts/taglist.vim.git
-    ignore = untracked
 [submodule ".vim/bundle/rust.vim"]
 	path = .vim/bundle/rust.vim
 	url = https://github.com/rust-lang/rust.vim.git
 [submodule ".vim/bundle/vim-elixir"]
 	path = .vim/bundle/vim-elixir
 	url = https://github.com/elixir-lang/vim-elixir.git
-[submodule ".vim/bundle/typescript-vim"]
-	path = .vim/bundle/typescript-vim
-	url = https://github.com/leafgarland/typescript-vim.git
-[submodule ".vim/bundle/vim-clojure-static"]
-	path = .vim/bundle/vim-clojure-static
-	url = https://github.com/guns/vim-clojure-static.git
-    ignore = untracked
-[submodule ".vim/bundle/vim-parinfer"]
-	path = .vim/bundle/vim-parinfer
-	url = https://github.com/bhurlow/vim-parinfer.git
-    ignore = untracked
-[submodule ".vim/bundle/kotlin-vim"]
-	path = .vim/bundle/kotlin-vim
-	url = https://github.com/udalov/kotlin-vim.git
 [submodule ".vim/bundle/pgsql.vim"]
 	path = .vim/bundle/pgsql.vim
 	url = https://github.com/lifepillar/pgsql.vim.git
 [submodule "linux/i3blocks-contrib"]
 	path = linux/i3blocks-contrib
 	url = https://github.com/vivien/i3blocks-contrib.git
-[submodule ".vim/bundle/elm-vim"]
-	path = .vim/bundle/elm-vim
-	url = https://github.com/ElmCast/elm-vim.git
-[submodule ".vim/bundle/julia-vim"]
-	path = .vim/bundle/julia-vim
-	url = https://github.com/JuliaEditorSupport/julia-vim.git
 [submodule "zsh-vim-mode"]
 	path = zsh-vim-mode
 	url = https://github.com/softmoth/zsh-vim-mode.git
@@ -88,9 +55,6 @@
 [submodule ".vim/pack/plugins/start/fzf"]
 	path = .vim/pack/plugins/start/fzf
 	url = https://github.com/junegunn/fzf.git
-[submodule ".vim/pack/plugins/start/ale.git"]
-	path = .vim/pack/plugins/start/ale.git
-	url = https://github.com/dense-analysis/ale.git
 [submodule ".vim/pack/plugins/start/vim-airline.git"]
 	path = .vim/pack/plugins/start/vim-airline.git
 	url = https://github.com/vim-airline/vim-airline.git
@@ -100,3 +64,6 @@
 [submodule ".vim/pack/plugins/start/vim-lsp-settings.git"]
 	path = .vim/pack/plugins/start/vim-lsp-settings.git
 	url = https://github.com/mattn/vim-lsp-settings.git
+[submodule ".vim/pack/plugins/start/vim-which-key.git"]
+	path = .vim/pack/plugins/start/vim-which-key.git
+	url = https://github.com/liuchengxu/vim-which-key.git

@@ -31,7 +31,6 @@ create_link .dotfiles/.bash_profile ~/.bash_profile
 create_link .dotfiles/.bashrc ~/.bashrc
 create_link .dotfiles/.myshrc ~/.myshrc
 create_link .dotfiles/.profile ~/.profile
-create_link .dotfiles/.screenrc ~/.screenrc
 create_link .dotfiles/.tmux.conf ~/.tmux.conf
 create_link .dotfiles/.vimrc ~/.vimrc
 create_link .dotfiles/.psqlrc ~/.psqlrc
@@ -51,7 +50,6 @@ fi
 
 ## Mac specific
 if [ "$(uname)" = 'Darwin' ]; then
-    #create_link .dotfiles/.slate ~/.slate
     create_link .dotfiles/.hammersoon ~/.hammerspoon
     #create_link .dotfiles/alfred ~/alfred
 

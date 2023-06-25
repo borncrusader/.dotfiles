@@ -1,4 +1,4 @@
-set nocp                " get all the vim goodness
+set nocompatible                        " get all the vim goodness
 
 let mapleader = ";"
 
@@ -51,9 +51,9 @@ set mouse=i             " get all that nice mouse scrolling support in insert mo
 set encoding=utf-8      " set encoding to utf-8
 
 " buffers
-map <Leader>n :bnext<cr>
-map <Leader>p :bprevious<cr>
-map <Leader>d :bdelete<cr>
+map <Leader>bn :bnext<cr>
+map <Leader>bp :bprevious<cr>
+map <Leader>bd :bdelete<cr>
 
 " autostart with NERDTree, but move to the other window
 "command Nerd NERDTree | wincmd w
@@ -148,36 +148,24 @@ let g:go_auto_type_info = 1 " automatically get signature/typo info of object un
 
 " fzf
 nnoremap <C-p> :GFiles<CR>
-
-nnoremap <C-k> :GoDoc<CR>
-
-" use rg or ag for ack
-if executable('rg')
-    let g:ackprg = 'rg --vimgrep --no-heading'
-elseif executable('ag')
-    let g:ackprg = 'ag --vimgrep'
-endif
-
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
-nnoremap <Leader>A :Ack!<CR>
+nnoremap <leader>f :Rg<Space>
 
 " ale
-let g:ale_linters_explicit = 1
-let g:ale_linters = {
-  \ 'zig': ['zls'],
-  \ 'go': ['gopls'],
-\}
-highlight ALEVirtualTextWarning guifg=#FF8800 gui=italic
-highlight ALEVirtualTextError guifg=#FF0000 gui=italic
-
-let g:ale_enabled = 0
-let g:ale_disable_lsp = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-" You can disable this option too
-" if you don't want linters to run on opening a file
-let g:ale_lint_on_enter = 0
+"let g:ale_linters_explicit = 1
+"let g:ale_linters = {
+"  \ 'zig': ['zls'],
+"  \ 'go': ['gopls'],
+"\}
+"highlight ALEVirtualTextWarning guifg=#FF8800 gui=italic
+"highlight ALEVirtualTextError guifg=#FF0000 gui=italic
+"
+"let g:ale_enabled = 0
+"let g:ale_disable_lsp = 1
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_insert_leave = 0
+"" You can disable this option too
+"" if you don't want linters to run on opening a file
+"let g:ale_lint_on_enter = 0
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -222,3 +210,6 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+nnoremap <silent> <leader> :WhichKey ';'<CR>
+set timeoutlen=500
