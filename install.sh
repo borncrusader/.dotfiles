@@ -51,7 +51,6 @@ fi
 ## Mac specific
 if [ "$(uname)" = 'Darwin' ]; then
     create_link .dotfiles/.hammersoon ~/.hammerspoon
-    #create_link .dotfiles/alfred ~/alfred
 
     # solve for key repeat issues in macs
     defaults write -g ApplePressAndHoldEnabled -bool false
