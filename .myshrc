@@ -22,6 +22,7 @@ alias tn='tmux new -s'
 alias vi='vim -X'
 alias gotb="go test -bench ."
 alias cat="bat"
+alias nvim-kick="NVIM_APPNAME=nvim-kick nvim"
 
 [ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
 [ -f /usr/bin/sed ] && alias sed='/usr/bin/sed'
@@ -37,7 +38,12 @@ alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 
 # os specific
 if [ "$OS" = 'MAC' ]; then
-	alias ls=' ls -GFh'
+    if ! type exa > /dev/null 2>&1; then
+        alias ls='ls -GFh'
+    else
+        alias ls='exa -F --color auto'
+    fi
+
     if [ -f "/opt/homebrew/bin/nvim" ]; then
         alias vim="/opt/homebrew/bin/nvim"
     elif command -v nvim; then
@@ -51,7 +57,12 @@ if [ "$OS" = 'MAC' ]; then
         alias vim="/usr/local/bin/vim"
     fi
 else
-	alias ls=' ls -F --color'
+    if ! type exa > /dev/null 2>&1; then
+        alias ls='ls -F --color'
+    else
+        alias ls='exa -F --color auto'
+    fi
+
     alias open="xdg-open"
     alias boot_to_windows="sudo grub-reboot 'Microsoft Windows 10' && sudo reboot"
 fi

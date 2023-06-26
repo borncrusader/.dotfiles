@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # bail out on first error
-set -e
+set -euo pipefail
 
 create_link()
 {
@@ -60,9 +60,9 @@ if [ "$(uname)" = 'Darwin' ]; then
     defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
     defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
 
-    # alacritty
-    # git clone https://github.com/alacritty/alacritty.git
-    # cd alacritty
-    # sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
-    # cd .. && rm -rf alacritty
+    # install applications
+    ./brew/run.sh install
+
+    # finally get the xcode license figured out
+    sudo xcodebuild -license
 fi
