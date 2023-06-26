@@ -52,6 +52,9 @@ fi
 if [ "$(uname)" = 'Darwin' ]; then
     create_link .dotfiles/.hammersoon ~/.hammerspoon
 
+    # change the default directory for screenshots
+    defaults write com.apple.screencapture location -string "$HOME/Pictures/Screenshots/"
+
     # solve for key repeat issues in macs
     defaults write -g ApplePressAndHoldEnabled -bool false
 
@@ -62,6 +65,9 @@ if [ "$(uname)" = 'Darwin' ]; then
     # install applications
     ./brew/run.sh install
 
-    # finally get the xcode license figured out
-    sudo xcodebuild -license
+    # set timezone
+    sudo systemsetup -settimezone "America/Los_Angeles"
+
+    # finally do an update and agree to the xcode license; will restart
+    sudo softwareupdate -i -a --restart --agree-to-license
 fi
