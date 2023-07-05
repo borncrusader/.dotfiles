@@ -1,4 +1,10 @@
 #!/bin/bash
 
-scrot '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots'
+# if flameshot exists; use that. or else revert to using scrot
+if ! type flameshot > /dev/null; then
+    scrot "$HOME/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S.png"
+else
+    flameshot gui
+fi
+
 mplayer /usr/share/sounds/freedesktop/stereo/screen-capture.oga > /dev/null

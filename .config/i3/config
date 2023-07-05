@@ -247,13 +247,9 @@ bindsym Print exec /home/ska/bin/take_screenshot
 exec --no-startup-id parcellite
 exec --no-startup-id artha
 exec --no-startup-id nm-applet
-exec --no-startup-id dropbox
-#exec --no-startup-id franz
 exec --no-startup-id pasystray
 exec --no-startup-id blueman-applet
-exec --no-startup-id redshift-gtk
 exec --no-startup-id udiskie
-#exec --no-startup-id keybase-gui
 
 # set keyboard map
 exec setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
