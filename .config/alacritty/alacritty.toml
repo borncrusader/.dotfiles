@@ -1,0 +1,15 @@
+[cursor]
+vi_mode_style = "Beam"
+
+[cursor.style]
+shape = "Block"
+
+[font]
+size = 16.0
+
+[font.normal]
+family = "Rec Mono Casual"
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
