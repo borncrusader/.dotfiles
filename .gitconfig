@@ -3,7 +3,7 @@
     email = "srinath.krishna@gmail.com"
 
 [core]
-    editor = vim
+    editor = nvim
     # http://stackoverflow.com/questions/18257622/why-is-git-core-preloadindex-default-value-false
     preloadindex = true
     deltabasecachelimit = 4g
