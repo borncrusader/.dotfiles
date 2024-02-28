@@ -40,11 +40,12 @@ create_link .dotfiles/.fzf.bash ~/.fzf.bash
 
 ## Linux specific
 if [ "$(uname)" = 'Linux' ]; then
-	create_link .dotfiles/.config/i3 ~/.config/i3
-	create_link .dotfiles/.xinitrc ~/.xinitrc
-	create_link .dotfiles/.xmodmap ~/.xmodmap
-	create_link .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
+    create_link .dotfiles/.config/i3 ~/.config/i3
+    create_link .dotfiles/.xinitrc ~/.xinitrc
+    create_link .dotfiles/.xmodmap ~/.xmodmap
+    create_link .dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
     create_link .dotfiles/.i3status.conf ~/.i3status.conf
+    create_link .dotfiles/.i3blocks.conf ~/.i3blocks.conf
     create_link .dotfiles/.Xresources ~/.Xresources
 fi
 
