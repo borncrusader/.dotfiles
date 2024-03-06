@@ -18,3 +18,6 @@ Aliases are local to a shell, so best to have them in the *rc file.
 
 # FZF
 TBD
+
+# TODO
+- populate gitconfig
