@@ -62,6 +62,11 @@ if [ "$(uname)" = 'Darwin' ]; then
     defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
     defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
 
+    # make the dock appear and disappear faster
+    defaults write com.apple.dock autohide-time-modifier -int 0
+    defaults write com.apple.dock autohide-delay -int 0
+    killall Dock
+
     # install applications
     ./brew/run.sh install
 
