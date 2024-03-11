@@ -76,7 +76,6 @@ boost-libs 1.83.0-5
 botan 3.2.0-1
 botan2 2.19.3-1
 box2d 2.4.1-2
-brave-bin 1:1.62.165-1
 bridge-utils 1.7.1-1
 brltty 6.6-5
 brotli 1.1.0-1
@@ -483,6 +482,7 @@ kdbusaddons5 5.115.0-1
 kdeclarative5 5.115.0-1
 kded5 5.115.0-1
 keybase 6.0.2-4
+keyd 2.4.3-5
 keyutils 1.6.3-2
 kglobalaccel5 5.115.0-1
 kguiaddons5 5.115.0-1
