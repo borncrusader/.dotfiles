@@ -17,3 +17,6 @@ bin/ion
 
 # nvim
 .config/nvim-kick/lazy-lock.json
+
+# alacritty
+.config/alacritty/custom.toml
