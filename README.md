@@ -21,3 +21,10 @@ TBD
 
 # TODO
 - populate gitconfig
+- have a sample .netrc file
+- if using systemd-resolved
+```
+ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+```
+
+/etc/sddm.conf.d/autologin.conf

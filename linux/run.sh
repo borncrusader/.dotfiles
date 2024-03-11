@@ -1,9 +1,11 @@
 #!/bin/bash
 
+set -euo pipefail
+
 update() {
     echo "updating list of packages"
 
-    pacman -Q > "pacman-installed-packages-$(hostname)"
+    pacman -Q > "pacman-installed-packages-$(hostnamectl hostname)"
 }
 
 install() {
@@ -12,7 +14,7 @@ install() {
     cat pacman-installed-packages-* | awk '{ print $2 }' | xargs pacman -S
 }
 
-if [[ $(uname) != "Linux" ]] || ! grep "Arch Linux" /etc/lsb-release; then
+if [[ $(uname) != "Linux" ]] || ! grep "Arch Linux" /etc/os-release; then
     echo "not on an Arch box, skipping pacman commands"
     exit 0
 fi
