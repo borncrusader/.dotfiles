@@ -1,0 +1,75 @@
+{
+	"layer": "top",
+	"modules-left": ["custom/launcher", "wlr/workspaces"],
+	"modules-center": [],
+	"modules-right": ["tray","pulseaudio","battery","cpu","memory","clock","custom/power"],
+
+    // LEFT
+
+	"custom/launcher":{
+        "format": " ",
+        "on-click": "wofi --show drun",
+        "on-click-right": "killall wofi"
+    },
+
+    // MIDDLE
+    "wlr/workspaces": {
+        "format": "{id}",
+        "all-outputs": true,
+        "disable-scroll": true,
+        "on-click": "activate"
+    },
+
+    // RIGHT
+
+
+	"pulseaudio": {
+		"tooltip": false,
+		"scroll-step": 5,
+		"format": "{icon} {volume}%",
+		"format-muted": "{icon} {volume}%",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"format-icons": {
+			"default": ["", "", ""]
+		}
+	},
+
+	"network": {
+		"tooltip": false,
+		"format-wifi": "  {essid}",
+		"format-ethernet": ""
+	},
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+	"tray":{
+		"icon-size":18,
+		"spacing": 10
+	},
+    "clock": {
+        "format": "{: %H:%M %p | %d/%m/%Y}"
+    },
+    "cpu": {
+        "interval": 15,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "custom/power":{
+        "format": " ",
+        "on-click": "poweroff",
+    }
+}

@@ -47,6 +47,10 @@ if [ "$(uname)" = 'Linux' ]; then
     create_link ~/.dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
     create_link ~/.dotfiles/.i3status.conf ~/.i3status.conf
     create_link ~/.dotfiles/.Xresources ~/.Xresources
+
+    # wayland
+    create_link ~/.dotfiles/.config/waybar ~/.config/waybar
+    create_link ~/.dotfiles/.config/hypr ~/.config/hypr
 fi
 
 ## Mac specific
