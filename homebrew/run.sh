@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # Some useful references
 # 1. https://openfolder.sh/macos-migrations-with-brewfile
 
