@@ -9,20 +9,21 @@ _sp=${_sp}_mr
 # Aliases
 #################################################
 # common
+alias cat="bat"
 alias chkconn='ping 8.8.8.8'
 alias dush=' du -sh'
+alias gotb="go test -bench ."
 alias leaky='valgrind --leak-check=full --track-origins=yes'
 alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
+alias nvim-kick="NVIM_APPNAME=nvim-kick nvim"
 alias pore='vi -X -c "cf grep_op" -c "copen"'
+alias prettypath="echo $PATH | sed 's/:/\n/g'"
 alias rdesk='rdesktop -g 1366x730'
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
 alias vi='vim -X'
-alias gotb="go test -bench ."
-alias cat="bat"
-alias nvim-kick="NVIM_APPNAME=nvim-kick nvim"
 
 [ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
 [ -f /usr/bin/sed ] && alias sed='/usr/bin/sed'
