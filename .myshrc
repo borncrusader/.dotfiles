@@ -158,17 +158,21 @@ refresh()
                 sudo pacman-key --refresh-keys
                 sudo pacman -Syu
                 ;;
+            "-m")
+                sudo pacman --needed --noconfirm -S \
+                    linux-zen linux-zen-docs linux-zen-headers \
+                    linux-lts linux-lts-docs linux-lts-headers \
+                    nvidia-dkms v4l2loopback-dkms \
+                    virtualbox-guest-utils virtualbox-host-dkms \
+                    zfs-utils zfs-dkms nvidia-utils
+                yay --needed -S wireguard-dkms zenpower-dkms
+                ;;
             "-a" | "")
                 sudo pacman -Syyu
                 yay -Sua
 
                 if [ -n "$1" ] && [ "$1" = "-a" ]; then
-                    sudo pacman --needed --noconfirm -S \
-                        linux-zen linux-zen-docs linux-zen-headers \
-                        nvidia-dkms v4l2loopback-dkms \
-                        virtualbox-guest-utils virtualbox-host-dkms \
-                        zfs-utils zfs-dkms nvidia-utils
-                    yay --needed -S wireguard-dkms zenpower-dkms
+                    refresh -m
                 fi
                 ;;
             *)

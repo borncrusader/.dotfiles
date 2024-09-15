@@ -28,3 +28,5 @@ ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 ```
 
 /etc/sddm.conf.d/autologin.conf
+
+nvidia, nvidia_modeset, nvidia_uvm, nvidia_drm in MODULES=() in /etc/mkinitcpio.conf
