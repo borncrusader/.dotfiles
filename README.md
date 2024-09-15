@@ -29,4 +29,9 @@ ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 /etc/sddm.conf.d/autologin.conf
 
+# Linux
 nvidia, nvidia_modeset, nvidia_uvm, nvidia_drm in MODULES=() in /etc/mkinitcpio.conf
+
+# Macos
+Display -> Reduce Motion
+Desktop & Dock -> Mission Control (turn off automatically rearrange ...)

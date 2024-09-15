@@ -51,11 +51,11 @@ fi
 # Some helpful functions
 #################################################
 _add_to_path() {
-    [ -d "$1" ] && PATH="$1":$PATH
+    [ -d "$1" ] && [[ "$PATH" != *"$1"* ]] && PATH="$1":$PATH
 }
 
 _add_to_cdpath() {
-    [ -d "$1" ] && CDPATH="$1":$CDPATH
+    [ -d "$1" ] && [[ "$CDPATH" != *"$1"* ]] && CDPATH="$1":$CDPATH
 }
 
 _source_if_exists() {
@@ -75,12 +75,10 @@ _add_to_path "$HOME/bin"
 _add_to_path "$GOPATH/bin"
 _add_to_path "/usr/local/opt/node@8/bin"
 _add_to_path "/usr/local/opt/gnu-sed/libexec/gnubin"
-_add_to_path "$HOME/.poetry/bin"
 _add_to_path "$HOME/bin/mac"
 _add_to_path "/usr/local/sbin"
 _add_to_path "$HOME/.yarn/bin"
 _add_to_path "$HOME/.config/yarn/global/node_modules/.bin"
-_add_to_path "/usr/local/opt/terraform@0.12/bin"
 
 # asdf
 _source_if_exists "/usr/local/opt/asdf/asdf.sh"
@@ -106,12 +104,15 @@ _add_to_path "$HOME/code/flutter/bin"
 # rust
 _source_if_exists "$HOME/.cargo/env"
 
-# work related profile (should be last)
-_source_if_exists "$HOME/.myshprofile_work"
+# racket
+_add_to_path '/Applications/Racket v8.13/bin'
 
 # homebrew
 if [ "$OS" = "MAC" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+# work related profile (should be last)
+_source_if_exists "$HOME/.myshprofile_work"
 
 _sp=${_sp}_P

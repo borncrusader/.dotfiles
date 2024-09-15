@@ -79,6 +79,7 @@
     com = commit
     coma = commit --amend
     comad = !"git commit --amend --date=\"$(date -R)\""
+    come = commit --allow-empty
     cleanup = !"git branch --no-merged | grep  -v '\\*\\|master\\|develop\\|main' | xargs -n 1 git branch -d"
     top100 = log -100 --pretty='format:%H (%an, %ad)'
     top1000 = log -1000 --pretty='format:%H (%an, %ad)'
