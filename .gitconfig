@@ -2,6 +2,10 @@
     name = "Srinath Ananthakrishnan"
     email = "srinath.krishna@gmail.com"
 
+# this is commented out here but can be set on a root .gitconfig
+#[include]
+#    path = "~/.dotfiles/.gitconfig"
+
 [core]
     editor = nvim
     # http://stackoverflow.com/questions/18257622/why-is-git-core-preloadindex-default-value-false
