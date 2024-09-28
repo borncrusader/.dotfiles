@@ -213,3 +213,11 @@ augroup END
 
 nnoremap <silent> <leader> :WhichKey ';'<CR>
 set timeoutlen=500
+
+call plug#begin()
+
+" List your plugins here
+Plug 'nvim-lua/plenary.nvim'
+Plug 'sourcegraph/sg.nvim', { 'do': 'nvim -l build/init.lua' }
+
+call plug#end()

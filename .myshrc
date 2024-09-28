@@ -17,6 +17,7 @@ alias leaky='valgrind --leak-check=full --track-origins=yes'
 alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
 alias nvim-kick="NVIM_APPNAME=nvim-kick nvim"
+alias nnvim="NVIM_APPNAME=nvim-ng nvim"
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias prettypath="echo $PATH | sed 's/:/\n/g'"
 alias rdesk='rdesktop -g 1366x730'
@@ -39,10 +40,11 @@ alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 
 # os specific
 if [ "$OS" = 'MAC' ]; then
-    if ! type exa > /dev/null 2>&1; then
+    if ! type eza > /dev/null 2>&1; then
+        echo "install eza"
         alias ls='ls -GFh'
     else
-        alias ls='exa -F --color auto'
+        alias ls='eza -F --color auto'
     fi
 
     if [ -f "/opt/homebrew/bin/nvim" ]; then
@@ -58,10 +60,11 @@ if [ "$OS" = 'MAC' ]; then
         alias vim="/usr/local/bin/vim"
     fi
 else
-    if ! type exa > /dev/null 2>&1; then
+    if ! type eza > /dev/null 2>&1; then
+        echo "install eza"
         alias ls='ls -F --color'
     else
-        alias ls='exa -F --color auto'
+        alias ls='eza -F --color auto'
     fi
 
     alias open="xdg-open"

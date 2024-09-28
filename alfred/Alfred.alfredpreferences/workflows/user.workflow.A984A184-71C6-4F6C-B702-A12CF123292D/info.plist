@@ -19,6 +19,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>1849B799-5720-4FB6-A8BD-3E3D4691E775</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BEB16BA1-6989-4FF5-B018-2EB82CEC7980</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>22E834F5-0A12-4F7F-AFFC-B40B717AB484</key>
 		<array>
 			<dict>
@@ -167,6 +180,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>7CE0AFA4-6E66-4DE1-A9E1-AE1D643E0652</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>BEB16BA1-6989-4FF5-B018-2EB82CEC7980</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>978ED54E-D4B1-4013-91A7-0A4E6F4EC35E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -675,6 +701,77 @@ fi</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>978ED54E-D4B1-4013-91A7-0A4E6F4EC35E</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>go2pc</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Replace gocode URL to puppet-config URL</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>1849B799-5720-4FB6-A8BD-3E3D4691E775</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>query=$1
+
+if [[ "$query" =~ ^https://git.corp.stripe.com/ ]]; then
+	echo -n "$query" | sed -E "s/puppet-config\///" | sed -E "s/gocode/puppet-config/"
+elif [[ "$query" =~ ^https://livegrep.corp.stripe.com/view/stripe-internal/gocode/puppet-config/ ]]; then
+	echo -n "$query" | sed -E "s/^https:\/\/livegrep.corp.stripe.com\/view\/stripe-internal\/gocode\/puppet-config\/(.+)$/https:\/\/git.corp.stripe.com\/stripe-internal\/puppet-config\/blob\/master\/\1/"
+elif [[ "$query" =~ ^https://stripe.sourcegraphcloud.com/git.corp.stripe.com/stripe-internal/gocode/-/blob/puppet-config/ ]]; then
+	echo -n "$query" | sed -E "s/^https:\/\/stripe.sourcegraphcloud.com\/git.corp.stripe.com\/stripe-internal\/gocode\/-\/blob\/puppet-config\/(.+)$/https:\/\/git.corp.stripe.com\/stripe-internal\/puppet-config\/blob\/master\/\1/"
+fi</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>BEB16BA1-6989-4FF5-B018-2EB82CEC7980</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argument</key>
 				<string>{query}</string>
 				<key>passthroughargument</key>
@@ -789,6 +886,13 @@ EOB</string>
 			<key>ypos</key>
 			<real>200</real>
 		</dict>
+		<key>1849B799-5720-4FB6-A8BD-3E3D4691E775</key>
+		<dict>
+			<key>xpos</key>
+			<real>815</real>
+			<key>ypos</key>
+			<real>670</real>
+		</dict>
 		<key>22E834F5-0A12-4F7F-AFFC-B40B717AB484</key>
 		<dict>
 			<key>colorindex</key>
@@ -861,6 +965,13 @@ EOB</string>
 			<key>ypos</key>
 			<real>480</real>
 		</dict>
+		<key>978ED54E-D4B1-4013-91A7-0A4E6F4EC35E</key>
+		<dict>
+			<key>xpos</key>
+			<real>1135</real>
+			<key>ypos</key>
+			<real>670</real>
+		</dict>
 		<key>9C726797-A370-40C4-95C0-55299FEC8338</key>
 		<dict>
 			<key>colorindex</key>
@@ -905,6 +1016,13 @@ EOB</string>
 			<real>35</real>
 			<key>ypos</key>
 			<real>290</real>
+		</dict>
+		<key>BEB16BA1-6989-4FF5-B018-2EB82CEC7980</key>
+		<dict>
+			<key>xpos</key>
+			<real>975</real>
+			<key>ypos</key>
+			<real>670</real>
 		</dict>
 		<key>C2F38A30-6090-49C6-8149-F8350182C1D9</key>
 		<dict>
