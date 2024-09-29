@@ -6,8 +6,8 @@ fi
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "${FZF_PATH}/shell/completion.bash" 2> /dev/null
+[[ $- == *i* ]] && [[ -f "${FZF_PATH}/shell/completion.bash" ]] && source "${FZF_PATH}/shell/completion.bash" 2> /dev/null
 
 # Key bindings
 # ------------
-source "${FZF_PATH}/shell/key-bindings.bash"
+[[ -f "${FZF_PATH}/shell/key-bindings.bash" ]] && source "${FZF_PATH}/shell/key-bindings.bash"

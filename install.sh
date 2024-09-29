@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # bail out on first error
 set -euo pipefail

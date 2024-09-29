@@ -9,7 +9,13 @@ _sp=${_sp}_mr
 # Aliases
 #################################################
 # common
-alias cat="bat"
+if type bat > /dev/null 2>&1; then
+    alias cat="bat"
+elif type batcat > /dev/null 2>&1; then
+    alias cat="batcat"
+else
+    unalias cat
+fi
 alias chkconn='ping 8.8.8.8'
 alias dush=' du -sh'
 alias gotb="go test -bench ."
@@ -41,7 +47,6 @@ alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 # os specific
 if [ "$OS" = 'MAC' ]; then
     if ! type eza > /dev/null 2>&1; then
-        echo "install eza"
         alias ls='ls -GFh'
     else
         alias ls='eza -F --color auto'
@@ -61,7 +66,6 @@ if [ "$OS" = 'MAC' ]; then
     fi
 else
     if ! type eza > /dev/null 2>&1; then
-        echo "install eza"
         alias ls='ls -F --color'
     else
         alias ls='eza -F --color auto'
