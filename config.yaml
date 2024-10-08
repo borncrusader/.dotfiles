@@ -19,3 +19,4 @@ penguin:
   variables:
     .config/ghostty/config:
       font_family: ""
+      font_size: 10
