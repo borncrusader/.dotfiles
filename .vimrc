@@ -42,9 +42,9 @@ set smartcase           " case-sensitive when uppercase chars given
 set sidescroll=1        " sidescroll this much number of chars
 set ruler               " show row,column in the bottom right corner
 set laststatus=2        " show the status line always
-set iskeyword+=_,$,@,%,#,',],),},; " for word boundaries
-set textwidth=79        " limit maximum length of line to 79
-set colorcolumn=80,120  " show a line at 80 and 120 char limit
+set iskeyword+=_,$,@,%,#,],),},; " for word boundaries
+set textwidth=119       " limit maximum length of line to 119
+set colorcolumn=120     " show a line at 120 char limit
 "set cscopetag           " use cstag for <Ctrl-]> and vim -t, and default is to first search cscope db
 set backspace=2         " allow backspace deleting of characters
 set mouse=i             " get all that nice mouse scrolling support in insert mode
@@ -221,3 +221,15 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'sourcegraph/sg.nvim', { 'do': 'nvim -l build/init.lua' }
 
 call plug#end()
+
+" transparent background
+highlight Normal guibg=none
+highlight NonText guibg=none
+highlight Normal ctermbg=none
+highlight NonText ctermbg=none
+
+ function! s:update_highlights()
+    hi CursorLine ctermbg=none guibg=NONE
+    hi VertSplit ctermbg=none guibg=NONE
+endfunction
+autocmd User AirlineAfterTheme call s:update_highlights()

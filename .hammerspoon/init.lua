@@ -133,7 +133,7 @@ end
 function setupBindings()
     local bindings = {}
     if hostname == "nucleas-mbp" then
-        bindings[1] = "Alacritty"
+        bindings[1] = "Ghostty"
         bindings[2] = "Code"
         bindings[3] = "Brave"
         bindings[4] = "Discord"
@@ -143,7 +143,7 @@ function setupBindings()
         bindings[8] = "Spotify"
         bindings[9] = "Obsidian"
     else
-        bindings[1] = "Alacritty"
+        bindings[1] = "Ghostty"
         bindings[2] = "Code"
         bindings[3] = "Brave"
         bindings[4] = "Slack"
