@@ -93,3 +93,11 @@ setopt CDABLE_VARS                 # expand the expression (allows 'cd -2/tmp')
 zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
 
 _sp=${_sp}_ZR
+
+# pnpm
+export PNPM_HOME="/Users/ska/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

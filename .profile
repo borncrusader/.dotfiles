@@ -31,6 +31,7 @@ export NVM_DIR="$HOME/.nvm"
 export SSH_AUTH_SOCK="$HOME/.ssh/.auth_socket"
 export OBSIDIAN="$HOME/syncthing/obsidian"
 export CODE="$HOME/code"
+export LANG="en_US.UTF-8"
 
 #################################################
 # OS Specific exports

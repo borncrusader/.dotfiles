@@ -1,0 +1,9 @@
+font-family = {{ font_family }}
+
+font-size = {{ font_size }}
+
+copy-on-select = clipboard
+
+gtk-titlebar = false
+
+auto-update = off
