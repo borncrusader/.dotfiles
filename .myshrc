@@ -22,9 +22,8 @@ alias gotb="go test -bench ."
 alias leaky='valgrind --leak-check=full --track-origins=yes'
 alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
-alias nvim-kick="NVIM_APPNAME=nvim-kick nvim"
-alias nnvim="NVIM_APPNAME=nvim-ng nvim"
-alias nvim-new="NVIM_APPNAME=nvim-new nvim"
+alias knvim="NVIM_APPNAME=nvim-kick nvim"
+alias lnvim="NVIM_APPNAME=nvim-lazy nvim"
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias prettypath="echo $PATH | sed 's/:/\n/g'"
 alias rdesk='rdesktop -g 1366x730'
