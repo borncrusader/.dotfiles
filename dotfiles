@@ -3,10 +3,12 @@
 # make sure to only import std library packages here; we'll import the rest
 # later
 import argparse
+import git
 import importlib
 import logging
 import os
 import pathlib
+import shutil
 import socket
 import sys
 
@@ -23,6 +25,7 @@ def sanity_check():
     if not os.getcwd().endswith('.dotfiles'):
         logger.error('should be running inside .dotfiles root')
         sys.exit(1)
+
 
 def get_config():
     with open('config.yaml', 'r') as f:
@@ -43,8 +46,8 @@ def setup():
 def get_mappings(hostname, config):
     mappings = config['global']['mappings']
 
-    disabled = config.get(hostname, []).get('disabled', [])
-    for item in disabled:
+    excluded = config.get(hostname, {}).get('excluded', [])
+    for item in excluded:
         mappings.remove(item)
 
     logger.debug(f'loaded mappings: {mappings}')
@@ -52,16 +55,23 @@ def get_mappings(hostname, config):
     return mappings
 
 
+def setup_mapping(src, generated, dst):
+    log = git_cmd.log('--pretty=%H', '-1', str(src))
+    import pdb; pdb.set_trace()
+    #if src.is_dir() and not general:
+    #    pass
+
+
 def expand_template(jinja_env, hostname, config, src, generated_file_path):
     # TODO: only expand if file is newer
     vars_list = {}
 
-    global_vars = config['global']['variables'].get(str(src), {})
+    global_vars = config['global']['templates'].get(str(src), {})
     for key, value in global_vars.items():
         vars_list[key] = value
 
     # overrides
-    local_vars = config.get(hostname, {}).get('variables', {}).get(str(src), {})
+    local_vars = config.get(hostname, {}).get('templates', {}).get(str(src), {})
     for key, value in local_vars.items():
         vars_list[key] = value
 
@@ -122,6 +132,8 @@ if __name__ == '__main__':
 
     config = get_config()
 
+    git_cmd = git.Git('.')
+
     setup()
 
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'))
@@ -137,7 +149,9 @@ if __name__ == '__main__':
             logger.warning(f'src: {src} does not exist')
             continue
 
-        generated_file_path = pathlib.Path(f'./generated/{src}').absolute()
+        generated = pathlib.Path(f'./generated/{src}').absolute()
 
-        if expand_template(jinja_env, hostname, config, src_path, generated_file_path):
-            setup_link(generated_file_path, dst_path)
+        setup_mapping(src_path, generated, dst_path)
+
+        #if expand_template(jinja_env, hostname, config, src_path, generated_file_path):
+        #    setup_link(generated_file_path, dst_path)

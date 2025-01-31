@@ -20,6 +20,7 @@ archive/emacs/.emacs.d/*
 bin/zig
 bin/zls
 bin/ion
+bin/gopls
 
 # nvim
 .config/nvim-kick/lazy-lock.json

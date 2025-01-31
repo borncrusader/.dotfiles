@@ -23,6 +23,7 @@ alias leaky='valgrind --leak-check=full --track-origins=yes'
 alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
 alias knvim="NVIM_APPNAME=nvim-kick nvim"
+alias vc="knvim ~/.config/nvim-kick/init.lua"
 alias lnvim="NVIM_APPNAME=nvim-lazy nvim"
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias prettypath="echo $PATH | sed 's/:/\n/g'"
@@ -30,7 +31,7 @@ alias rdesk='rdesktop -g 1366x730'
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
-alias vi='vim -X'
+alias vi='knvim -X'
 
 [ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
 [ -f /usr/bin/sed ] && alias sed='/usr/bin/sed'
