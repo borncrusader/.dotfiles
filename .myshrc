@@ -65,6 +65,11 @@ if [ "$OS" = 'MAC' ]; then
         alias vim="/usr/local/bin/vim"
     fi
 else
+    if command -v nvim 1>/dev/null; then
+        # shellcheck disable=SC2139
+        alias vim="$(command -v nvim)"
+    fi
+
     if ! type eza > /dev/null 2>&1; then
         alias ls='ls -F --color'
     else

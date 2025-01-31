@@ -37,7 +37,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec ghostty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -138,6 +138,7 @@ bindsym $mod+Shift+0 move container to workspace $w10
 
 # Window assignments
 assign [class="Alacritty"] $w1
+assign [class="Ghostty"] $w1
 
 assign [class="jetbrains-idea-ce"] $w2
 assign [class="ghostwriter"] $w2
