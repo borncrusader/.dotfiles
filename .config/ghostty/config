@@ -7,3 +7,5 @@ copy-on-select = clipboard
 gtk-titlebar = false
 
 auto-update = off
+
+app-notifications = no-clipboard-copy

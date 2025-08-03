@@ -172,12 +172,13 @@ refresh()
                 sudo pacman -Syu
                 ;;
             "-m")
+                # 2025-07-26: removed linux-zen, linux-zen-docs, linux-zen-headers
+                #             and nvidia-dkms, nvidia-utils
                 sudo pacman --needed --noconfirm -S \
-                    linux-zen linux-zen-docs linux-zen-headers \
                     linux-lts linux-lts-docs linux-lts-headers \
-                    nvidia-dkms v4l2loopback-dkms \
+                    v4l2loopback-dkms \
                     virtualbox-guest-utils virtualbox-host-dkms \
-                    zfs-utils zfs-dkms nvidia-utils
+                    zfs-utils zfs-dkms
                 yay --needed -S wireguard-dkms zenpower-dkms
                 ;;
             "-a" | "")
@@ -340,6 +341,12 @@ _add_to_path "$HOME/Library/Python/3.8/bin"
 _add_to_path "$GOPATH/bin"
 
 _add_to_path "$HOME/adb-fastboot/platform-tools"
+
+# pnpm
+if [ "$OS" = "MAC" ]; then
+    export PNPM_HOME="/Users/ska/Library/pnpm"
+    _add_to_path "$PNPM_HOME"
+fi
 
 # start_cuda
 if [ -d "/opt/cuda" ]; then

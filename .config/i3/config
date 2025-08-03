@@ -168,7 +168,7 @@ assign [class="Spotify"] $w8
 assign [class="Clementine"] $w8
 
 # configure default window rules
-for_window [class="Artha"] floating enable
+#for_window [class="Artha"] floating enable
 
 # Shortcuts
 #bindsym $win+f exec franz
@@ -247,7 +247,7 @@ bindsym Print exec /home/ska/bin/take_screenshot
 
 # Startup apps
 exec --no-startup-id parcellite
-exec --no-startup-id artha
+#exec --no-startup-id artha
 exec --no-startup-id nm-applet
 exec --no-startup-id pasystray
 exec --no-startup-id blueman-applet
