@@ -84,6 +84,9 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- First things first, let's get where we are running on
+local os_name = vim.loop.os_uname().sysname
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -115,7 +118,11 @@ vim.opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
+  -- Disable syncing clipboard on Linux, this weirdly affects yanking/pasting behavior
+  -- by removing newlines
+  if os_name ~= 'Linux' then
+    vim.opt.clipboard = 'unnamedplus'
+  end
 end)
 
 -- Enable break indent
