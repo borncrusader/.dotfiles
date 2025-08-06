@@ -4,19 +4,19 @@ global:
     # src is relative to .dotfiles directory
     # dst is the actual file that is used in the system
     # symlink is usually the other way
-    - .config/ghostty/config -> ~/.config/ghostty/config
-    - .config/alacritty/alacritty.toml -> ~/.config/alacritty/alacritty.toml
+    - .config/ghostty -> ~/.config/ghostty
+    - .config/alacritty -> ~/.config/alacritty
 
-  variables:
+  templates:
     .config/ghostty/config:
       font_family: "Fantasque Sans Mono"
       font_size: 12
 
 penguin:
-  disabled:
-    - .config/alacritty/alacritty.toml -> ~/.config/alacritty/alacritty.toml
+  excluded:
+    - .config/alacritty -> ~/.config/alacritty
 
-  variables:
+  templates:
     .config/ghostty/config:
       font_family: ""
       font_size: 10

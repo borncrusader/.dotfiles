@@ -113,6 +113,34 @@ if [ "$OS" = "MAC" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+_add_to_path "$HOME/Library/Python/3.8/bin"
+_add_to_path "$GOPATH/bin"
+
+_add_to_path "$HOME/adb-fastboot/platform-tools"
+
+_add_to_path "$HOME/.local/bin"
+
+# pnpm
+if [ "$OS" = "MAC" ]; then
+    export PNPM_HOME="/Users/ska/Library/pnpm"
+    _add_to_path "$PNPM_HOME"
+fi
+
+# start_cuda
+if [ -d "/opt/cuda" ]; then
+    export CUDA_PATH=/opt/cuda
+
+    _add_to_path "$CUDA_PATH/bin"
+    _add_to_path "$CUDA_PATH/nsight_compute"
+    _add_to_path "$CUDA_PATH/nsight_systems/bin"
+
+    # This line used to not be required but it somehow is with cuda 12.3.
+    # We reported this as a bug to NVIDIA. For now, this seems like a viable
+    # workaround.
+    export NVCC_PREPEND_FLAGS='-ccbin /opt/cuda/bin'
+fi
+# end_cuda
+
 # work related profile (should be last)
 _source_if_exists "$HOME/.myshprofile_work"
 

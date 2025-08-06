@@ -22,7 +22,7 @@ alias gotb="go test -bench ."
 alias leaky='valgrind --leak-check=full --track-origins=yes'
 alias ll=' ls -lh'
 alias makit='make 2>&1 | tee grep_op'
-alias knvim="NVIM_APPNAME=nvim-kick nvim"
+alias vc="nvim ~/.config/nvim/init.lua"
 alias lnvim="NVIM_APPNAME=nvim-lazy nvim"
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias prettypath="echo $PATH | sed 's/:/\n/g'"
@@ -30,7 +30,9 @@ alias rdesk='rdesktop -g 1366x730'
 alias ta='tmux att -d -t '
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
-alias vi='vim -X'
+alias vi='nvim -X'
+
+[ -f "$HOME/.claude/local/claude" ] && alias claude="$HOME/.claude/local/claude"
 
 [ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
 [ -f /usr/bin/sed ] && alias sed='/usr/bin/sed'
@@ -65,6 +67,11 @@ if [ "$OS" = 'MAC' ]; then
         alias vim="/usr/local/bin/vim"
     fi
 else
+    if command -v nvim 1>/dev/null; then
+        # shellcheck disable=SC2139
+        alias vim="$(command -v nvim)"
+    fi
+
     if ! type eza > /dev/null 2>&1; then
         alias ls='ls -F --color'
     else
@@ -167,12 +174,13 @@ refresh()
                 sudo pacman -Syu
                 ;;
             "-m")
+                # 2025-07-26: removed linux-zen, linux-zen-docs, linux-zen-headers
+                #             and nvidia-dkms, nvidia-utils
                 sudo pacman --needed --noconfirm -S \
-                    linux-zen linux-zen-docs linux-zen-headers \
                     linux-lts linux-lts-docs linux-lts-headers \
-                    nvidia-dkms v4l2loopback-dkms \
+                    v4l2loopback-dkms \
                     virtualbox-guest-utils virtualbox-host-dkms \
-                    zfs-utils zfs-dkms nvidia-utils
+                    zfs-utils zfs-dkms
                 yay --needed -S wireguard-dkms zenpower-dkms
                 ;;
             "-a" | "")
@@ -330,26 +338,6 @@ elif [ "$OS" = 'LINUX' ]; then
 fi
 
 _source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-_add_to_path "$HOME/Library/Python/3.8/bin"
-_add_to_path "$GOPATH/bin"
-
-_add_to_path "$HOME/adb-fastboot/platform-tools"
-
-# start_cuda
-if [ -d "/opt/cuda" ]; then
-    export CUDA_PATH=/opt/cuda
-
-    _add_to_path "$CUDA_PATH/bin"
-    _add_to_path "$CUDA_PATH/nsight_compute"
-    _add_to_path "$CUDA_PATH/nsight_systems/bin"
-
-    # This line used to not be required but it somehow is with cuda 12.3.
-    # We reported this as a bug to NVIDIA. For now, this seems like a viable
-    # workaround.
-    export NVCC_PREPEND_FLAGS='-ccbin /opt/cuda/bin'
-fi
-# end_cuda
 
 _sp=${_sp}_MR
 

@@ -37,7 +37,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec ghostty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -138,18 +138,22 @@ bindsym $mod+Shift+0 move container to workspace $w10
 
 # Window assignments
 assign [class="Alacritty"] $w1
+assign [class="Ghostty"] $w1
 
 assign [class="jetbrains-idea-ce"] $w2
 assign [class="ghostwriter"] $w2
 assign [class="zettlr"] $w2
 assign [class="Typora"] $w2
 assign [class="Code"] $w2
+assign [class="Obsidian"] $w2
 
 assign [class="firefox"] $w3
 assign [class="thunderbird"] $w3
 assign [class="chromium"] $w3
+assign [class="librewolf"] $w3
 assign [class="Vimb"] $w3
 
+assign [class="chromium"] $w4
 assign [class="Vivaldi-stable"] $w4
 assign [class="Brave-browser"] $w4
 
@@ -157,17 +161,16 @@ assign [class="Pcmanfm"] $w5
 
 assign [class="mplayer"] $w6
 assign [class="feh"] $w6
+assign [class="Spotify"] $w6
+assign [class="Clementine"] $w6
 
 assign [class="Franz"] $w7
 assign [class="slack"] $w7
 assign [class="Slack"] $w7
 assign [class="keybase"] $w7
 
-assign [class="Spotify"] $w8
-assign [class="Clementine"] $w8
-
 # configure default window rules
-for_window [class="Artha"] floating enable
+#for_window [class="Artha"] floating enable
 
 # Shortcuts
 #bindsym $win+f exec franz
@@ -246,7 +249,7 @@ bindsym Print exec /home/ska/bin/take_screenshot
 
 # Startup apps
 exec --no-startup-id parcellite
-exec --no-startup-id artha
+#exec --no-startup-id artha
 exec --no-startup-id nm-applet
 exec --no-startup-id pasystray
 exec --no-startup-id blueman-applet
