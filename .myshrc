@@ -335,6 +335,18 @@ if [ "$OS" = 'MAC' ]; then
     export LSCOLORS=exfxcxdxbxegedabagacad
 elif [ "$OS" = 'LINUX' ]; then
     start_ssh_agent
+
+    if [ -d "/opt/rocm" ]; then
+        export ROCM_PATH=/opt/rocm
+        export HIP_PATH=/opt/rocm
+        export LD_LIBRARY_PATH=/opt/rocm/lib:$LD_LIBRARY_PATH
+        export PATH=/opt/rocm/bin:$PATH
+
+        # ROCm-specific settings for Ollama
+        export HSA_OVERRIDE_GFX_VERSION=11.0.0
+        export GPU_MAX_HEAP_SIZE=100
+        export GPU_MAX_ALLOC_PERCENT=100
+    fi
 fi
 
 _source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
