@@ -87,3 +87,4 @@
     cleanup = !"git branch --no-merged | grep  -v '\\*\\|master\\|develop\\|main' | xargs -n 1 git branch -d"
     top100 = log -100 --pretty='format:%H (%an, %ad)'
     top1000 = log -1000 --pretty='format:%H (%an, %ad)'
+    ding = !"foo=$(git branch --show-current) && git checkout master && git pull && git checkout \"$foo\" && git rebase master"
