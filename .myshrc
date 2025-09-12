@@ -32,6 +32,8 @@ alias tl='tmux list-sessions'
 alias tn='tmux new -s'
 alias vi='nvim -X'
 
+[ -f "$HOME/.claude/local/claude" ] && alias claude="$HOME/.claude/local/claude"
+
 [ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
 [ -f /usr/bin/sed ] && alias sed='/usr/bin/sed'
 
@@ -172,12 +174,13 @@ refresh()
                 sudo pacman -Syu
                 ;;
             "-m")
+                # 2025-07-26: removed linux-zen, linux-zen-docs, linux-zen-headers
+                #             and nvidia-dkms, nvidia-utils
                 sudo pacman --needed --noconfirm -S \
-                    linux-zen linux-zen-docs linux-zen-headers \
                     linux-lts linux-lts-docs linux-lts-headers \
-                    nvidia-dkms v4l2loopback-dkms \
+                    v4l2loopback-dkms \
                     virtualbox-guest-utils virtualbox-host-dkms \
-                    zfs-utils zfs-dkms nvidia-utils
+                    zfs-utils zfs-dkms
                 yay --needed -S wireguard-dkms zenpower-dkms
                 ;;
             "-a" | "")
@@ -332,29 +335,21 @@ if [ "$OS" = 'MAC' ]; then
     export LSCOLORS=exfxcxdxbxegedabagacad
 elif [ "$OS" = 'LINUX' ]; then
     start_ssh_agent
+
+    if [ -d "/opt/rocm" ]; then
+        export ROCM_PATH=/opt/rocm
+        export HIP_PATH=/opt/rocm
+        export LD_LIBRARY_PATH=/opt/rocm/lib:$LD_LIBRARY_PATH
+        export PATH=/opt/rocm/bin:$PATH
+
+        # ROCm-specific settings for Ollama
+        export HSA_OVERRIDE_GFX_VERSION=11.0.0
+        export GPU_MAX_HEAP_SIZE=100
+        export GPU_MAX_ALLOC_PERCENT=100
+    fi
 fi
 
 _source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-_add_to_path "$HOME/Library/Python/3.8/bin"
-_add_to_path "$GOPATH/bin"
-
-_add_to_path "$HOME/adb-fastboot/platform-tools"
-
-# start_cuda
-if [ -d "/opt/cuda" ]; then
-    export CUDA_PATH=/opt/cuda
-
-    _add_to_path "$CUDA_PATH/bin"
-    _add_to_path "$CUDA_PATH/nsight_compute"
-    _add_to_path "$CUDA_PATH/nsight_systems/bin"
-
-    # This line used to not be required but it somehow is with cuda 12.3.
-    # We reported this as a bug to NVIDIA. For now, this seems like a viable
-    # workaround.
-    export NVCC_PREPEND_FLAGS='-ccbin /opt/cuda/bin'
-fi
-# end_cuda
 
 _sp=${_sp}_MR
 

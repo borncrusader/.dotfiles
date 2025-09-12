@@ -3,8 +3,8 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-    {
-        "sourcegraph/sg.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-    },
+  -- {
+  --     "sourcegraph/sg.nvim",
+  --     dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+  -- },
 }

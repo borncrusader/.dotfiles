@@ -5,13 +5,13 @@ set -euo pipefail
 update() {
     echo "updating list of packages"
 
-    pacman -Q > "pacman-installed-packages-$(hostnamectl hostname)"
+    pacman -Q > "pacman-installed/pacman-installed-packages-$(hostnamectl hostname)"
 }
 
 install() {
     echo "installing from Brewfile"
 
-    cat pacman-installed-packages-* | awk '{ print $2 }' | xargs pacman -S
+    cat pacman-installed/pacman-installed-packages-* | awk '{ print $2 }' | xargs pacman -S
 }
 
 if [[ $(uname) != "Linux" ]] || ! grep "Arch Linux" /etc/os-release; then
