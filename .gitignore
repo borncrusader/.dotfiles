@@ -21,6 +21,7 @@ bin/zig
 bin/zls
 bin/ion
 bin/gopls
+bin/code
 
 # nvim
 .config/nvim-kick/lazy-lock.json
