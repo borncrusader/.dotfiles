@@ -22,7 +22,7 @@ fi
 #################################################
 # Common exports
 #################################################
-export EDITOR='vim'
+export EDITOR='nvim'
 export TERM='xterm-256color'
 export GOPATH_DEFAULT="$HOME/go"
 export GOPATH="$GOPATH_DEFAULT"
@@ -140,6 +140,19 @@ if [ -d "/opt/cuda" ]; then
     export NVCC_PREPEND_FLAGS='-ccbin /opt/cuda/bin'
 fi
 # end_cuda
+
+# antigravity
+_add_to_path "$HOME/.antigravity/antigravity/bin"
+
+# bun completions
+_source_if_exists "$HOME/.bun/_bun"
+
+# bun
+if [ -d "$HOME/.bun" ]; then
+    export BUN_INSTALL="$HOME/.bun"
+
+    _add_to_path "$BUN_INSTALL/bin"
+fi
 
 # work related profile (should be last)
 _source_if_exists "$HOME/.myshprofile_work"
