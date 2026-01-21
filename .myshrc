@@ -351,6 +351,11 @@ fi
 
 _source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
 
+# android dev
+if [ "$OS" = 'MAC' ] && [ -d /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home ]; then
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+fi
+
 _sp=${_sp}_MR
 
 echo '~ Keep calm and 🧘 ~'

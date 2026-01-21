@@ -47,6 +47,11 @@
 [difftool]
     prompt = false
 
+# https://git-scm.com/book/en/v2/Git-Tools-Rerere
+# reuse recorded resolution
+[rerere]
+    enabled = true
+
 [alias]
     unstage = reset HEAD --
     mm = !"git fetch origin master && git merge origin/master --no-edit"
