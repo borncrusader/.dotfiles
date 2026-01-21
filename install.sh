@@ -79,5 +79,5 @@ if [ "$(uname)" = 'Darwin' ]; then
     sudo systemsetup -settimezone "America/Los_Angeles"
 
     # finally do an update and agree to the xcode license; will restart
-    sudo softwareupdate -i -a --restart --agree-to-license
+    sudo softwareupdate -i -a --agree-to-license
 fi

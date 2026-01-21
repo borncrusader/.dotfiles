@@ -74,7 +74,6 @@ _function_exists() {
 #################################################
 _add_to_path "$HOME/bin"
 _add_to_path "$GOPATH/bin"
-_add_to_path "/usr/local/opt/node@8/bin"
 _add_to_path "/usr/local/opt/gnu-sed/libexec/gnubin"
 _add_to_path "$HOME/bin/mac"
 _add_to_path "/usr/local/sbin"
@@ -93,9 +92,6 @@ _source_if_exists "/usr/share/doc/pkgfile/command-not-found.zsh"
 # nix
 _source_if_exists "$HOME/.nix-profile/etc/profile.d/nix.sh"
 
-# ruby
-_add_to_path "$HOME/.gem/ruby/2.6.0/bin"
-
 # emacs
 _add_to_path "/Applications/Emacs.app/Contents/MacOS"
 
@@ -105,16 +101,12 @@ _add_to_path "$HOME/code/flutter/bin"
 # rust
 _source_if_exists "$HOME/.cargo/env"
 
-# racket
-_add_to_path '/Applications/Racket v8.13/bin'
-
 # homebrew
 if [ "$OS" = "MAC" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 _add_to_path "$HOME/Library/Python/3.8/bin"
-_add_to_path "$GOPATH/bin"
 
 _add_to_path "$HOME/adb-fastboot/platform-tools"
 
