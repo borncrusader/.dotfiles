@@ -1,0 +1,157 @@
+#!/usr/bin/env python3
+
+# make sure to only import std library packages here; we'll import the rest
+# later
+import argparse
+import git
+import importlib
+import logging
+import os
+import pathlib
+import shutil
+import socket
+import sys
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('dotfiles')
+
+
+def sanity_check():
+    if not sys.prefix.endswith('venv'):
+        logger.error('should be running in a venv')
+        sys.exit(1)
+
+    if not os.getcwd().endswith('.dotfiles'):
+        logger.error('should be running inside .dotfiles root')
+        sys.exit(1)
+
+
+def get_config():
+    with open('config.yaml', 'r') as f:
+        config = yaml.safe_load(f)
+
+        logger.debug(f'loaded config: {config}')
+
+    return config
+
+
+def setup():
+    p = pathlib.Path('./generated').absolute()
+    if not p.is_dir():
+        logger.info('creating generated directory')
+        os.mkdir('generated')
+
+
+def get_mappings(hostname, config):
+    mappings = config['global']['mappings']
+
+    excluded = config.get(hostname, {}).get('excluded', [])
+    for item in excluded:
+        mappings.remove(item)
+
+    logger.debug(f'loaded mappings: {mappings}')
+
+    return mappings
+
+
+def setup_mapping(src, generated, dst):
+    log = git_cmd.log('--pretty=%H', '-1', str(src))
+    import pdb; pdb.set_trace()
+    #if src.is_dir() and not general:
+    #    pass
+
+
+def expand_template(jinja_env, hostname, config, src, generated_file_path):
+    # TODO: only expand if file is newer
+    vars_list = {}
+
+    global_vars = config['global']['templates'].get(str(src), {})
+    for key, value in global_vars.items():
+        vars_list[key] = value
+
+    # overrides
+    local_vars = config.get(hostname, {}).get('templates', {}).get(str(src), {})
+    for key, value in local_vars.items():
+        vars_list[key] = value
+
+    logger.debug(f'vars_list: {vars_list}')
+
+    template = jinja_env.get_template(str(src))
+    generated = template.render(vars_list)
+
+    dirpath = generated_file_path.parent
+    if not dirpath.is_dir():
+        os.makedirs(str(dirpath))
+        logger.info(f'created generated dir: {dirpath}')
+
+    with open(generated_file_path, 'w') as f:
+        f.write(generated)
+
+    logger.info(f'generated: {generated_file_path}')
+
+    return True
+
+
+def setup_link(src, dst):
+    # TODO: automatically backup and continue setting up
+    if dst.is_symlink():
+        curr_src = dst.resolve()
+
+        if curr_src != src:
+            logger.warning(f'dst: {dst} already exists as a link but points to {curr_src}!; removing')
+
+        dst.unlink()
+    elif dst.exists():
+        logger.warning(f'dst: {dst} already exists; please resolve manually')
+        return
+
+    logger.info(f'creating link: {dst} -> {src}')
+
+    dst.symlink_to(src)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog='dotfiles',
+                                     description='Helpful dotfiles manager')
+    parser.add_argument('-v', '--verbose', action='store_true')
+
+    args = parser.parse_args()
+
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
+
+    hostname = socket.gethostname()
+
+    sanity_check()
+    cwd = os.getcwd()
+
+    # now import other modules that might be useful for us
+    jinja2 = importlib.import_module('jinja2')
+    yaml = importlib.import_module('yaml')
+
+    config = get_config()
+
+    git_cmd = git.Git('.')
+
+    setup()
+
+    jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'))
+
+    mappings = get_mappings(hostname, config)
+    for mapping in mappings:
+        src, dst = mapping.split(' -> ')
+
+        src_path = pathlib.Path(src)
+        dst_path = pathlib.Path(dst).expanduser().absolute()
+
+        if not src_path.exists():
+            logger.warning(f'src: {src} does not exist')
+            continue
+
+        generated = pathlib.Path(f'./generated/{src}').absolute()
+
+        setup_mapping(src_path, generated, dst_path)
+
+        #if expand_template(jinja_env, hostname, config, src_path, generated_file_path):
+        #    setup_link(generated_file_path, dst_path)
