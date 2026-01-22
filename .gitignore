@@ -23,8 +23,8 @@ bin/ion
 bin/gopls
 bin/code
 
-# nvim
-.config/nvim-kick/lazy-lock.json
-
 # alacritty
 .config/alacritty/custom.toml
+
+# ghostty symlink
+.config/ghostty/config-platform-specific
