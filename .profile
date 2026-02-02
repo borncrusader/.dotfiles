@@ -149,4 +149,7 @@ fi
 # work related profile (should be last)
 _source_if_exists "$HOME/.myshprofile_work"
 
+# lean solver
+_add_to_path "$HOME/.elan/bin"
+
 _sp=${_sp}_P

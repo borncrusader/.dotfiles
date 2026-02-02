@@ -1,11 +1,11 @@
-font-family = {{ font_family }}
-
-font-size = {{ font_size }}
-
 copy-on-select = clipboard
 
 gtk-titlebar = false
 
-auto-update = off
-
 app-notifications = no-clipboard-copy
+
+keybind= shift+arrow_left=previous_tab
+keybind= shift+arrow_right=next_tab
+
+# things like fonts and font sizes are better managed specific to the platform
+config-file = ?config-platform-specific
