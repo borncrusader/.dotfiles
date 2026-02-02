@@ -21,10 +21,10 @@ create_link()
 }
 
 ## common
-create_link ~/.dotfiles/.vim/ ~/.vim
+#create_link ~/.dotfiles/.vim/ ~/.vim
 create_link ~/.dotfiles/bin/ ~/bin
 create_link ~/.dotfiles/.config/nvim/ ~/.config/nvim
-create_link ~/.dotfiles/.config/alacritty/ ~/.config/alacritty
+#create_link ~/.dotfiles/.config/alacritty/ ~/.config/alacritty
 
 create_link ~/.dotfiles/.zprofile ~/.zprofile
 create_link ~/.dotfiles/.zshrc ~/.zshrc
@@ -55,12 +55,13 @@ fi
 
 ## Mac specific
 if [ "$(uname)" = 'Darwin' ]; then
-    create_link .dotfiles/.hammersoon ~/.hammerspoon
+    create_link .dotfiles/.hammerspoon/ ~/.hammerspoon
 
     # change the default directory for screenshots
     defaults write com.apple.screencapture location -string "$HOME/Pictures/Screenshots/"
 
     # solve for key repeat issues in macs
+    # doesn't work in macos tahoe and above
     defaults write -g ApplePressAndHoldEnabled -bool false
 
     # smooth scrolling
@@ -73,7 +74,7 @@ if [ "$(uname)" = 'Darwin' ]; then
     killall Dock
 
     # install applications
-    ./brew/run.sh install
+    #./brew/run.sh install
 
     # set timezone
     sudo systemsetup -settimezone "America/Los_Angeles"

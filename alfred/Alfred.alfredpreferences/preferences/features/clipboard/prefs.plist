@@ -15,5 +15,9 @@
 	<integer>3</integer>
 	<key>snippetKeyword</key>
 	<string>;</string>
+	<key>snippetsAtTop</key>
+	<false/>
+	<key>snippetsWhenSearching</key>
+	<false/>
 </dict>
 </plist>

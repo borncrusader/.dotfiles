@@ -327,12 +327,12 @@ inspect_cert_issuer()
     inspect_cert "$1" "$2" | grep -A5 'Issuer:'
 }
 
-_source_if_exists "$HOME/.myshrc_work"
-
 if [ "$OS" = 'MAC' ]; then
     # this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
     # restore it back here
     export LSCOLORS=exfxcxdxbxegedabagacad
+
+    _source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
 elif [ "$OS" = 'LINUX' ]; then
     start_ssh_agent
 
@@ -349,12 +349,22 @@ elif [ "$OS" = 'LINUX' ]; then
     fi
 fi
 
-_source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.sh
+_source_if_exists ${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh
 
 # android dev
 if [ "$OS" = 'MAC' ] && [ -d /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home ]; then
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 fi
+
+# bun completions
+_source_if_exists "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+_add_to_path "$BUN_INSTALL/bin"
+
+# do this last!
+_source_if_exists "$HOME/.myshrc_work"
 
 _sp=${_sp}_MR
 

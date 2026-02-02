@@ -114,7 +114,7 @@ _add_to_path "$HOME/.local/bin"
 
 # pnpm
 if [ "$OS" = "MAC" ]; then
-    export PNPM_HOME="/Users/ska/Library/pnpm"
+    export PNPM_HOME="$HOME/Library/pnpm"
     _add_to_path "$PNPM_HOME"
 fi
 
