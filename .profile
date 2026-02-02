@@ -146,10 +146,10 @@ if [ -d "$HOME/.bun" ]; then
     _add_to_path "$BUN_INSTALL/bin"
 fi
 
-# work related profile (should be last)
-_source_if_exists "$HOME/.myshprofile_work"
-
 # lean solver
 _add_to_path "$HOME/.elan/bin"
+
+# work related profile (should be last)
+_source_if_exists "$HOME/.myshprofile_work"
 
 _sp=${_sp}_P
