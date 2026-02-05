@@ -74,6 +74,7 @@
     sclone = svn clone -s --prefix=origin/
     sha = show --abbrev-commit
     ablog = log --abbrev-commit
+    sf = show -p --name-only
     lf = log --name-only
     br = !"git --no-pager branch"
     co = checkout

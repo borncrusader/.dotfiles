@@ -39,6 +39,9 @@ create_link ~/.dotfiles/zsh-vim-mode ~/.zsh-vim-mode
 create_link ~/.dotfiles/.fzf.zsh ~/.fzf.zsh
 create_link ~/.dotfiles/.fzf.bash ~/.fzf.bash
 
+[ ! -d ~/.claude ] && mkdir ~/.claude
+create_link ~/.dotfiles/.claude/commands/ ~/.claude/commands
+
 # Linux specific
 if [ "$(uname)" = 'Linux' ]; then
     create_link ~/.dotfiles/.config/i3/ ~/.config/i3
