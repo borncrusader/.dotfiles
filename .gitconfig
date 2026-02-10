@@ -53,44 +53,47 @@
     enabled = true
 
 [alias]
-    unstage = reset HEAD --
-    mm = !"git fetch origin master && git merge origin/master --no-edit"
-    st = status --untracked-files=no
-    sta = status
-    ci = commit
-    df = diff
-    dfs = diff --staged
-    dfh = diff HEAD
-    dfhp = diff 'HEAD^'
-    bl = blame
-    l = log --date=local
-    lg = log -p
-    who = shortlog -s --
-    tree = log --graph --decorate --pretty=oneline --abbrev-commit
-    pu = pull --prune
-    puh = push -u origin HEAD
-    svn-diff = !git-svn-diff
-    stash-unapply = !git stash show -p | git apply -R
-    sclone = svn clone -s --prefix=origin/
-    sha = show --abbrev-commit
     ablog = log --abbrev-commit
-    sf = show -p --name-only
-    lf = log --name-only
+    bl = blame
     br = !"git --no-pager branch"
+    ci = commit
+    cleanup = !"git branch --no-merged | grep  -v '\\*\\|master\\|develop\\|main' | xargs -n 1 git branch -d"
     co = checkout
-    d = difftool
-    drev = diff --no-prefix --full-index
-    drevh = !"git drev HEAD~ HEAD"
-    sh = show
-    shrev = show --no-prefix --full-index
-    lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-    lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
-    lg = !"git lg1"
     com = commit
     coma = commit --amend
     comad = !"git commit --amend --date=\"$(date -R)\""
     come = commit --allow-empty
-    cleanup = !"git branch --no-merged | grep  -v '\\*\\|master\\|develop\\|main' | xargs -n 1 git branch -d"
+    comn = commit --no-verify
+    d = difftool
+    df = diff
+    dfh = diff HEAD
+    dfhp = diff 'HEAD^'
+    dfs = diff --staged
+    ding = !"foo=$(git branch --show-current) && git checkout master && git pull && git checkout \"$foo\" && git rebase master"
+    drev = diff --no-prefix --full-index
+    drevh = !"git drev HEAD~ HEAD"
+    l = log --date=local
+    lf = log --name-only
+    lg = !"git lg1"
+    lg = log -p
+    lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+    lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+    mm = !"git fetch origin master && git merge origin/master --no-edit"
+    pu = pull --prune
+    puh = push -u origin HEAD
+    puf = push -f
+    pufn = push -f --no-verify
+    sclone = svn clone -s --prefix=origin/
+    sf = show -p --name-only
+    sh = show
+    sha = show --abbrev-commit
+    shrev = show --no-prefix --full-index
+    st = status --untracked-files=no
+    sta = status
+    stash-unapply = !git stash show -p | git apply -R
+    svn-diff = !git-svn-diff
     top100 = log -100 --pretty='format:%H (%an, %ad)'
     top1000 = log -1000 --pretty='format:%H (%an, %ad)'
-    ding = !"foo=$(git branch --show-current) && git checkout master && git pull && git checkout \"$foo\" && git rebase master"
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit
+    unstage = reset HEAD --
+    who = shortlog -s --
