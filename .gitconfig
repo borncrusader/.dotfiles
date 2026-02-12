@@ -2,6 +2,9 @@
     name = "Srinath Ananthakrishnan"
     email = "srinath.krishna@gmail.com"
 
+[init]
+	defaultBranch = main
+
 # this is commented out here but can be set on a root .gitconfig
 #[include]
 #    path = "~/.dotfiles/.gitconfig"
@@ -36,6 +39,7 @@
 
 [push]
     default = simple
+    autoSetupRemote = true
 
 [merge]
     tool = vimdiff
@@ -80,9 +84,10 @@
     lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
     mm = !"git fetch origin master && git merge origin/master --no-edit"
     pu = pull --prune
-    puh = push -u origin HEAD
-    puf = push -f
-    pufn = push -f --no-verify
+    pushf = push -f
+    pushh = push -u origin HEAD
+    pushfn = push -f --no-verify
+    pushn = push --no-verify
     sclone = svn clone -s --prefix=origin/
     sf = show -p --name-only
     sh = show
@@ -97,3 +102,6 @@
     tree = log --graph --decorate --pretty=oneline --abbrev-commit
     unstage = reset HEAD --
     who = shortlog -s --
+    wt = worktree
+    wtl = worktree list
+    wtt = rev-parse --show-toplevel

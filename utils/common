@@ -1,0 +1,20 @@
+#!/bin/sh
+
+randname()
+{
+    local adjectives=(
+        swift brave calm dark eager fierce gentle hidden keen lucid
+        noble prime quiet rapid sharp vivid warm bold crisp deft
+    )
+    local nouns=(
+        fox wolf hawk bear lynx crow pike reef sage tide
+        vale wren arch bolt cove dune fern glen jade knot
+    )
+
+    local adj=${adjectives[$((RANDOM % ${#adjectives[@]}))]}
+    local noun=${nouns[$((RANDOM % ${#nouns[@]}))]}
+    local ts
+    ts=$(printf '%x' "$(date +%s)")
+
+    echo "${adj}-${noun}-${ts}"
+}

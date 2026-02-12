@@ -1,0 +1,104 @@
+#!/bin/sh
+
+source $HOME/.dotfiles/utils/common
+
+wtnew()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    local root
+    root=$(git worktree list | head -1 | awk '{print $1}')
+
+    local parent
+    parent=$(dirname "$root")
+
+    local name
+    name=$(randname)
+
+    local branch
+    branch="$(whoami)/${name}"
+
+    # resolve default branch from remote rather than relying on
+    # what's checked out in the main worktree
+    local main_branch
+    main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+
+    git worktree add -b "$branch" "${parent}/${name}" "$main_branch"
+
+    cd "${parent}/${name}"
+}
+
+wtdestroy()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    local selected
+    selected=$(git worktree list | tail -n +2 | fzf --prompt="select worktree to destroy: ")
+
+    if [ -z "$selected" ]; then
+        echo "no worktree selected"
+        return 1
+    fi
+
+    local wt_path
+    wt_path=$(echo "$selected" | awk '{print $1}')
+
+    local wt_branch
+    wt_branch=$(echo "$selected" | sed 's/.*\[//;s/\]//')
+
+    # if we're inside the worktree being deleted, move to main first
+    local main_wt
+    main_wt=$(git worktree list | head -1 | awk '{print $1}')
+
+    if [ "$(pwd)" = "$wt_path" ] || echo "$(pwd)" | grep -q "^${wt_path}/"; then
+        cd "$main_wt"
+    fi
+
+    echo "removing worktree: $wt_path"
+    git worktree remove "$wt_path" || return 1
+
+    echo "deleting branch: $wt_branch"
+    if ! git branch -d "$wt_branch" 2>/dev/null; then
+        echo "warning: branch '$wt_branch' is not fully merged"
+        printf "force delete? [y/N] "
+        read -r confirm
+        if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
+            git branch -D "$wt_branch"
+        else
+            echo "branch kept"
+        fi
+    fi
+}
+
+wtswitch()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    local selected
+    if [ -n "$1" ]; then
+        selected=$(git worktree list | fzf --filter="$1" | head -1)
+    else
+        selected=$(git worktree list | fzf --prompt="switch to worktree: ")
+    fi
+
+    if [ -z "$selected" ]; then
+        return 1
+    fi
+
+    cd "$(echo "$selected" | awk '{print $1}')"
+}
+
+alias wtl='git worktree list'
+alias wtn='wtnew'
+alias wtd='wtdestroy'
+alias wts='wtswitch'
+

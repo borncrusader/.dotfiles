@@ -32,6 +32,9 @@ alias tl='tmux list-sessions'
 alias tn='tmux new -s'
 alias vi='nvim -X'
 
+# git related functionality
+source $HOME/.dotfiles/utils/worktree
+
 [ -f "$HOME/.claude/local/claude" ] && alias claude="$HOME/.claude/local/claude"
 
 [ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
