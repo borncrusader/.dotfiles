@@ -45,6 +45,7 @@ source $HOME/.dotfiles/utils/worktree
     alias visesame="vi $HOME/Dropbox/docs/sesame.yaml"
 
 alias cdc='cd $CODE'
+alias cdp='cd $CODE/personal'
 alias cdl='cd $CODE/learn'
 alias cdg='cd $GOPATH'
 alias cdmygo='cd $GOPATH/src/github.com/borncrusader'

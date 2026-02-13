@@ -66,6 +66,7 @@
     com = commit
     coma = commit --amend
     comad = !"git commit --amend --date=\"$(date -R)\""
+    coman = commit --amend --no-verify
     come = commit --allow-empty
     comn = commit --no-verify
     d = difftool

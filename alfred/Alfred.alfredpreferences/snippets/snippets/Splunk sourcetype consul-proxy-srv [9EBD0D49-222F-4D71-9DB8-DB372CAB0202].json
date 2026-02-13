@@ -1,8 +1,0 @@
-{
-  "alfredsnippet" : {
-    "snippet" : "sourcetype=consul-proxy-srv",
-    "uid" : "9EBD0D49-222F-4D71-9DB8-DB372CAB0202",
-    "name" : "Splunk sourcetype consul-proxy-srv",
-    "keyword" : "sstp"
-  }
-}
