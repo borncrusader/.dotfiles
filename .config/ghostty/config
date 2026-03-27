@@ -1,3 +1,5 @@
+theme = Catppuccin Macchiato
+
 copy-on-select = clipboard
 
 gtk-titlebar = false

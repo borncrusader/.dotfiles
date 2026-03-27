@@ -74,9 +74,10 @@
     dfh = diff HEAD
     dfhp = diff 'HEAD^'
     dfs = diff --staged
-    ding = !"foo=$(git branch --show-current) && git checkout master && git pull && git checkout \"$foo\" && git rebase master"
+    ding = !"foo=$(git branch --show-current) && git checkout main && git pull && git checkout \"$foo\" && git rebase main"
     drev = diff --no-prefix --full-index
     drevh = !"git drev HEAD~ HEAD"
+    ff = !"git fetch origin && git reset --hard origin/main"
     l = log --date=local
     lf = log --name-only
     lg = !"git lg1"

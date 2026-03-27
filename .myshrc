@@ -27,10 +27,29 @@ alias lnvim="NVIM_APPNAME=nvim-lazy nvim"
 alias pore='vi -X -c "cf grep_op" -c "copen"'
 alias prettypath="echo $PATH | sed 's/:/\n/g'"
 alias rdesk='rdesktop -g 1366x730'
-alias ta='tmux att -d -t '
+alias vi='nvim -X'
+alias clip='pbcopy <'
+alias cdgr='cd $(git rev-parse --show-toplevel)'
+
+# tmux management
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
-alias vi='nvim -X'
+# shows only currently detached sessions
+ta() {
+    if [[ -z "$1" ]]; then
+        tmux att -d -t $(tmux list-sessions | grep -v attached | fzf --prompt="select a detached session: " | cut -f1 -d:)
+    else
+        tmux att -d -t "$1"
+    fi
+}
+# shows all sessions
+taa() {
+    if [[ -z "$1" ]]; then
+        tmux att -d -t $(tmux list-sessions | fzf --prompt="select a session: " | cut -f1 -d:)
+    else
+        tmux att -d -t "$1"
+    fi
+}
 
 # git related functionality
 source $HOME/.dotfiles/utils/worktree

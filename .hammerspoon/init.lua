@@ -143,13 +143,13 @@ function setupBindings()
 		bindings[9] = "Obsidian"
 	else
 		bindings[1] = "Ghostty"
-		bindings[2] = "Cursor"
+		bindings[2] = "Linear"
 		bindings[3] = "Brave"
 		bindings[4] = "Slack"
 		bindings[5] = "Google Chrome"
 		bindings[6] = "Google Calendar"
 		bindings[7] = "Gmail"
-		bindings[8] = "Linear"
+		bindings[8] = "Cursor"
 		bindings[9] = "Obsidian"
 	end
 
