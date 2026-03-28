@@ -1,3 +1,5 @@
+# vim: set ft= ghostty
+
 theme = Catppuccin Macchiato
 
 copy-on-select = clipboard
@@ -8,6 +10,17 @@ app-notifications = no-clipboard-copy
 
 keybind= shift+arrow_left=previous_tab
 keybind= shift+arrow_right=next_tab
+
+# hyperkey to switch between tabs
+keybind = super+ctrl+alt+shift+1=goto_tab:1
+keybind = super+ctrl+alt+shift+2=goto_tab:2
+keybind = super+ctrl+alt+shift+3=goto_tab:3
+keybind = super+ctrl+alt+shift+4=goto_tab:4
+keybind = super+ctrl+alt+shift+5=goto_tab:5
+keybind = super+ctrl+alt+shift+6=goto_tab:6
+keybind = super+ctrl+alt+shift+7=goto_tab:7
+keybind = super+ctrl+alt+shift+8=goto_tab:8
+keybind = super+ctrl+alt+shift+9=goto_tab:9
 
 # things like fonts and font sizes are better managed specific to the platform
 config-file = ?config-platform-specific
