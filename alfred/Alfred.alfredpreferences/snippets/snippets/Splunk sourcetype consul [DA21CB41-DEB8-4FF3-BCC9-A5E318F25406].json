@@ -1,8 +1,0 @@
-{
-  "alfredsnippet" : {
-    "snippet" : "sourcetype=consul",
-    "uid" : "DA21CB41-DEB8-4FF3-BCC9-A5E318F25406",
-    "name" : "Splunk sourcetype consul",
-    "keyword" : "sstc"
-  }
-}

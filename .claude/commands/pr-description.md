@@ -14,3 +14,5 @@ description:
   architectural changes
 - If there are descriptive commit messages, reference them as a guide for what should be included in
   the description
+
+Write this to a file in /tmp/

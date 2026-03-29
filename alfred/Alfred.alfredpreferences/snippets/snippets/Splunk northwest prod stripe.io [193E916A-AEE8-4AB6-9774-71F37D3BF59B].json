@@ -1,8 +1,0 @@
-{
-  "alfredsnippet" : {
-    "snippet" : "host_env=prod host_domain=stripe.io host_cluster=northwest ",
-    "uid" : "193E916A-AEE8-4AB6-9774-71F37D3BF59B",
-    "name" : "Splunk northwest prod stripe.io",
-    "keyword" : "snps"
-  }
-}

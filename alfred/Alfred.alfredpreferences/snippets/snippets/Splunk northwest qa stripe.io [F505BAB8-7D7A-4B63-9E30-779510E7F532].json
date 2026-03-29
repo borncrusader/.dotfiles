@@ -1,8 +1,0 @@
-{
-  "alfredsnippet" : {
-    "snippet" : "host_env=qa host_domain=stripe.io host_cluster=northwest ",
-    "uid" : "F505BAB8-7D7A-4B63-9E30-779510E7F532",
-    "name" : "Splunk northwest qa stripe.io",
-    "keyword" : "snqs"
-  }
-}

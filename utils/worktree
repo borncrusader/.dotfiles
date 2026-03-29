@@ -1,0 +1,246 @@
+#!/bin/sh
+
+source $HOME/.dotfiles/utils/common
+
+_wtsyncmain()
+{
+    local main_wt
+    main_wt=$(git worktree list | head -1 | awk '{print $1}')
+    echo "syncing main worktree..."
+    git -C "$main_wt" pull --quiet
+}
+
+wtnew()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    local root
+    root=$(git worktree list | head -1 | awk '{print $1}')
+
+    local parent
+    parent=$(dirname "$root")
+
+    local name
+    name=$(randname)
+
+    local branch
+    branch="$(whoami)/${name}"
+
+    # resolve default branch from remote rather than relying on
+    # what's checked out in the main worktree
+    local main_branch
+    main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+
+    git worktree add -b "$branch" "${parent}/${name}" "$main_branch"
+
+    cd "${parent}/${name}"
+}
+
+wtdestroy()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    local selected
+    selected=$(git worktree list | tail -n +2 | fzf --prompt="select worktree to destroy: ")
+
+    if [ -z "$selected" ]; then
+        echo "no worktree selected"
+        return 1
+    fi
+
+    _wtsyncmain
+
+    local wt_path wt_branch main_branch ahead ut_count
+    wt_path=$(echo "$selected" | awk '{print $1}')
+    wt_branch=$(echo "$selected" | sed 's/.*\[//;s/\]//')
+
+    main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+    ahead=$(git -C "$wt_path" rev-list --count "@{upstream}..HEAD" 2>/dev/null)
+    ut_count=$(git -C "$wt_path" ls-files --others --exclude-standard 2>/dev/null | wc -l | tr -d ' ')
+
+    local reasons=""
+    if [ -n "$ahead" ] && [ "$ahead" != "0" ]; then
+        reasons="${reasons}  - ${ahead} unpushed commit(s)\n"
+    fi
+    if [ "$ut_count" != "0" ]; then
+        reasons="${reasons}  - ${ut_count} untracked file(s)\n"
+    fi
+    if ! git merge-base --is-ancestor "$wt_branch" "origin/$main_branch" 2>/dev/null; then
+        reasons="${reasons}  - branch not merged into ${main_branch}\n"
+    fi
+
+    if [ -n "$reasons" ]; then
+        echo "warning: worktree is not safe to prune:"
+        printf "$reasons"
+        printf "destroy anyway? [y/N] "
+        read -r confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+            echo "aborted"
+            return 1
+        fi
+    fi
+
+    # if we're inside the worktree being deleted, move to main first
+    local main_wt
+    main_wt=$(git worktree list | head -1 | awk '{print $1}')
+
+    if [ "$(pwd)" = "$wt_path" ] || echo "$(pwd)" | grep -q "^${wt_path}/"; then
+        cd "$main_wt"
+    fi
+
+    echo "removing worktree: $wt_path"
+    git worktree remove "$wt_path" || return 1
+
+    echo "deleting branch: $wt_branch"
+    if ! git branch -d "$wt_branch" 2>/dev/null; then
+        echo "warning: branch '$wt_branch' is not fully merged"
+        printf "force delete? [y/N] "
+        read -r confirm
+        if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
+            git branch -D "$wt_branch"
+        else
+            echo "branch kept"
+        fi
+    fi
+}
+
+wtswitch()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    local selected
+    if [ -n "$1" ]; then
+        selected=$(git worktree list | fzf --filter="$1" | head -1)
+    else
+        selected=$(git worktree list | fzf --prompt="switch to worktree: ")
+    fi
+
+    if [ -z "$selected" ]; then
+        return 1
+    fi
+
+    _WT_PREV="$(git rev-parse --show-toplevel)"
+    cd "$(echo "$selected" | awk '{print $1}')"
+}
+
+wtroot()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    cd "$(git rev-parse --show-toplevel)"
+}
+
+wttoggle()
+{
+    if [ -z "$_WT_PREV" ]; then
+        echo "error: no previous worktree to toggle to"
+        return 1
+    fi
+
+    local current
+    current="$(git rev-parse --show-toplevel)"
+
+    cd "$_WT_PREV"
+    _WT_PREV="$current"
+}
+
+wtstate()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    _wtsyncmain
+
+    local main_branch
+    main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+
+    local header
+    header=$(printf '%-20s %-30s %-10s %-14s %-8s %-9s %-6s %-8s\n' \
+        "WORKTREE" "BRANCH" "COMMIT" "LAST COMMIT" "UNPUSHED" "UNTRACKED" "MERGED" "PRUNABLE")
+    echo "$header"
+    printf '%0.s-' $(seq 1 ${#header}); echo
+
+    local wt_path wt_branch wt_name commit commit_time unpushed untracked merged ahead ut_count prunable
+
+    while read -r line; do
+        wt_path=$(echo "$line" | awk '{print $1}')
+        wt_branch=$(echo "$line" | sed 's/.*\[//;s/\]//')
+        wt_name=$(basename "$wt_path")
+
+        commit=$(git -C "$wt_path" rev-parse --short HEAD 2>/dev/null)
+        commit_time=$(git -C "$wt_path" log -1 --format='%cr' 2>/dev/null)
+
+        # count commits ahead of remote
+        ahead=$(git -C "$wt_path" rev-list --count "@{upstream}..HEAD" 2>/dev/null)
+        if [ -z "$ahead" ] || [ "$ahead" = "0" ]; then
+            unpushed="no"
+        else
+            unpushed="${ahead} ahead"
+        fi
+
+        # count untracked files
+        ut_count=$(git -C "$wt_path" ls-files --others --exclude-standard 2>/dev/null | wc -l | tr -d ' ')
+        if [ "$ut_count" = "0" ]; then
+            untracked="no"
+        else
+            untracked="$ut_count files"
+        fi
+
+        # check if branch is merged into main
+        if git merge-base --is-ancestor "$wt_branch" "origin/$main_branch" 2>/dev/null; then
+            merged="yes"
+        else
+            merged="no"
+        fi
+
+        prunable="no"
+        if [ "$unpushed" = "no" ] && [ "$untracked" = "no" ] && [ "$merged" = "yes" ]; then
+            prunable="yes"
+        fi
+
+        printf '%-20s %-30s %-10s %-14s %-8s %-9s %-6s %-8s\n' \
+            "$wt_name" "$wt_branch" "$commit" "$commit_time" "$unpushed" "$untracked" "$merged" "$prunable"
+    done < <(git worktree list)
+}
+
+wtsync()
+{
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo "error: not inside a git working tree"
+        return 1
+    fi
+
+    _wtsyncmain
+
+    local main_branch current_branch
+    main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+    if [ "$current_branch" = "$main_branch" ]; then
+        return 0
+    fi
+
+    echo "rebasing onto ${main_branch}..."
+    git rebase "origin/$main_branch"
+}
+
+alias wtl='git worktree list'
+alias wtn='wtnew'
+alias wtd='wtdestroy'
+alias wts='wtswitch'
+alias wtt='wttoggle'
+alias wtm='wtswitch main'
