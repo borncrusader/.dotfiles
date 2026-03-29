@@ -1,0 +1,11 @@
+- You can find the spec in docs/spec.md
+- Just do one and only task from docs/tasks.md
+- Execute the next unchecked task in docs/tasks.md
+- Use small atomic commits
+- Include a proper commit title and description
+- Don't include co-authored by messages in the commit
+- Don't use emdashes
+- After finishing the task, update docs/task.md and check the task
+- Write tests for tasks when appropriate
+- If no tests are being written, explain why
+- After every task is done, make sure to update AGENTS.md based on what was accomplished
