@@ -197,13 +197,11 @@ refresh()
                 sudo pacman -Syu
                 ;;
             "-m")
-                # 2025-07-26: removed linux-zen, linux-zen-docs, linux-zen-headers
-                #             and nvidia-dkms, nvidia-utils
+                # not installing linux-firmware meta package since linux-firmware-nvidia
+                # pulls in the world!
                 sudo pacman --needed --noconfirm -S \
-                    linux-lts linux-lts-docs linux-lts-headers \
-                    v4l2loopback-dkms \
-                    virtualbox-guest-utils virtualbox-host-dkms \
-                    zfs-utils zfs-dkms
+                    $(rg '^IgnorePkg' /etc/pacman.conf | cut -d'=' -f2)
+
                 yay --needed -S wireguard-dkms zenpower-dkms
                 ;;
             "-a" | "")
