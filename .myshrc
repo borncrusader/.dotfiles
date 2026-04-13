@@ -348,6 +348,22 @@ inspect_cert_issuer()
     inspect_cert "$1" "$2" | grep -A5 'Issuer:'
 }
 
+dotclean()
+{
+    if [ -z "$1" ]; then
+        echo "usage: dotclean [directory]"
+        echo "  removes ._ files that macOS adds for extended file attributes"
+        return
+    fi
+
+    find "$1" -type f -name '._*' -print0 | while IFS= read -r -d '' f; do
+        if [ "$(file -b "$f")" = 'AppleDouble encoded Macintosh file' ]; then
+            echo "deleting $f"
+            rm "$f"
+        fi
+    done
+}
+
 if [ "$OS" = 'MAC' ]; then
     # this is hacky, but oh-my-zsh sets LSCOLORS to a funky stupid color on Mac,
     # restore it back here
