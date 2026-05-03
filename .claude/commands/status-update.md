@@ -1,0 +1,6 @@
+Look at my PRs in the last week (last Monday to Sunday) and share
+
+a. dates, the list of PRs and their titles
+b. a summary for my status update
+
+Don't use emdashes.
