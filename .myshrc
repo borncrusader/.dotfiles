@@ -197,13 +197,11 @@ refresh()
                 sudo pacman -Syu
                 ;;
             "-m")
-                # 2025-07-26: removed linux-zen, linux-zen-docs, linux-zen-headers
-                #             and nvidia-dkms, nvidia-utils
+                # not installing linux-firmware meta package since linux-firmware-nvidia
+                # pulls in the world!
                 sudo pacman --needed --noconfirm -S \
-                    linux-lts linux-lts-docs linux-lts-headers \
-                    v4l2loopback-dkms \
-                    virtualbox-guest-utils virtualbox-host-dkms \
-                    zfs-utils zfs-dkms
+                    $(rg '^IgnorePkg' /etc/pacman.conf | cut -d'=' -f2)
+
                 yay --needed -S wireguard-dkms zenpower-dkms
                 ;;
             "-a" | "")
@@ -348,6 +346,22 @@ inspect_cert()
 inspect_cert_issuer()
 {
     inspect_cert "$1" "$2" | grep -A5 'Issuer:'
+}
+
+dotclean()
+{
+    if [ -z "$1" ]; then
+        echo "usage: dotclean [directory]"
+        echo "  removes ._ files that macOS adds for extended file attributes"
+        return
+    fi
+
+    find "$1" -type f -name '._*' -print0 | while IFS= read -r -d '' f; do
+        if [ "$(file -b "$f")" = 'AppleDouble encoded Macintosh file' ]; then
+            echo "deleting $f"
+            rm "$f"
+        fi
+    done
 }
 
 if [ "$OS" = 'MAC' ]; then
