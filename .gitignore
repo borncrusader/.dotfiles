@@ -28,3 +28,6 @@ bin/code
 
 # ghostty symlink
 .config/ghostty/config-platform-specific
+
+# sierra specific
+.claude/commands/sierra
