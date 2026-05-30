@@ -55,8 +55,16 @@ _add_to_path() {
     [ -d "$1" ] && [[ "$PATH" != *"$1"* ]] && PATH="$1":$PATH
 }
 
+_prepend_to_path() {
+    [ -d "$1" ] && PATH="$1:${PATH//$1:/}"
+}
+
 _add_to_cdpath() {
     [ -d "$1" ] && [[ "$CDPATH" != *"$1"* ]] && CDPATH="$1":$CDPATH
+}
+
+_prepend_to_cdpath() {
+    [ -d "$1" ] && CDPATH="$1:${CDPATH//$1:/}"
 }
 
 _source_if_exists() {
