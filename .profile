@@ -45,7 +45,9 @@ if [ "$OS" = "MAC" ]; then
     GPG_TTY=$(tty)
     export GPG_TTY
 
-    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    if command -v bat > /dev/null 2>&1; then
+	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    fi
 fi
 
 #################################################

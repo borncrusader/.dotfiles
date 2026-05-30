@@ -9,9 +9,9 @@ _sp=${_sp}_mr
 # Aliases
 #################################################
 # common
-if type bat > /dev/null 2>&1; then
+if command -v bat > /dev/null 2>&1; then
     alias cat="bat"
-elif type batcat > /dev/null 2>&1; then
+elif command -v batcat > /dev/null 2>&1; then
     alias cat="batcat"
 fi
 alias chkconn='ping 8.8.8.8'
@@ -69,34 +69,43 @@ alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 
 # os specific
 if [ "$OS" = 'MAC' ]; then
-    if ! type eza > /dev/null 2>&1; then
-        alias ls='ls -GFh'
-    else
+    if command -v eza > /dev/null 2>&1; then
         alias ls='eza -F --color auto'
+    else
+        alias ls='ls -GFh'
     fi
 
-    if [ -f "/opt/homebrew/bin/nvim" ]; then
+    # dance of priorities for what vi/vim should point to
+    if [ -f "$HOME/bin/nvim" ]; then
+        alias vim="$HOME/bin/nvim"
+        alias vi="$HOME/bin/nvim"
+    elif [ -f "/opt/homebrew/bin/nvim" ]; then
         alias vim="/opt/homebrew/bin/nvim"
+        alias vi="/opt/homebrew/bin/nvim"
     elif command -v nvim 2>&1 > /dev/null; then
         # shellcheck disable=SC2139
         alias vim="$(command -v nvim)"
+        alias vi="$(command -v nvim)"
     elif [ -f "/opt/homebrew/bin/vim" ]; then
         alias vim="/opt/homebrew/bin/vim"
+        alias vi="/opt/homebrew/bin/vim"
     elif [ -f "/usr/bin/vim" ]; then
         alias vim="/usr/bin/vim"
+        alias vi="/usr/bin/vim"
     elif [ -f "/usr/local/bin/vim" ]; then
         alias vim="/usr/local/bin/vim"
+        alias vi="/usr/local/bin/vim"
     fi
 else
-    if command -v nvim 1>/dev/null; then
+    if command -v nvim 2>&1 > /dev/null; then
         # shellcheck disable=SC2139
         alias vim="$(command -v nvim)"
     fi
 
-    if ! type eza > /dev/null 2>&1; then
-        alias ls='ls -F --color'
-    else
+    if command -v eza > /dev/null 2>&1; then
         alias ls='eza -F --color auto'
+    else
+        alias ls='ls -F --color'
     fi
 
     alias open="xdg-open"
