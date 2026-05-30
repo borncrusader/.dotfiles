@@ -103,7 +103,7 @@ _source_if_exists "$HOME/.cargo/env"
 
 # homebrew
 if [ "$OS" = "MAC" ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 _add_to_path "$HOME/Library/Python/3.8/bin"
