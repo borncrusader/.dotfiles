@@ -70,8 +70,8 @@ if [[ "$(uname)" = 'Linux' ]]; then
     _create_link "$HOME/.dotfiles/.config/hypr/" "$HOME/.config/hypr"
 fi
 
-## Mac specific
 if [[ "$(uname)" = 'Darwin' ]]; then
+    # Mac specific
     _create_link "$HOME/.config/ghostty/config-macos" "$HOME/.config/ghostty/config-platform-specific"
 
     _create_link "$HOME/.dotfiles/.hammerspoon/" "$HOME/.hammerspoon"
@@ -138,6 +138,9 @@ if [[ "$(uname)" = 'Darwin' ]]; then
     # have changes take effect
     echo "activating settings immediately"
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+else
+    # Linux Specific
+    _create_link "$HOME/.config/ghostty/config-linux" "$HOME/.config/ghostty/config-platform-specific"
 fi
 
 if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
