@@ -78,10 +78,11 @@ if [[ "$(uname)" = 'Darwin' ]]; then
     _create_link "$HOME/.dotfiles/alfred/" "$HOME/alfred"
 
     # replace caps-lock with ctrl
+    echo "replacing caps-lock with ctrl"
     hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}'
 
-    # move spotlight to ctrl+space
-    # Disable existing Cmd+Space (hotkey 64)
+    # move spotlight to opt+space
+    echo "move Cmd+Space to Opt+Space for Spotlight"
     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "
 	<dict>
   	  <key>enabled</key><true/>
@@ -97,26 +98,29 @@ if [[ "$(uname)" = 'Darwin' ]]; then
   	</dict>
 "
 
-    # have this take effect
-    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-
     # change the default directory for screenshots
+    echo "change screenshot location to $HOME/Pictures/Screenshots"
     defaults write com.apple.screencapture location -string "$HOME/Pictures/Screenshots/"
 
     # disable accents on press and hold for faster key repeat
+    echo "disable accents on press and hold for faster key repeat"
     defaults write -g ApplePressAndHoldEnabled -bool false
 
     # smooth scrolling
+    echo "enable smooth scrolling"
     defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
     defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
 
     # make the dock appear and disappear faster
+    echo "make dock appear and disapper faster"
     defaults write com.apple.dock autohide-time-modifier -int 0
     defaults write com.apple.dock autohide-delay -int 0
     killall Dock
 
     # install homebrew and bare minimum stuff
     if [[ ! -f "/opt/homebrew/bin/brew" ]]; then
+	echo "installing hombrew and basic applications"
+
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 	# applications
@@ -129,4 +133,14 @@ if [[ "$(uname)" = 'Darwin' ]]; then
     prompt "Set Timezone" && sudo systemsetup -settimezone "America/Los_Angeles"
 
     prompt "Do Software Update" && sudo softwareupdate -i -a --agree-to-license
+
+    # have changes take effect
+    echo "activating settings immediately"
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+fi
+
+if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
+    echo "creating ssh key"
+
+    ssh-keygen -o -a 256 -t ed25519 -C "$(hostname)-$(date +'%d-%m-%Y')"
 fi
