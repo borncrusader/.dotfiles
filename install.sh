@@ -1,70 +1,109 @@
 #!/bin/bash
 
-# bail out on first error
-set -euo pipefail
+_mkdir() {
+    ! [[ -d "$1" ]] && echo "creating directory: $1" && mkdir -p "$1"
+}
 
-create_link()
+_create_link()
 {
-	# usage: create_link original link
-    if [ -L "$2" ]; then
+    # usage: _create_link original link
+    if ! [[ -d $(dirname "$2") ]]; then
+	_mkdir "$2"
+    fi
+
+    if [[ -L "$2" ]]; then
         echo "$2: link already exists"
         return
     fi
 
-	if [ -e "$2" ]; then
-		echo "$2: backing up as $2.back"
-		mv "$2" "$2.back"
-	fi
+    if [[ -e "$2" ]]; then
+	echo "$2: backing up as $2.back"
+	mv "$2" "$2.back"
+    fi
 
-	echo "$2: creating link -> $1"
-	ln -s "$1" "$2"
+    echo "$2: creating link -> $1"
+    ln -s "$1" "$2"
+}
+
+prompt() {
+    read -rp "$1 [y/N] " confirm
+
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+	return 0
+    else 
+	return 1
+    fi
 }
 
 ## common
-#create_link ~/.dotfiles/.vim/ ~/.vim
-create_link ~/.dotfiles/bin/ ~/bin
-create_link ~/.dotfiles/.config/nvim/ ~/.config/nvim
-#create_link ~/.dotfiles/.config/alacritty/ ~/.config/alacritty
+_create_link "$HOME/.dotfiles/bin/" "$HOME/bin"
+_create_link "$HOME/.dotfiles/.config/nvim/" "$HOME/.config/nvim"
+_create_link "$HOME/.dotfiles/.config/ghostty/" "$HOME/.config/ghostty"
 
-create_link ~/.dotfiles/.zprofile ~/.zprofile
-create_link ~/.dotfiles/.zshrc ~/.zshrc
-create_link ~/.dotfiles/.bash_profile ~/.bash_profile
-create_link ~/.dotfiles/.bashrc ~/.bashrc
-create_link ~/.dotfiles/.myshrc ~/.myshrc
-create_link ~/.dotfiles/.profile ~/.profile
-create_link ~/.dotfiles/.tmux.conf ~/.tmux.conf
-create_link ~/.dotfiles/.vimrc ~/.vimrc
-create_link ~/.dotfiles/.psqlrc ~/.psqlrc
-create_link ~/.dotfiles/zsh-vim-mode ~/.zsh-vim-mode
-create_link ~/.dotfiles/.fzf.zsh ~/.fzf.zsh
-create_link ~/.dotfiles/.fzf.bash ~/.fzf.bash
+_create_link "$HOME/.dotfiles/.zprofile" "$HOME/.zprofile"
+_create_link "$HOME/.dotfiles/.zshrc" "$HOME/.zshrc"
+_create_link "$HOME/.dotfiles/.bash_profile" "$HOME/.bash_profile"
+_create_link "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
+_create_link "$HOME/.dotfiles/.myshrc" "$HOME/.myshrc"
+_create_link "$HOME/.dotfiles/.profile" "$HOME/.profile"
+_create_link "$HOME/.dotfiles/.tmux.conf" "$HOME/.tmux.conf"
+_create_link "$HOME/.dotfiles/.vimrc" "$HOME/.vimrc"
+_create_link "$HOME/.dotfiles/.psqlrc" "$HOME/.psqlrc"
+_create_link "$HOME/.dotfiles/zsh-vim-mode" "$HOME/.zsh-vim-mode"
+_create_link "$HOME/.dotfiles/.fzf.zsh" "$HOME/.fzf.zsh"
+_create_link "$HOME/.dotfiles/.fzf.bash" "$HOME/.fzf.bash"
 
-[ ! -d ~/.claude ] && mkdir ~/.claude
-create_link ~/.dotfiles/.claude/commands/ ~/.claude/commands
+_create_link "$HOME/.dotfiles/.claude/commands/" "$HOME/.claude/commands"
 
 # Linux specific
-if [ "$(uname)" = 'Linux' ]; then
-    create_link ~/.dotfiles/.config/i3/ ~/.config/i3
-    create_link ~/.dotfiles/.xinitrc ~/.xinitrc
-    create_link ~/.dotfiles/.xmodmap ~/.xmodmap
-    create_link ~/.dotfiles/.gtkrc-2.0 ~/.gtkrc-2.0
-    create_link ~/.dotfiles/.i3status.conf ~/.i3status.conf
-    create_link ~/.dotfiles/.Xresources ~/.Xresources
+if [[ "$(uname)" = 'Linux' ]]; then
+    _create_link "$HOME/.dotfiles/.config/i3/" "$HOME/.config/i3"
+    _create_link "$HOME/.dotfiles/.xinitrc" "$HOME/.xinitrc"
+    _create_link "$HOME/.dotfiles/.xmodmap" "$HOME/.xmodmap"
+    _create_link "$HOME/.dotfiles/.gtkrc-2.0" "$HOME/.gtkrc-2.0"
+    _create_link "$HOME/.dotfiles/.i3status.conf" "$HOME/.i3status.conf"
+    _create_link "$HOME/.dotfiles/.Xresources" "$HOME/.Xresources"
 
     # wayland
-    create_link ~/.dotfiles/.config/waybar ~/.config/waybar
-    create_link ~/.dotfiles/.config/hypr ~/.config/hypr
+    _create_link "$HOME/.dotfiles/.config/waybar/" "$HOME/.config/waybar"
+    _create_link "$HOME/.dotfiles/.config/hypr/" "$HOME/.config/hypr"
 fi
 
 ## Mac specific
-if [ "$(uname)" = 'Darwin' ]; then
-    create_link .dotfiles/.hammerspoon/ ~/.hammerspoon
+if [[ "$(uname)" = 'Darwin' ]]; then
+    _create_link "$HOME/.config/ghostty/config-macos" "$HOME/.config/ghostty/config-platform-specific"
+
+    _create_link "$HOME/.dotfiles/.hammerspoon/" "$HOME/.hammerspoon"
+
+    _create_link "$HOME/.dotfiles/alfred/" "$HOME/alfred"
+
+    # replace caps-lock with ctrl
+    hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}'
+
+    # move spotlight to ctrl+space
+    # Disable existing Cmd+Space (hotkey 64)
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "
+	<dict>
+  	  <key>enabled</key><true/>
+  	  <key>value</key><dict>
+  	    <key>type</key><string>standard</string>
+  	    <key>parameters</key>
+  	    <array>
+  	      <integer>32</integer>
+  	      <integer>49</integer>
+  	      <integer>524288</integer>
+  	    </array>
+  	  </dict>
+  	</dict>
+"
+
+    # have this take effect
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 
     # change the default directory for screenshots
     defaults write com.apple.screencapture location -string "$HOME/Pictures/Screenshots/"
 
-    # solve for key repeat issues in macs
-    # doesn't work in macos tahoe and above
+    # disable accents on press and hold for faster key repeat
     defaults write -g ApplePressAndHoldEnabled -bool false
 
     # smooth scrolling
@@ -76,12 +115,18 @@ if [ "$(uname)" = 'Darwin' ]; then
     defaults write com.apple.dock autohide-delay -int 0
     killall Dock
 
-    # install applications
-    #./brew/run.sh install
+    # install homebrew and bare minimum stuff
+    if [[ ! -f "/opt/homebrew/bin/brew" ]]; then
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    # set timezone
-    sudo systemsetup -settimezone "America/Los_Angeles"
+	# applications
+	/opt/homebrew/bin/brew install tmux nvim ripgrep
 
-    # finally do an update and agree to the xcode license; will restart
-    sudo softwareupdate -i -a --agree-to-license
+	# casks
+	/opt/homebrew/bin/brew install --cask keepingyouawake
+    fi
+
+    prompt "Set Timezone" && sudo systemsetup -settimezone "America/Los_Angeles"
+
+    prompt "Do Software Update" && sudo softwareupdate -i -a --agree-to-license
 fi
