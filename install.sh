@@ -1,37 +1,60 @@
 #!/bin/bash
+set -euo pipefail
 
-_mkdir() {
-    ! [[ -d "$1" ]] && echo "creating directory: $1" && mkdir -p "$1"
+DRY_RUN=false
+VERBOSE=false
+
+for arg in "$@"; do
+    case "$arg" in
+        --dry-run|-n) DRY_RUN=true ;;
+        --verbose|-v) VERBOSE=true ;;
+    esac
+done
+
+_run() {
+    if $DRY_RUN; then
+        echo "[dry-run] $*"
+    else
+        if $VERBOSE; then echo "+ $*"; fi
+        "$@"
+    fi
 }
 
-_create_link()
-{
+_mkdir() {
+    if ! [[ -d "$1" ]]; then
+        _run mkdir -p "$1"
+    fi
+}
+
+_create_link() {
     # usage: _create_link original link
     if ! [[ -d $(dirname "$2") ]]; then
-	_mkdir "$2"
+        _mkdir "$(dirname "$2")"
     fi
 
     if [[ -L "$2" ]]; then
-        echo "$2: link already exists"
+        if $VERBOSE; then echo "$2: link already exists"; fi
         return
     fi
 
     if [[ -e "$2" ]]; then
-	echo "$2: backing up as $2.back"
-	mv "$2" "$2.back"
+        _run mv "$2" "$2.back"
     fi
 
-    echo "$2: creating link -> $1"
-    ln -s "$1" "$2"
+    _run ln -s "$1" "$2"
 }
 
 prompt() {
+    if $DRY_RUN; then
+        echo "[dry-run] would prompt: $1"
+        return 0
+    fi
     read -rp "$1 [y/N] " confirm
 
     if [[ "$confirm" =~ ^[Yy]$ ]]; then
-	return 0
-    else 
-	return 1
+        return 0
+    else
+        return 1
     fi
 }
 
@@ -57,6 +80,8 @@ _create_link "$HOME/.dotfiles/.claude/commands/" "$HOME/.claude/commands"
 
 # Linux specific
 if [[ "$(uname)" = 'Linux' ]]; then
+    _create_link "$HOME/.config/ghostty/config-linux" "$HOME/.config/ghostty/config-platform-specific"
+
     _create_link "$HOME/.dotfiles/.config/i3/" "$HOME/.config/i3"
     _create_link "$HOME/.dotfiles/.xinitrc" "$HOME/.xinitrc"
     _create_link "$HOME/.dotfiles/.xmodmap" "$HOME/.xmodmap"
@@ -68,9 +93,7 @@ if [[ "$(uname)" = 'Linux' ]]; then
     # wayland
     _create_link "$HOME/.dotfiles/.config/waybar/" "$HOME/.config/waybar"
     _create_link "$HOME/.dotfiles/.config/hypr/" "$HOME/.config/hypr"
-fi
-
-if [[ "$(uname)" = 'Darwin' ]]; then
+elif [[ "$(uname)" = 'Darwin' ]]; then
     # Mac specific
     _create_link "$HOME/.config/ghostty/config-macos" "$HOME/.config/ghostty/config-platform-specific"
 
@@ -79,12 +102,10 @@ if [[ "$(uname)" = 'Darwin' ]]; then
     _create_link "$HOME/.dotfiles/alfred/" "$HOME/alfred"
 
     # replace caps-lock with ctrl
-    echo "replacing caps-lock with ctrl"
-    hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}'
+    _run hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}'
 
     # move spotlight to opt+space
-    echo "move Cmd+Space to Opt+Space for Spotlight"
-    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "
+    _run defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "
 	<dict>
   	  <key>enabled</key><true/>
   	  <key>value</key><dict>
@@ -99,52 +120,36 @@ if [[ "$(uname)" = 'Darwin' ]]; then
   	</dict>
 "
 
-    # change the default directory for screenshots
-    echo "change screenshot location to $HOME/Pictures/Screenshots"
-    defaults write com.apple.screencapture location -string "$HOME/Pictures/Screenshots/"
-
-    # disable accents on press and hold for faster key repeat
-    echo "disable accents on press and hold for faster key repeat"
-    defaults write -g ApplePressAndHoldEnabled -bool false
-
-    # smooth scrolling
-    echo "enable smooth scrolling"
-    defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
-    defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
+    _run defaults write com.apple.screencapture location -string "$HOME/Pictures/Screenshots/"
+    _run defaults write -g ApplePressAndHoldEnabled -bool false
+    _run defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
+    _run defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
 
     # make the dock appear and disappear faster
-    echo "make dock appear and disapper faster"
-    defaults write com.apple.dock autohide-time-modifier -int 0
-    defaults write com.apple.dock autohide-delay -int 0
-    killall Dock
+    _run defaults write com.apple.dock autohide-time-modifier -int 0
+    _run defaults write com.apple.dock autohide-delay -int 0
+    _run killall Dock
 
     # install homebrew and bare minimum stuff
     if [[ ! -f "/opt/homebrew/bin/brew" ]]; then
-	echo "installing hombrew and basic applications"
-
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-	# applications
-	/opt/homebrew/bin/brew install tmux nvim ripgrep
-
-	# casks
-	/opt/homebrew/bin/brew install --cask keepingyouawake
+        echo "installing homebrew and basic applications"
+        _run /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        _run /opt/homebrew/bin/brew install tmux nvim ripgrep
+        _run /opt/homebrew/bin/brew install --cask keepingyouawake
     fi
 
-    prompt "Set Timezone" && sudo systemsetup -settimezone "America/Los_Angeles"
+    if prompt "Set Timezone"; then
+        _run sudo systemsetup -settimezone "America/Los_Angeles"
+    fi
 
-    prompt "Do Software Update" && sudo softwareupdate -i -a --agree-to-license
+    if prompt "Do Software Update"; then
+        _run sudo softwareupdate -i -a --agree-to-license
+    fi
 
     # have changes take effect
-    echo "activating settings immediately"
-    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-else
-    # Linux Specific
-    _create_link "$HOME/.config/ghostty/config-linux" "$HOME/.config/ghostty/config-platform-specific"
+    _run /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 fi
 
 if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
-    echo "creating ssh key"
-
-    ssh-keygen -o -a 256 -t ed25519 -C "$(hostname)-$(date +'%d-%m-%Y')"
+    _run ssh-keygen -o -a 256 -t ed25519 -C "$(hostname)-$(date +'%d-%m-%Y')"
 fi
