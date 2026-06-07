@@ -32,6 +32,7 @@ alias cdgr='cd $(git rev-parse --show-toplevel)'
 # tmux management
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
+
 # shows only currently detached sessions
 ta() {
     if [[ -z "$1" ]]; then
@@ -51,6 +52,9 @@ taa() {
 
 # git related functionality
 source $HOME/.dotfiles/utils/worktree
+
+alias vi='nvim -X'
+alias hx='helix'
 
 [ -f "$HOME/.claude/local/claude" ] && alias claude="$HOME/.claude/local/claude"
 
@@ -110,6 +114,9 @@ else
 
     alias open="xdg-open"
     alias boot_to_windows="sudo grub-reboot 'Microsoft Windows 10' && sudo reboot"
+    alias docker='podman'
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
 fi
 
 #################################################

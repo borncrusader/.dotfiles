@@ -133,6 +133,12 @@ Common keybindings:
 
 nvidia, nvidia_modeset, nvidia_uvm, nvidia_drm in MODULES=() in /etc/mkinitcpio.conf
 
+## rofi themes
+add to ~/.local/share/rofi/themes/
+run rofi and select rofi-theme-selector
+
+## add xorg stuff
+
 # macOS
 
 - Display -> Reduce Motion

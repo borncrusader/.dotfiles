@@ -972,3 +972,6 @@ vim.filetype.add {
     mdc = 'markdown',
   },
 }
+
+-- rust
+vim.g.rustfmt_autosave = 1

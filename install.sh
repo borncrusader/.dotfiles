@@ -62,6 +62,7 @@ if [[ "$(uname)" = 'Linux' ]]; then
     _create_link "$HOME/.dotfiles/.xmodmap" "$HOME/.xmodmap"
     _create_link "$HOME/.dotfiles/.gtkrc-2.0" "$HOME/.gtkrc-2.0"
     _create_link "$HOME/.dotfiles/.i3status.conf" "$HOME/.i3status.conf"
+    _create_link "$HOME/.dotfiles/.i3blocks.conf" "$HOME/.i3blocks.conf"
     _create_link "$HOME/.dotfiles/.Xresources" "$HOME/.Xresources"
 
     # wayland
