@@ -1,4 +1,4 @@
-#!/bin/sh
+# vim: ft=bash
 #################################################
 # This is the main rc file where everything is
 #################################################
@@ -400,7 +400,7 @@ elif [ "$OS" = 'LINUX' ]; then
     fi
 fi
 
-_source_if_exists ${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh
+_source_if_exists "${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh"
 
 # android dev
 if [ "$OS" = 'MAC' ] && [ -d /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home ]; then

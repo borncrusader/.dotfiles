@@ -80,6 +80,20 @@ _run_with_prompt() {
     fi
 }
 
+if ! $DRY_RUN; then
+    case "${SHELL:-}" in
+        */bash|*/zsh) ;;
+        *)
+            read -rp "Current shell (${SHELL:-unknown}) is not bash or zsh — shell configs may not apply. Proceed? [y/N] " _confirm
+            case "$_confirm" in
+                [Yy]) ;;
+                *) echo "Aborted."; exit 1 ;;
+            esac
+            unset _confirm
+            ;;
+    esac
+fi
+
 _create_link "$HOME/.dotfiles/bin/" "$HOME/bin"
 _create_link "$HOME/.dotfiles/.config/nvim/" "$HOME/.config/nvim"
 _create_link "$HOME/.dotfiles/.config/ghostty/" "$HOME/.config/ghostty"

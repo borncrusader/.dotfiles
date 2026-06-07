@@ -54,19 +54,33 @@ fi
 # Some helpful functions
 #################################################
 _add_to_path() {
-    [ -d "$1" ] && [[ "$PATH" != *"$1"* ]] && PATH="$1":$PATH
+    case ":${PATH}:" in
+        *":$1:"*) ;;
+        *) [ -d "$1" ] && PATH="$1:$PATH" ;;
+    esac
 }
 
 _prepend_to_path() {
-    [ -d "$1" ] && PATH="$1:${PATH//$1:/}"
+    if [ -d "$1" ]; then
+        _p=$(printf '%s\n' "$PATH" | tr ':' '\n' | grep . | grep -vxF "$1" | tr '\n' ':')
+        PATH="${1}${_p:+:${_p%:}}"
+        unset _p
+    fi
 }
 
 _add_to_cdpath() {
-    [ -d "$1" ] && [[ "$CDPATH" != *"$1"* ]] && CDPATH="$1":$CDPATH
+    case ":${CDPATH}:" in
+        *":$1:"*) ;;
+        *) [ -d "$1" ] && CDPATH="$1:$CDPATH" ;;
+    esac
 }
 
 _prepend_to_cdpath() {
-    [ -d "$1" ] && CDPATH="$1:${CDPATH//$1:/}"
+    if [ -d "$1" ]; then
+        _p=$(printf '%s\n' "$CDPATH" | tr ':' '\n' | grep . | grep -vxF "$1" | tr '\n' ':')
+        CDPATH="${1}${_p:+:${_p%:}}"
+        unset _p
+    fi
 }
 
 _source_if_exists() {
