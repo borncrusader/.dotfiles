@@ -1,9 +1,3 @@
-# python venv shenanigans
-venv/
-
-# generated files where all the symlinks are setup
-generated/
-
 .vim/.netrwhist
 .*.swp
 .DS_Store
