@@ -213,10 +213,21 @@ refresh()
             "-m")
                 # not installing linux-firmware meta package since linux-firmware-nvidia
                 # pulls in the world!
-                sudo pacman --needed --noconfirm -S \
-                    $(rg '^IgnorePkg' /etc/pacman.conf | cut -d'=' -f2)
+                core_packages="$(rg '^IgnorePkg' /etc/pacman.conf | cut -d'=' -f2)"
+                if [ -n "$core_packages" ]; then
+                    echo "$core_packages" | xargs sudo pacman --needed --noconfirm -S
+                fi
 
-                yay --needed -S wireguard-dkms zenpower-dkms
+                aur_packages=(wireguard-dkms zenpower-dkms)
+                pkgs_to_install=""
+                for pkg in "${aur_packages[@]}"; do
+                    if yay -Qs "$pkg"; then
+                        pkgs_to_install="$pkgs_to_install $pkg"
+                    fi
+                done
+                if [ -n "$pkgs_to_install" ]; then
+                    echo "$pkgs_to_install" | xargs yay --needed -S
+                fi
                 ;;
             "-a" | "")
                 sudo pacman -Syyu
