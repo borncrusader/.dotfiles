@@ -90,6 +90,7 @@
     pushh = push -u origin HEAD
     pushfn = push -f --no-verify
     pushn = push --no-verify
+    rbm = !"b=$(git symbolic-ref --short refs/remotes/origin/HEAD | sed \"s#origin/##\"); git fetch origin \"$b\" && git rebase \"origin/$b\""
     sclone = svn clone -s --prefix=origin/
     sf = show -p --name-only
     sh = show

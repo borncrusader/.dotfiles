@@ -19,4 +19,4 @@ description:
   the description
 - Add a testing section with checkboxes
 
-Add this to my clipboard using `clip` shell utility
+Add this to my clipboard using `pbcopy` on mac.

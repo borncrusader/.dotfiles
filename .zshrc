@@ -54,9 +54,25 @@ fi
 # prompt shenanigans
 setopt PROMPT_SUBST
 
+autoload -Uz add-zsh-hook
+
+_git_branch=""
+update_git_branch() {
+    local ref
+    ref=$(git symbolic-ref --short -q HEAD 2>/dev/null) \
+        || ref=$(git rev-parse --short -q HEAD 2>/dev/null)
+    if [[ -n $ref ]]; then
+        _git_branch=" %{${fg[yellow]}%}(${ref})%{${reset_color}%}"
+    else
+        _git_branch=""
+    fi
+}
+
+add-zsh-hook precmd update_git_branch
+
 # shellcheck disable=SC2034,1087,2154
 BASE_PROMPT="%m %{${fg_bold[red]}%}:: %{${fg[green]}%}%3~%(0?. . %{${fg[red]}%}%? )%{${fg[blue]}%}»%{${reset_color}%}"
-PROMPT="${BASE_PROMPT} "
+PROMPT="${BASE_PROMPT}\${_git_branch} "
 
 # always best to set noclobber
 set -o noclobber
