@@ -3,7 +3,7 @@
     email = "srinath.krishna@gmail.com"
 
 [init]
-	defaultBranch = main
+    defaultBranch = main
 
 # this is commented out here but can be set on a root .gitconfig
 #[include]

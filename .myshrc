@@ -1,4 +1,4 @@
-#!/bin/sh
+# vim: ft=bash
 #################################################
 # This is the main rc file where everything is
 #################################################
@@ -9,12 +9,10 @@ _sp=${_sp}_mr
 # Aliases
 #################################################
 # common
-if type bat > /dev/null 2>&1; then
+if command -v bat > /dev/null 2>&1; then
     alias cat="bat"
-elif type batcat > /dev/null 2>&1; then
+elif command -v batcat > /dev/null 2>&1; then
     alias cat="batcat"
-else
-    unalias cat
 fi
 alias chkconn='ping 8.8.8.8'
 alias dush=' du -sh'
@@ -34,6 +32,7 @@ alias cdgr='cd $(git rev-parse --show-toplevel)'
 # tmux management
 alias tl='tmux list-sessions'
 alias tn='tmux new -s'
+
 # shows only currently detached sessions
 ta() {
     if [[ -z "$1" ]]; then
@@ -54,6 +53,9 @@ taa() {
 # git related functionality
 source $HOME/.dotfiles/utils/worktree
 
+alias vi='nvim -X'
+alias hx='helix'
+
 [ -f "$HOME/.claude/local/claude" ] && alias claude="$HOME/.claude/local/claude"
 
 [ -f /usr/local/bin/ctags ] && alias ctags='/usr/local/bin/ctags'
@@ -71,38 +73,50 @@ alias cdmygo='cd $GOPATH/src/github.com/borncrusader'
 
 # os specific
 if [ "$OS" = 'MAC' ]; then
-    if ! type eza > /dev/null 2>&1; then
-        alias ls='ls -GFh'
-    else
+    if command -v eza > /dev/null 2>&1; then
         alias ls='eza -F --color auto'
+    else
+        alias ls='ls -GFh'
     fi
 
-    if [ -f "/opt/homebrew/bin/nvim" ]; then
+    # dance of priorities for what vi/vim should point to
+    if [ -f "$HOME/bin/nvim" ]; then
+        alias vim="$HOME/bin/nvim"
+        alias vi="$HOME/bin/nvim"
+    elif [ -f "/opt/homebrew/bin/nvim" ]; then
         alias vim="/opt/homebrew/bin/nvim"
-    elif command -v nvim; then
+        alias vi="/opt/homebrew/bin/nvim"
+    elif command -v nvim 2>&1 > /dev/null; then
         # shellcheck disable=SC2139
         alias vim="$(command -v nvim)"
+        alias vi="$(command -v nvim)"
     elif [ -f "/opt/homebrew/bin/vim" ]; then
         alias vim="/opt/homebrew/bin/vim"
+        alias vi="/opt/homebrew/bin/vim"
     elif [ -f "/usr/bin/vim" ]; then
         alias vim="/usr/bin/vim"
+        alias vi="/usr/bin/vim"
     elif [ -f "/usr/local/bin/vim" ]; then
         alias vim="/usr/local/bin/vim"
+        alias vi="/usr/local/bin/vim"
     fi
 else
-    if command -v nvim 1>/dev/null; then
+    if command -v nvim 2>&1 > /dev/null; then
         # shellcheck disable=SC2139
         alias vim="$(command -v nvim)"
     fi
 
-    if ! type eza > /dev/null 2>&1; then
-        alias ls='ls -F --color'
-    else
+    if command -v eza > /dev/null 2>&1; then
         alias ls='eza -F --color auto'
+    else
+        alias ls='ls -F --color'
     fi
 
     alias open="xdg-open"
     alias boot_to_windows="sudo grub-reboot 'Microsoft Windows 10' && sudo reboot"
+    alias docker='podman'
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
 fi
 
 #################################################
@@ -199,10 +213,21 @@ refresh()
             "-m")
                 # not installing linux-firmware meta package since linux-firmware-nvidia
                 # pulls in the world!
-                sudo pacman --needed --noconfirm -S \
-                    $(rg '^IgnorePkg' /etc/pacman.conf | cut -d'=' -f2)
+                core_packages="$(rg '^IgnorePkg' /etc/pacman.conf | cut -d'=' -f2)"
+                if [ -n "$core_packages" ]; then
+                    echo "$core_packages" | xargs sudo pacman --needed --noconfirm -S
+                fi
 
-                yay --needed -S wireguard-dkms zenpower-dkms
+                aur_packages=(wireguard-dkms zenpower-dkms)
+                pkgs_to_install=""
+                for pkg in "${aur_packages[@]}"; do
+                    if yay -Qs "$pkg"; then
+                        pkgs_to_install="$pkgs_to_install $pkg"
+                    fi
+                done
+                if [ -n "$pkgs_to_install" ]; then
+                    echo "$pkgs_to_install" | xargs yay --needed -S
+                fi
                 ;;
             "-a" | "")
                 sudo pacman -Syyu
@@ -386,7 +411,7 @@ elif [ "$OS" = 'LINUX' ]; then
     fi
 fi
 
-_source_if_exists ${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh
+_source_if_exists "${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh"
 
 # android dev
 if [ "$OS" = 'MAC' ] && [ -d /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home ]; then

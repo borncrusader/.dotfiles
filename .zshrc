@@ -1,6 +1,6 @@
-#!/bin/bash
+# vim: ft=zsh
 #################################################
-# Zsh specific rc stuff go here (bash shebang to keep shellcheck happy)
+# Zsh specific rc stuff go here
 # 1. You might want to add to .myshrc and not here
 # 2. Make sure _sp is updated appropriately
 #################################################
@@ -20,8 +20,8 @@ howdy()
     source "$HOME/.zshrc"
 }
 
-if [ -f $HOME/.dotfiles/antigen.zsh ]; then
-    source $HOME/.dotfiles/antigen.zsh
+if [ -f "$HOME/.dotfiles/antigen.zsh" ]; then
+    source "$HOME/.dotfiles/antigen.zsh"
 
     antigen use oh-my-zsh
 
@@ -40,7 +40,7 @@ if [ -f $HOME/.dotfiles/antigen.zsh ]; then
 fi
 
 # this is not part of zsh-users; hence using source
-if [ -f $HOME/.zsh-vim-mode/zsh-vim-mode.plugin.zsh ]; then
+if [ -f "$HOME/.zsh-vim-mode/zsh-vim-mode.plugin.zsh" ]; then
     source "$HOME/.zsh-vim-mode/zsh-vim-mode.plugin.zsh"
 
     #MODE_INDICATOR_VIINS='%F{15}<%F{8}INSERT<%f'
@@ -109,3 +109,6 @@ setopt CDABLE_VARS                 # expand the expression (allows 'cd -2/tmp')
 zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
 
 _sp=${_sp}_ZR
+
+# opencode
+export PATH=/home/ska/.opencode/bin:$PATH

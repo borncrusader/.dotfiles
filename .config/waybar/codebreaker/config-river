@@ -1,16 +1,9 @@
 {
 	"layer": "top",
+	"position": "bottom",
 	"modules-left": ["custom/launcher", "wlr/workspaces"],
 	"modules-center": [],
 	"modules-right": ["tray","pulseaudio","battery","cpu","memory","clock","custom/power"],
-
-    // LEFT
-
-	"custom/launcher":{
-        "format": " ",
-        "on-click": "wofi --show drun",
-        "on-click-right": "killall wofi"
-    },
 
     // MIDDLE
     "wlr/workspaces": {

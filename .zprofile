@@ -1,7 +1,7 @@
-#!/bin/sh
+# vim: ft=zsh
 #################################################
 # Some general rules
-# 1. Only add bash specific quirks here
+# 1. Only add zsh specific quirks here
 # 2. $HOME/.zshrc is sourced for login shells too
 # 3. Make sure _sp is updated appropriately
 #################################################
@@ -50,8 +50,7 @@ bindkey '^[[3~' delete-char
 bindkey '^[[1;3D' backward-kill-word
 
 # nodenv
-which nodeenv > /dev/null
-if [ $? -eq 0 ]; then
+if command -v nodenv > /dev/null 2>&1; then
     eval "$(nodenv init -)"
 fi
 

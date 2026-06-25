@@ -45,18 +45,42 @@ if [ "$OS" = "MAC" ]; then
     GPG_TTY=$(tty)
     export GPG_TTY
 
-    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    if command -v bat > /dev/null 2>&1; then
+	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    fi
 fi
 
 #################################################
 # Some helpful functions
 #################################################
 _add_to_path() {
-    [ -d "$1" ] && [[ "$PATH" != *"$1"* ]] && PATH="$1":$PATH
+    case ":${PATH}:" in
+        *":$1:"*) ;;
+        *) [ -d "$1" ] && PATH="$1:$PATH" ;;
+    esac
+}
+
+_prepend_to_path() {
+    if [ -d "$1" ]; then
+        _p=$(printf '%s\n' "$PATH" | tr ':' '\n' | grep . | grep -vxF "$1" | tr '\n' ':')
+        PATH="${1}${_p:+:${_p%:}}"
+        unset _p
+    fi
 }
 
 _add_to_cdpath() {
-    [ -d "$1" ] && [[ "$CDPATH" != *"$1"* ]] && CDPATH="$1":$CDPATH
+    case ":${CDPATH}:" in
+        *":$1:"*) ;;
+        *) [ -d "$1" ] && CDPATH="$1:$CDPATH" ;;
+    esac
+}
+
+_prepend_to_cdpath() {
+    if [ -d "$1" ]; then
+        _p=$(printf '%s\n' "$CDPATH" | tr ':' '\n' | grep . | grep -vxF "$1" | tr '\n' ':')
+        CDPATH="${1}${_p:+:${_p%:}}"
+        unset _p
+    fi
 }
 
 _source_if_exists() {
@@ -103,7 +127,7 @@ _source_if_exists "$HOME/.cargo/env"
 
 # homebrew
 if [ "$OS" = "MAC" ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 _add_to_path "$HOME/Library/Python/3.8/bin"
