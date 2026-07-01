@@ -16,6 +16,7 @@ bin/zls
 bin/ion
 bin/gopls
 bin/code
+bin/nvim
 
 # alacritty
 .config/alacritty/custom.toml
