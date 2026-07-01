@@ -176,4 +176,7 @@ _add_to_path "$HOME/.elan/bin"
 # work related profile (should be last)
 _source_if_exists "$HOME/.myshprofile_work"
 
+# opencode
+_add_to_path "$HOME/.opencode/bin"
+
 _sp=${_sp}_P

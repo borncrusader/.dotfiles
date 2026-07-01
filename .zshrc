@@ -109,6 +109,3 @@ setopt CDABLE_VARS                 # expand the expression (allows 'cd -2/tmp')
 zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
 
 _sp=${_sp}_ZR
-
-# opencode
-export PATH=/home/ska/.opencode/bin:$PATH
